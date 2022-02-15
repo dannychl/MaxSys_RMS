@@ -1,0 +1,113 @@
+﻿@model RecruitmentManagementSystem__Danny_.Models.Home
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.13.0.min.js"></script>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                showOn: "button",
+                //buttonText: "<span class='glyphicon glyphicon-calendar'></span>",
+                buttonText: "Select Date",
+                yearRange: "-60:+0"
+            });
+        });
+    </script>
+}
+<h2>Create New Candidate</h2>
+<div style='float: right;'>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateOfBirth,
+            new
+            {
+                htmlAttributes = new
+                {
+                    @readonly = "true",
+                         Value = DateTime.Now.ToShortDateString(),
+                    @*@readonly = "true", Value = Model.DateOfBirth.ToString("dd-MM-yyyy"),*@
+@class = "form-control datepicker"
+}
+})
+            </div>
+        </div>
+
+        <div class="form-group">
+                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    Male
+                    @Html.RadioButtonFor(model => model.Gender, "Male")
+                    Female
+                    @Html.RadioButtonFor(model => model.Gender, "Female")
+                </div>
+            </div> 
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*<div class="col-md-10">
+                    @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+                </div>*@
+            <div class="col-md-5">
+                @Html.RadioButtonFor(model => model.Position, "General Manager") General Manager <br />
+                @Html.RadioButtonFor(model => model.Position, "Human Resource Manager") Human Resource Manager <br />
+                @Html.RadioButtonFor(model => model.Position, "Python Developer") Python Developer <br />
+                @Html.RadioButtonFor(model => model.Position, "QA Assistant") QA Assistant
+                @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExpectedSalary, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ExpectedSalary, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExpectedSalary, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
