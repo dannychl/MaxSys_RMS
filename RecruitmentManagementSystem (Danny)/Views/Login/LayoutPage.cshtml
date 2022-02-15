@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+
+    <style>
+        #playground-container {
+            height: 500px;
+            overflow: hidden !important;
+        }
+
+        .main {
+            margin-top: 20px;
+            padding: 0px;
+            background-color: #00000033;
+            -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.3);
+            border-radius: 5%;
+        }
+
+        .fb:focus, .fb:hover {
+            color: white !important;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-image: url("https://wallpapercave.com/wp/wp2445809.jpg");
+            background-repeat: no-repeat, repeat;
+            background-color: #cccccc;
+        }
+
+        .left-side {
+            padding: 0px 0px 0px;
+            background-size: cover;
+        }
+
+
+            .left-side h3 {
+                font-size: 30px;
+                font-weight: 900;
+                color: #FFF;
+                padding: 50px 10px 00px 26px;
+            }
+
+            .left-side p {
+                font-weight: 600;
+                color: #FFF;
+                padding: 10px 10px 10px 26px;
+            }
+
+            .left-side li {
+                font-weight: 500;
+                color: #FFF;
+                padding: 10px 10px 10px 26px;
+            }
+
+        .fb {
+            background: #2d6bb7;
+            color: #FFF;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 15px;
+            margin-left: 26px;
+            -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.24);
+            -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.24);
+            box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.24);
+        }
+
+        .tw {
+            background: #20c1ed;
+            color: #FFF;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 15px;
+            -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.24);
+            -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.24);
+            box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.24);
+        }
+
+        .right-side {
+            padding: 0px 0px 0px;
+            background: #FFF;
+            background-size: cover;
+            min-height: 514px;
+            border-radius: 5%;
+        }
+
+            .right-side .logo {
+                width: 60px;
+                height: 60px;
+                display: block;
+                margin: 30px 0px 0px 0px;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+                border-radius: 18%;
+            }
+
+            .right-side h3 {
+                font-size: 30px;
+                font-weight: 700;
+                color: #000;
+                margin-bottom: 20px;
+            }
+
+            .right-side p {
+                font-weight: 600;
+                color: #000;
+                padding: 10px 50px 10px 50px;
+            }
+
+        .form {
+            padding: 10px 50px 10px 50px;
+        }
+
+        .form-control {
+            position: relative;
+            font-size: 16px;
+            height: auto;
+            padding: 10px 20px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #eedde5;
+            color: #000000;
+            border: 1px solid #0e0e0e00;
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .forgot-password-link {
+            font-size: 16px;
+            color: #919aa3;
+            margin-bottom: 12px;
+            float: right;
+        }
+
+        .back-login-link {
+            font-size: 16px;
+            color: #919aa3;
+            margin-bottom: 12px;
+            float: left;
+        }
+
+        .btn-deep {
+            padding: 13px 20px 12px;
+            border-radius: 4px;
+            font-size: 17px;
+            font-weight: bold;
+            line-height: 20px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <footer>
+        <br />
+        <center><p>&copy; @DateTime.Now.Year - Maxsys Recruitment Management System</p></center>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
