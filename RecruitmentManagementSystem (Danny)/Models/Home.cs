@@ -25,7 +25,7 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public int WorkingExperience { get; set; }
         [DisplayName("Remarks (Working Experience)")]
         public string WorkingExperienceRemarks { get; set; }
-        [DisplayName("Resign Period (Year)")]
+        [DisplayName("Resign Period (Month)")]
         public int ResignPeriod { get; set; }
         public int ProgrammingTest { get; set; }
         public int SQLTest { get; set; }
