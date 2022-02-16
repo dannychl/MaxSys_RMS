@@ -68,6 +68,7 @@
 @class = "form-control datepicker"
 }
 })
+                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
             </div>
         </div>
 
