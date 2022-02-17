@@ -46,6 +46,27 @@
         </div>
     </div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.MethodUsed, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("MethodUsed", new List<SelectListItem>
+            {
+                  new SelectListItem { Text = "Refer from Friends", Value = "Refer from Friends", Selected=true},
+                  new SelectListItem { Text = "Refer from Websites", Value = "From Websites"},
+                  new SelectListItem { Text = "Refer from Temporary Staff", Value = "From Temporary Staff"}
+            }, "Select Referral Method Used")
+            @Html.ValidationMessageFor(model => model.MethodUsed, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PhoneNum, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PhoneNum, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PhoneNum, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     @*<div class="form-group">
             @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -65,9 +86,9 @@
                 @readonly = "true",
                      Value = DateTime.Now.ToShortDateString(),
             @*@readonly = "true", Value = Model.DateOfBirth.ToString("dd-MM-yyyy"),*@
-                     @class = "form-control datepicker"
-                 }
-             })
+@class = "form-control datepicker"
+}
+})
             @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
         </div>
     </div>
