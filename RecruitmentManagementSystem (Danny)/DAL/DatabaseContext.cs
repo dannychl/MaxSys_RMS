@@ -10,7 +10,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace RecruitmentManagementSystem__Danny_.DAL
 {
-    public class DatabaseContext:DbContext
+    public class DatabaseContext : DbContext
     {
         public DatabaseContext() : base("DatabaseContext")
         {
@@ -18,7 +18,7 @@ namespace RecruitmentManagementSystem__Danny_.DAL
 
         public DbSet<Home> Candidate { get; set; }
 
+        public DbSet<Interview> Interviewer { get; set; }
+
     }
-
-
 }
