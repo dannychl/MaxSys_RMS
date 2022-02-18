@@ -1,6 +1,6 @@
-﻿@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Home>
+﻿@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Interview>
 @{
-    ViewBag.Title = "Interview Session";
+    ViewBag.Title = "Interview Management";
 }
 
 <style>
@@ -9,60 +9,67 @@
     }
 </style>
 
-<h2>Interview Session</h2>
-<div style='float: right'>
-    <h4>@Html.ActionLink("Create New", "Create")</h4>
-</div>
+<h2>Interview Management</h2>
+
 <table class="table">
     <tr>
         @*<th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Id)
+        </th>*@
         <th>
             <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
-                @*@Html.DisplayNameFor(model => model.IntervieweeName)*@
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.IntervieweeName)
             </div>
         </th>
         <th>
             <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.FirstInterviewerStatus)
+            </div>
+        </th>
+        <th>
+            <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                @Html.DisplayNameFor(model => model.SecondInterviewerStatus)
             </div>
         </th>
         @*<th>
-            <a href="~/Views/Interview/Index.cshtml">~/Views/Interview/Index.cshtml</a>
-                            @Html.DisplayNameFor(model => model.Age)
-                        </th>*@
+        <a href="~/Views/Interview/Index.cshtml">~/Views/Interview/Index.cshtml</a>
+                        @Html.DisplayNameFor(model => model.Age)
+                    </th>*@
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr align="center">
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>*@
-            <td>
-                <div style="padding:inherit; font-size:15px; resize: both; font-weight:bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
-                    @Html.DisplayFor(modelItem => item.Name)
-                </div>
-            </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Age)
-                </td>*@
-            <td>
-                <div style="padding: inherit; background-color: darkgreen; color: white; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
-                    @Html.DisplayFor(modelItem => item.Status, new { @style = "font-family:Arial" })
-                </div>
-            </td>
-            <td>
-                <div style="padding: inherit; padding: 10px; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </div>
-            </td>
-        </tr>
+    <tr align="center">
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>*@
+        <td>
+            <div style="padding:inherit; font-size:15px; resize: both; font-weight:bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                @Html.DisplayFor(modelItem => item.IntervieweeName)
+            </div>
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>*@
+        <td>
+            <div style="padding: inherit; background-color: darkgreen; color: white; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                @Html.DisplayFor(modelItem => item.FirstInterviewerStatus, new { @style = "font-family:Arial" })
+            </div>
+        </td>
+        <td>
+            <div style="padding: inherit; background-color: darkgreen; color: white; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                @Html.DisplayFor(modelItem => item.SecondInterviewerStatus, new { @style = "font-family:Arial" })
+            </div>
+        </td>
+        <td>
+            <div style="padding: inherit; padding: 10px; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </div>
+        </td>
+    </tr>
     }
 
 </table>

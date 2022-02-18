@@ -1,0 +1,146 @@
+﻿@model RecruitmentManagementSystem__Danny_.Models.Home
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Home</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MethodUsed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MethodUsed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpectedSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpectedSalary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentSalary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkingExperience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkingExperience)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkingExperienceRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkingExperienceRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResignPeriod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResignPeriod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProgrammingTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProgrammingTest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SQLTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SQLTest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TestRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TestRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
