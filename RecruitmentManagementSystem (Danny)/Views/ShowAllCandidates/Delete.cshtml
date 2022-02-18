@@ -1,0 +1,152 @@
+﻿@model RecruitmentManagementSystem__Danny_.Models.Home
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Home</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MethodUsed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MethodUsed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpectedSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpectedSalary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentSalary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentSalary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkingExperience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkingExperience)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkingExperienceRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkingExperienceRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResignPeriod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResignPeriod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProgrammingTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProgrammingTest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SQLTest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SQLTest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TestRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TestRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

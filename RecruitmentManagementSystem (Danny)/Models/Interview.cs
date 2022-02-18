@@ -17,7 +17,9 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public string IntervieweeName { get; set; }
         [DisplayName("Interviewee Status")]
         public string IntervieweeStatus { get; set; }
+        [DisplayName("First Interview")]
         public string FirstInterviewerStatus { get; set; }
+        [DisplayName("Second Interview")]
         public string SecondInterviewerStatus { get; set; }
         public string IntervieweeResumeLink { get; set; }
         public int CandidatesId { get; set; }

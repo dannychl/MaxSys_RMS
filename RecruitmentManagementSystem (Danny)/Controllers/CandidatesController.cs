@@ -15,18 +15,16 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
         Home Candidate = new Home();
+        Interview Interview = new Interview();
 
         // GET: Candidates
         public ActionResult Index()
         {
-            /*Home home = new Home()
-            {
-                DateOfBirth = DateTime.Now
-            };*/
-            //return View(home);
-            //return View(db.DateOfBirth.Add(home));
+            var model = from s in db.Candidate
+                        where s.Status == "None"
+                        select s;
 
-            return View(db.Candidate.ToList());
+            return View(model);
         }
 
         // GET: Candidates/Details/5
@@ -42,6 +40,11 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 return HttpNotFound();
             }
             return View(home);
+        }
+
+        public ActionResult ShowAllCandidates()
+        {
+            return View(db.Candidate.ToList());
         }
 
         // GET: Candidates/Create
@@ -105,6 +108,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         {
             if (ModelState.IsValid)
             {
+
+
                 int currentAge = home.DateOfBirth.Year;
                 int curAge = DateTime.Now.Year;
 
@@ -112,6 +117,21 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
 
                 home.Age = exactAge;
                 db.Entry(home).State = EntityState.Modified;
+                if(home.Status == "Accept")
+                {
+                    if (!db.Interviewer.Where(u => u.CandidatesId == home.Id).Any())
+                    {
+                        db.Interviewer.Add(new Interview
+                        {
+                            IntervieweeName = home.Name,
+                            IntervieweeStatus = "Pending",
+                            FirstInterviewerStatus = "TBA",
+                            SecondInterviewerStatus = "TBA",
+                            IntervieweeResumeLink = "None",
+                            CandidatesId = home.Id
+                        });
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
