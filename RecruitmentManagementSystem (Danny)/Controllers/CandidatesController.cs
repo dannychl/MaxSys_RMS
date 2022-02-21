@@ -21,7 +21,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         public ActionResult Index()
         {
             var model = from s in db.Candidate
-                        where s.Status == "None"
+                        where s.Status == "None" | s.ProgrammingTest == 0 | s.SQLTest == 0
                         select s;
 
             return View(model);
@@ -108,8 +108,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         {
             if (ModelState.IsValid)
             {
-
-
                 int currentAge = home.DateOfBirth.Year;
                 int curAge = DateTime.Now.Year;
 
@@ -117,7 +115,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
 
                 home.Age = exactAge;
                 db.Entry(home).State = EntityState.Modified;
-                if(home.Status == "Accept")
+                if(home.Status == "Accept" && home.ProgrammingTest!=0 && home.SQLTest!=0)
                 {
                     if (!db.Interviewer.Where(u => u.CandidatesId == home.Id).Any())
                     {
