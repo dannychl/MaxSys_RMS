@@ -140,7 +140,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Home.cs" />
     <Compile Include="Models\Interview.cs" />
-    <Compile Include="Models\InterviewerDetail.cs" />
+    <Compile Include="Models\InterviewDetail.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

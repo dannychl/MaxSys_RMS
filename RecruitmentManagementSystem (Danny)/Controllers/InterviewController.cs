@@ -14,6 +14,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
         Interview Interviewer = new Interview();
+        InterviewDetail InterviewDetail = new InterviewDetail();
         //Home home = new Home();
         // GET: Interview
         public ActionResult Index()
@@ -59,25 +60,36 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         }
 
         // GET: Interview/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Interview interview = db.Interviewer.Find(id);
+            if (interview == null)
+            {
+                return HttpNotFound();
+            }
+            return View(interview);
         }
 
         // POST: Interview/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(DateTime time, [Bind(Include = "Id, IntervieweeName, IntervieweeStatus, FirstInterviewStatus, SecondInterviewStatus, IntervieweeResumeLink, CandidateId")] Interview interview)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                db.InterviewDetail.Add(new InterviewDetail
+                {
+                    IntervieweeId = interview.Id,
+                    InterviewerUserId = 1,
+                    InterviewTime = time
+                });
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(interview);
         }
 
         // GET: Interview/Delete/5

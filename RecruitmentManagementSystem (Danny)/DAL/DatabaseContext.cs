@@ -20,5 +20,7 @@ namespace RecruitmentManagementSystem__Danny_.DAL
 
         public DbSet<Interview> Interviewer { get; set; }
 
+        public DbSet<InterviewDetail> InterviewDetail { get; set; }
+
     }
 }
