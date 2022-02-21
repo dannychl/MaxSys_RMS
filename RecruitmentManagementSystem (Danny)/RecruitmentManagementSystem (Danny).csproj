@@ -140,6 +140,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Home.cs" />
     <Compile Include="Models\Interview.cs" />
+    <Compile Include="Models\InterviewerDetail.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -237,6 +238,7 @@
     <Content Include="Views\ShowAllCandidates\Details.cshtml" />
     <Content Include="Views\ShowAllCandidates\Edit.cshtml" />
     <Content Include="Views\ShowAllCandidates\Index.cshtml" />
+    <Content Include="Views\Interview\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

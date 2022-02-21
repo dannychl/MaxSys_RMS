@@ -83,7 +83,28 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         {
             if (ModelState.IsValid)
             {
+                int currentAge = home.DateOfBirth.Year;
+                int curAge = DateTime.Now.Year;
+
+                int exactAge = curAge - currentAge;
+
+                home.Age = exactAge;
                 db.Entry(home).State = EntityState.Modified;
+                if (home.Status == "Accept" && home.ProgrammingTest != 0 && home.SQLTest != 0)
+                {
+                    if (!db.Interviewer.Where(u => u.CandidatesId == home.Id).Any())
+                    {
+                        db.Interviewer.Add(new Interview
+                        {
+                            IntervieweeName = home.Name,
+                            IntervieweeStatus = "Pending",
+                            FirstInterviewerStatus = "TBA",
+                            SecondInterviewerStatus = "TBA",
+                            IntervieweeResumeLink = "None",
+                            CandidatesId = home.Id
+                        });
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
