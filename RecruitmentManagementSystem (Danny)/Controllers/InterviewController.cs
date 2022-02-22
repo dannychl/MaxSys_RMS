@@ -67,6 +67,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Interview interview = db.Interviewer.Find(id);
+            ViewBag.intervieweeName = interview.IntervieweeName;
             if (interview == null)
             {
                 return HttpNotFound();
@@ -76,16 +77,47 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
 
         // POST: Interview/Edit/5
         [HttpPost]
-        public ActionResult Edit(DateTime time, [Bind(Include = "Id, IntervieweeName, IntervieweeStatus, FirstInterviewStatus, SecondInterviewStatus, IntervieweeResumeLink, CandidateId")] Interview interview)
+        public ActionResult Edit(DateTime interviewTime, DateTime interviewDate, string selectInterviewer, [Bind(Include = "Id, IntervieweeName, IntervieweeStatus, FirstInterviewStatus, SecondInterviewStatus, IntervieweeResumeLink, CandidateId")] Interview interview)
         {
             if (ModelState.IsValid)
             {
-                db.InterviewDetail.Add(new InterviewDetail
+                if (selectInterviewer.Equals("Sky"))
                 {
-                    IntervieweeId = interview.Id,
-                    InterviewerUserId = 1,
-                    InterviewTime = time
-                });
+                    db.InterviewDetail.Add(new InterviewDetail
+                    {
+                        IntervieweeId = interview.Id,
+                        InterviewerUserId = 1,
+                        InterviewTime = interviewTime,
+                        InterviewDate = interviewDate
+                    });
+                }
+                else if(selectInterviewer.Equals("Danny"))
+                {
+                    db.InterviewDetail.Add(new InterviewDetail
+                    {
+                        IntervieweeId = interview.Id,
+                        InterviewerUserId = 2,
+                        InterviewTime = interviewTime,
+                        InterviewDate = interviewDate
+                    });
+                }
+                else
+                {
+                    db.InterviewDetail.Add(new InterviewDetail
+                    {
+                        IntervieweeId = interview.Id,
+                        InterviewerUserId = 1,
+                        InterviewTime = interviewTime,
+                        InterviewDate = interviewDate
+                    });
+                    db.InterviewDetail.Add(new InterviewDetail
+                    {
+                        IntervieweeId = interview.Id,
+                        InterviewerUserId = 2,
+                        InterviewTime = interviewTime,
+                        InterviewDate = interviewDate
+                    });
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
