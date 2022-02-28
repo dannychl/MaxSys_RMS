@@ -209,6 +209,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\testing-site.js" />
+    <Content Include="Scripts\tpicker.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -239,6 +241,8 @@
     <Content Include="Views\ShowAllCandidates\Edit.cshtml" />
     <Content Include="Views\ShowAllCandidates\Index.cshtml" />
     <Content Include="Views\Interview\Edit.cshtml" />
+    <Content Include="Views\Interview\_EditInterviewDetails.cshtml" />
+    <Content Include="Views\Interview\UpdateInterviewDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
