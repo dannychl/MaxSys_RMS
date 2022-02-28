@@ -142,6 +142,7 @@
     <Compile Include="Models\Interview.cs" />
     <Compile Include="Models\InterviewDetail.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
