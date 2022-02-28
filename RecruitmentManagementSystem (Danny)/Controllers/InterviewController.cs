@@ -16,6 +16,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         private DatabaseContext db = new DatabaseContext();
         Interview Interviewer = new Interview();
         InterviewDetail InterviewDetail = new InterviewDetail();
+        User User = new User();
         //Home home = new Home();
         // GET: Interview
         public ActionResult Index()
@@ -120,7 +121,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                        where s.IntervieweeId == id & s.InterviewProgress == progress
                        select s).Count();       // used to calculate how many rows of same interviewee id found in table
 
-            if (num == 1) 
+            if (num == 1)
             {
                 var interviewerId = (from s in db.InterviewDetail
                                      where s.IntervieweeId == id & s.InterviewProgress == progress
@@ -134,15 +135,15 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             
             var interviewTime = (from s in db.InterviewDetail
                                  where s.IntervieweeId == id & s.InterviewProgress == progress
-                                 select s.InterviewTime);
-            
+                                 select s.InterviewTime).First();
 
-            var interviewDetailId = (from s in db.InterviewDetail
+            string interviewDetailId = string.Join(",",(from s in db.InterviewDetail
                                  where s.IntervieweeId == id & s.InterviewProgress == progress
-                                 select s.Id).First();      // used to find interviewDetailId's primary key
+                                 select s.Id).ToArray());      // used to find interviewDetailId's primary key
 
 
             ViewBag.InterviewDetailId = interviewDetailId;
+            ViewBag.Progress = progress.ToString();
 
             ViewBag.InterviewDate = interviewDate;
             //ViewBag.InterviewTime = interviewTime;
@@ -154,8 +155,12 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         [HttpPost]
         public ActionResult UpdateInterviewDetails(FormCollection fc, string interviewTime, DateTime interviewDate, string selectInterviewer, [Bind(Include = "Id, IntervieweeId, IntervieweeUserId, InterviewTime, InterviewDate, IntervieweRemarks, InterviewResult, InterviewProgress")] InterviewDetail interview)
         {
-           
-            int interviewDetailId = Int32.Parse(fc["InterviewDetailId"]);
+
+            int progress = Int32.Parse(fc["Progress"]);
+            string interviewDetailId = fc["InterviewDetailId"];
+            string[] interviewDetailIdArray = interviewDetailId.Split(',');
+            
+            
 
            /* if (Request.Form["submit"] != null)
             {
@@ -168,15 +173,104 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
 
             if (ModelState.IsValid)
             {
-
+                if (interviewDetailIdArray.Length > 1)
+                {
+                    for (int i = 0; i < interviewDetailIdArray.Length; i++)
+                    {
+                        InterviewDetail InterviewDetail = db.InterviewDetail.Find(Int32.Parse(interviewDetailIdArray[i]));
+                        db.InterviewDetail.Remove(InterviewDetail);
+                    }
+                    switch (selectInterviewer)
+                    {
+                        case "Sky":
+                            {
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 1,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress
+                                });
+                                break;
+                            }
+                        case "Danny":
+                            {
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 2,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress
+                                });
+                                break;
+                            }
+                        case "Both":
+                            {
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 1,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress
+                                });
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 2,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress
+                                });
+                                break;
+                            }
+                    }
+                }
+                else
+                {
+                    InterviewDetail InterviewDetail = db.InterviewDetail.Find(Int32.Parse(interviewDetailIdArray[0]));
+                    if (selectInterviewer.Equals("Both")) // 1 interviewer to 2 interviewers
+                    {
+                        db.InterviewDetail.Remove(InterviewDetail);
+                        db.InterviewDetail.Add(new InterviewDetail
+                        {
+                            IntervieweeId = interview.Id,
+                            InterviewerUserId = 1,
+                            InterviewTime = interviewTime.ToString(),
+                            InterviewDate = interviewDate,
+                            InterviewProgress = progress
+                        });
+                        db.InterviewDetail.Add(new InterviewDetail
+                        {
+                            IntervieweeId = interview.Id,
+                            InterviewerUserId = 2,
+                            InterviewTime = interviewTime.ToString(),
+                            InterviewDate = interviewDate,
+                            InterviewProgress = progress
+                        });
+                    }
+                    else // 1 interviewer to 1 interviewer
+                    {
+                        int interviewerId = (from s in db.User
+                                             where s.Username == selectInterviewer
+                                             select s.Id).First();
+                        InterviewDetail.InterviewerUserId = interviewerId;
+                        InterviewDetail.InterviewDate = interviewDate;
+                        InterviewDetail.InterviewTime = interviewTime;
+                        db.Entry(InterviewDetail).State = EntityState.Modified;
+                    }
+                    
+                }
                 /*Interview temp = db.Interviewer.Find(interview.Id);
                 interview = temp;*/
 
-                InterviewDetail interviewDetail = db.InterviewDetail.Find(interviewDetailId);
+                //InterviewDetail interviewDetail = db.InterviewDetail.Find(interviewDetailId);
+                
 
-
-                interviewDetail.InterviewDate = interviewDate;
-                interviewDetail.InterviewTime = interviewTime;
+                //interviewDetail.InterviewDate = interviewDate;
+                //interviewDetail.InterviewTime = interviewTime;
 
 
                 // checkSubmit = true when either one of the interviewStatus is TBA
@@ -190,7 +284,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                  {
                  }*/
 
-                db.Entry(interviewDetail).State = EntityState.Modified;
+                //db.Entry(interviewDetail).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
