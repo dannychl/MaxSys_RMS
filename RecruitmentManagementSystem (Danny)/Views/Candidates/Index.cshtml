@@ -4,6 +4,12 @@
     ViewBag.Title = "RMS";
 }
 
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+
 <h2>Recruitment Management System</h2>
 <div style='float: right'>
     <h4>@Html.ActionLink("Create New", "Create")</h4>
@@ -14,10 +20,14 @@
             @Html.DisplayNameFor(model => model.Id)
         </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Position)
+            <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                @Html.DisplayNameFor(model => model.Position)
+            </div>
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.Age)
@@ -26,23 +36,29 @@
     </tr>
 
 @foreach (var item in Model) {
-<tr>
+<tr align="center">
     @*<td>
             @Html.DisplayFor(modelItem => item.Id)
         </td>*@
     <td>
-        @Html.DisplayFor(modelItem => item.Name)
+        <div style="padding:inherit; font-size:15px; resize: both; font-weight:bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+            @Html.DisplayFor(modelItem => item.Name)
+            </div>
     </td>
     @*<td>
         @Html.DisplayFor(modelItem => item.Age)
     </td>*@
     <td>
-        @Html.DisplayFor(modelItem => item.Position)
+        <div style="padding: inherit; font-size: 15px; resize: both; color: white; background-color:darkred ; font-weight:bold; font-family:'Bookman Old Style'">
+            @Html.DisplayFor(modelItem => item.Position)
+            </div>
     </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        <div style="padding:inherit; font-size:15px; resize: both; font-weight:bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </div>
     </td>
 </tr>
 }

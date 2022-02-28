@@ -1,9 +1,8 @@
 ﻿@model RecruitmentManagementSystem__Danny_.Models.Interview
 @using RecruitmentManagementSystem__Danny_.DAL;
 @using RecruitmentManagementSystem__Danny_.Models;
-
 @{
-    ViewBag.Title = "Set interview details";
+    ViewBag.Title = "UpdateInterviewDetails";
 }
 
 @section Scripts {
@@ -33,32 +32,67 @@
     </script>
 }
 
-<h2>@ViewBag.intervieweeName</h2>
+<h2>@ViewBag.intervieweeName @ViewBag.num</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    string message = ViewBag.Message;
-    @Html.Hidden("Message", message)
+    string interviewDetailId = ViewBag.IntervieweDetailId;
+    @Html.Hidden("InterviewDetailId", interviewDetailId)
 
     <div class="form-horizontal">
-        <h4>Set interview details</h4>
+        <h4>Update interview details</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.Label("Select Interviewer", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("selectInterviewer", new List<SelectListItem>
-                {
-                      new SelectListItem { Text = "Sky", Value = "Sky"},
-                      new SelectListItem { Text = "Danny", Value = "Danny"},
-                      new SelectListItem { Text = "Both", Value = "Both"}
-                }, "Select Interviewer")
+        @if (ViewBag.num == 2)
+        {
+            <div class="form-group">
+                @Html.Label("Select Interviewer", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("selectInterviewer", new List<SelectListItem>
+                    {
+                          new SelectListItem { Text = "Sky", Value = "Sky"},
+                          new SelectListItem { Text = "Danny", Value = "Danny"},
+                          new SelectListItem { Text = "Both", Value = "Both", Selected=true}
+                    }, "Select Interviewer")
+                </div>
             </div>
-        </div>
+        }
+        else if (ViewBag.num == 1)
+        {
+
+            if (ViewBag.interviewer == 1)
+            {
+                <div class="form-group">
+                    @Html.Label("Select Interviewer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("selectInterviewer", new List<SelectListItem>
+                        {
+                              new SelectListItem { Text = "Sky", Value = "Sky", Selected=true},
+                              new SelectListItem { Text = "Danny", Value = "Danny"},
+                              new SelectListItem { Text = "Both", Value = "Both"}
+                        }, "Select Interviewer")
+                    </div>
+                </div>
+            }
+            if (ViewBag.interviewer == 2)
+            {
+                <div class="form-group">
+                    @Html.Label("Select Interviewer", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("selectInterviewer", new List<SelectListItem>
+                        {
+                              new SelectListItem { Text = "Sky", Value = "Sky"},
+                              new SelectListItem { Text = "Danny", Value = "Danny", Selected=true},
+                              new SelectListItem { Text = "Both", Value = "Both"}
+                        }, "Select Interviewer")
+                    </div>
+                </div>
+            }
+        }
 
         <div class="form-group">
 
@@ -70,7 +104,7 @@
                 </div>*@
 
             <div class="form-group">
-                @Html.Label("Interview Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("InterviewDate", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.Editor("interviewDate",
                 new
@@ -78,13 +112,16 @@
                     htmlAttributes = new
                     {
                         @readonly = "true",
-                             Value = DateTime.Now.ToShortDateString(),
-                        @*@readonly = "true", Value = Model.DateOfBirth.ToString("dd-MM-yyyy"),*@
-@class = "form-control datepicker"
-}
-})
+                             Value = @Convert.ToDateTime(ViewBag.InterviewDate).ToString("dd-MMM-yyyy"),
+                        @class = "form-control datepicker"
+                }
+                })
                 </div>
             </div>
+
+            @*<div class="form-group">
+                    @Html.Label("Interview Time"+ ViewBag.InterviewTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>*@
 
             <div class="form-group">
                 @Html.Label("Interview Time", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -92,7 +129,6 @@
                     <input id="timepkr" style="width:100px; float:left;" class="form-control" placeholder="HH:MM"<
                     @Html.Editor("interviewTime", new { htmlAttributes = new { @class = "form-control" } })
                     <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',24)" style="width:35px; height:35px; float:left;" /><i class="fa fa-clock-o"></i>
-                    @* @Html.Editor("timepkr", new { htmlAttributes = new { @class = "form-control" } })*@
                 </div>
                 <div class="timepicker"></div>
             </div>
@@ -101,7 +137,7 @@
             <div class="form-group" style="float:right; margin-right:300px">
                 <div class="col-md-offset-2 col-md-10">
                     @{
-                        var data = ViewBag.Message;                
+                        var data = ViewBag.Message;
                     }
                     @if (data == "FirstInterview" && Model.FirstInterviewerStatus == "TBA")
                     {
@@ -128,3 +164,5 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
