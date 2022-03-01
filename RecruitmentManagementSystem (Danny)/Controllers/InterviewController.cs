@@ -19,24 +19,33 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         User Users = new User();
         //Home home = new Home();
         // GET: Interview
-        public ActionResult Index()
+        public ActionResult Index(string searchStatus)
         {
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "Hired", Value = "Hired" });
             items.Add(new SelectListItem { Text = "Reject", Value = "Reject" });
             items.Add(new SelectListItem { Text = "KIV", Value = "KIV" });
+            items.Add(new SelectListItem { Text = "Pending", Value = "Pending" });
             ViewBag.InterviewStatus = items;
-
-            var model = from s in db.Interviewer
-                        where s.IntervieweeStatus == "Pending"
+            var model = from s in db.Interviewer select s;
+            if (searchStatus == null)
+            {
+                model = from s in db.Interviewer
+                            where s.IntervieweeStatus == "Pending"
+                            select s;
+            }
+            else
+            {
+                model = from s in db.Interviewer
+                        where s.IntervieweeStatus == searchStatus
                         select s;
-
+            }
             return View(model);
             /*return View(db.Interviewer.ToList());*/
         }
 
         [HttpPost]
-        public ActionResult Index(string status)
+        public ActionResult Index(string ddlStatus, [Bind(Include = "Id, IntervieweeId, IntervieweeUserId, InterviewTime, InterviewDate, IntervieweRemarks, InterviewResult, InterviewProgress")] InterviewDetail interview)
         {
 
             /*List<SelectListItem> items = new List<SelectListItem>();
@@ -44,25 +53,27 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             items.Add(new SelectListItem { Text = "Reject", Value = "Reject" });
             items.Add(new SelectListItem { Text = "KIV", Value = "KIV" });
             ViewBag.InterviewStatus = items;*/
-            InterviewStatus model = InterviewStatusModel(status);
+            //InterviewStatus model = InterviewStatusModel(status);
+            //return RedirectToAction("Index", new { id = status });
 
-            return View(model);
+            ViewBag.searchStatus = ddlStatus;
+            return RedirectToAction("Index", new { searchStatus = ddlStatus });
         }
 
-        private static InterviewStatus InterviewStatusModel(string status)
-        {
-            using (DatabaseContext db = new DatabaseContext())
-            {
-                InterviewStatus model = new InterviewStatus()
-                {
-                    Status = (List<SelectListItem>)(from s in db.Interviewer
-                              where s.IntervieweeStatus == status
-                              select s)
-            };
+        //private static InterviewStatus InterviewStatusModel(string status)
+        //{
+        //    using (DatabaseContext db = new DatabaseContext())
+        //    {
+        //        InterviewStatus model = new InterviewStatus()
+        //        {
+        //            Status = (DbSet<Interview>)(from s in db.Interviewer
+        //                      where s.IntervieweeStatus == status
+        //                      select s)
+        //    };
 
-                return model;
-            }
-        }
+        //        return model;
+        //    }
+        //}
 
         // GET: Interview/Details/5
         public ActionResult Details(int? id)
