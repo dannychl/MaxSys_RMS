@@ -8,6 +8,6 @@ namespace RecruitmentManagementSystem__Danny_.Models
 {
     public class InterviewStatus
     {
-        public List<SelectListItem> Status { get; set; }
+        public List<Interview> Status { get; set; }
     }
 }
