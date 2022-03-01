@@ -36,10 +36,12 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             }
             else
             {
+                ViewBag.searchStatus = searchStatus;
                 model = from s in db.Interviewer
                         where s.IntervieweeStatus == searchStatus
                         select s;
             }
+
             return View(model);
             /*return View(db.Interviewer.ToList());*/
         }
@@ -55,8 +57,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             ViewBag.InterviewStatus = items;*/
             //InterviewStatus model = InterviewStatusModel(status);
             //return RedirectToAction("Index", new { id = status });
-
-            ViewBag.searchStatus = ddlStatus;
             return RedirectToAction("Index", new { searchStatus = ddlStatus });
         }
 
@@ -115,7 +115,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // GET: Interview/Edit/5
         public ActionResult Edit(int? id, string title)
         {
-            ViewBag.Message = title;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,30 +126,14 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 return HttpNotFound();
             }
 
-            if (title == "Hired")
+            if (title.Equals("Hired") || title.Equals("Reject") || title.Equals("KIV"))
             {
-                if (title.Equals("Hired"))
-                {
-                    //interview = db.Interviewer.Find(id);
-                    interview.IntervieweeStatus = "Hired";
-                    db.Entry(interview).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                else if (title.Equals("Reject"))
-                {
-                    //interview = db.Interviewer.Find(id);
-                    interview.IntervieweeStatus = "Reject";
-                    db.Entry(interview).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                else if (title.Equals("KIV"))
-                {
-                    //interview = db.Interviewer.Find(id);
-                    interview.IntervieweeStatus = "KIV";
-                    db.Entry(interview).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
+                interview.IntervieweeStatus = title;
+                db.Entry(interview).State = EntityState.Modified;
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
+
             }
 
             if (title == "FirstInterview" && interview.FirstInterviewerStatus == "No")
@@ -454,10 +437,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                 break;
                             }
                     }
-                }
-                else if (interview.SecondInterviewerStatus.Equals("No") && checkSubmit && btnClicked.Equals("FirstInterview"))
-                {
-                    
                 }
 
                 db.Entry(interview).State = EntityState.Modified;
