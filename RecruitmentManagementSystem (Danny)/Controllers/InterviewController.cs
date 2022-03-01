@@ -16,12 +16,52 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         private DatabaseContext db = new DatabaseContext();
         Interview Interviewer = new Interview();
         InterviewDetail InterviewDetail = new InterviewDetail();
-        User User = new User();
+        User Users = new User();
         //Home home = new Home();
         // GET: Interview
         public ActionResult Index()
-        {         
-            return View(db.Interviewer.ToList());
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Hired", Value = "Hired" });
+            items.Add(new SelectListItem { Text = "Reject", Value = "Reject" });
+            items.Add(new SelectListItem { Text = "KIV", Value = "KIV" });
+            ViewBag.InterviewStatus = items;
+
+            var model = from s in db.Interviewer
+                        where s.IntervieweeStatus == "Pending"
+                        select s;
+
+            return View(model);
+            /*return View(db.Interviewer.ToList());*/
+        }
+
+        [HttpPost]
+        public ActionResult Index(string status)
+        {
+
+            /*List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Hired", Value = "Hired" });
+            items.Add(new SelectListItem { Text = "Reject", Value = "Reject" });
+            items.Add(new SelectListItem { Text = "KIV", Value = "KIV" });
+            ViewBag.InterviewStatus = items;*/
+            InterviewStatus model = InterviewStatusModel(status);
+
+            return View(model);
+        }
+
+        private static InterviewStatus InterviewStatusModel(string status)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                InterviewStatus model = new InterviewStatus()
+                {
+                    Status = (List<SelectListItem>)(from s in db.Interviewer
+                              where s.IntervieweeStatus == status
+                              select s)
+            };
+
+                return model;
+            }
         }
 
         // GET: Interview/Details/5
@@ -74,6 +114,32 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             if (interview == null)
             {
                 return HttpNotFound();
+            }
+
+            if (title == "Hired")
+            {
+                if (title.Equals("Hired"))
+                {
+                    //interview = db.Interviewer.Find(id);
+                    interview.IntervieweeStatus = "Hired";
+                    db.Entry(interview).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else if (title.Equals("Reject"))
+                {
+                    //interview = db.Interviewer.Find(id);
+                    interview.IntervieweeStatus = "Reject";
+                    db.Entry(interview).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else if (title.Equals("KIV"))
+                {
+                    //interview = db.Interviewer.Find(id);
+                    interview.IntervieweeStatus = "KIV";
+                    db.Entry(interview).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
             }
 
             if (title == "FirstInterview" && interview.FirstInterviewerStatus == "No")
