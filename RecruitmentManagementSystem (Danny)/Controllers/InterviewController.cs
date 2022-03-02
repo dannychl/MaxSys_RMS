@@ -19,6 +19,47 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         User Users = new User();
         //Home home = new Home();
         // GET: Interview
+
+        public PartialViewResult SearchUsers(string searchText, string searchStatus)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "Hired", Value = "Hired" });
+            items.Add(new SelectListItem { Text = "Reject", Value = "Reject" });
+            items.Add(new SelectListItem { Text = "KIV", Value = "KIV" });
+            items.Add(new SelectListItem { Text = "Pending", Value = "Pending" });
+            ViewBag.InterviewStatus = items;
+            ViewBag.searchStatus = searchStatus;
+
+            var model = from s in db.Interviewer
+                        where s.IntervieweeStatus == "Pending"
+                        select s;
+
+            if (searchText == null && searchStatus != null)
+            {
+                model = from s in db.Interviewer
+                        where s.IntervieweeStatus == searchStatus
+                        select s;
+                return PartialView("Search_GridView", model);
+            }
+            else if (searchStatus == null && searchText != null)
+            {
+                model = from s in db.Interviewer
+                        where s.IntervieweeStatus == "Pending" && s.IntervieweeName.ToLower().Contains(searchText)
+                        select s;
+                return PartialView("Search_GridView", model);
+            }
+            else if (searchStatus == "Hired" || searchStatus == "Reject" || searchStatus == "KIV")
+            {
+                model = from s in db.Interviewer
+                        where s.IntervieweeStatus == searchStatus && s.IntervieweeName.ToLower().Contains(searchText)
+                        select s;
+                return PartialView("Search_GridView", model);
+            }
+
+            var result = model.Where(a => a.IntervieweeName.ToLower().Contains(searchText)).ToList();
+
+            return PartialView("Search_GridView", result);
+    }
         public ActionResult Index(string searchStatus)
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -42,6 +83,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                         select s;
             }
 
+           /* var result = model.Where(a => a.IntervieweeName.ToLower().Contains(searchText));
+            return PartialView("Search_GridView", result);*/
             return View(model);
             /*return View(db.Interviewer.ToList());*/
         }
@@ -121,6 +164,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             }
             Interview interview = db.Interviewer.Find(id);
             ViewBag.intervieweeName = interview.IntervieweeName;
+            ViewBag.Message = title;
             if (interview == null)
             {
                 return HttpNotFound();
@@ -174,7 +218,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ViewBag.message = title;
+            /*ViewBag.message = title;*/
+            ViewBag.Message = title;
             ViewBag.id = id;
 
             var num = (from s in db.InterviewDetail
