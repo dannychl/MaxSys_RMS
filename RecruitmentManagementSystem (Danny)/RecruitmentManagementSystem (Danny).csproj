@@ -246,10 +246,11 @@
     <Content Include="Views\Interview\_EditInterviewDetails.cshtml" />
     <Content Include="Views\Interview\UpdateInterviewDetails.cshtml" />
     <Content Include="Views\Interview\MessageView.cshtml" />
+    <Content Include="Views\Interview\Search_GridView.cshtml" />
+    <Content Include="Views\Candidates\SearchCandidate_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CustomDialog\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

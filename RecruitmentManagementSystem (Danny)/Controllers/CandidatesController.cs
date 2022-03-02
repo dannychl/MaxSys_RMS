@@ -17,6 +17,18 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         Home Candidate = new Home();
         Interview Interview = new Interview();
 
+        public PartialViewResult SearchUsers(string searchText)
+        {
+          
+            var model = from s in db.Candidate
+                        where s.Status == "None" | s.ProgrammingTest == 0 | s.SQLTest == 0
+                        select s;
+
+            var result = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList();
+
+            return PartialView("SearchCandidate_View", result);
+        }
+
         // GET: Candidates
         public ActionResult Index()
         {
