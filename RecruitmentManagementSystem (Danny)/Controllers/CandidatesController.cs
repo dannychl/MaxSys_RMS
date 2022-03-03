@@ -151,7 +151,11 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // GET: Candidates/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            Home home = db.Candidate.Find(id);
+            db.Candidate.Remove(home);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            /*if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -160,7 +164,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             {
                 return HttpNotFound();
             }
-            return View(home);
+            return View(home);*/
         }
 
         // POST: Candidates/Delete/5

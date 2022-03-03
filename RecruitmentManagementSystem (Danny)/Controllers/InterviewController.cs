@@ -413,6 +413,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 checkSubmit = false;
             }
 
+            
+
             if (ModelState.IsValid)
             {
                 int progress = 0;

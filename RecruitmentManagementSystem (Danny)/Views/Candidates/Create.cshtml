@@ -19,6 +19,7 @@
                 changeMonth: true,
                 changeYear: true,
                 showOn: "button",
+                maxDate: "-1",
                 //buttonText: "<span class='glyphicon glyphicon-calendar'></span>",
                 buttonText: "Select Date",
                 yearRange: "-60:+0"
@@ -62,7 +63,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.PhoneNum, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.PhoneNum, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.PhoneNum, new { htmlAttributes = new { @class = "form-control", @placeholder="etc: 0123456789" }})
             @Html.ValidationMessageFor(model => model.PhoneNum, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -84,7 +85,7 @@
             htmlAttributes = new
             {
                 @readonly = "true",
-                     Value = DateTime.Now.ToShortDateString(),
+                     @*Value = DateTime.Now.ToShortDateString(),*@
             @*@readonly = "true", Value = Model.DateOfBirth.ToString("dd-MM-yyyy"),*@
 @class = "form-control datepicker"
 }
@@ -100,6 +101,8 @@
             @Html.RadioButtonFor(model => model.Gender, "Male")
             Female
             @Html.RadioButtonFor(model => model.Gender, "Female")
+            <br />
+            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -114,6 +117,7 @@
             @Html.RadioButtonFor(model => model.Position, "Human Resource Manager") Human Resource Manager <br />
             @Html.RadioButtonFor(model => model.Position, "Python Developer") Python Developer <br />
             @Html.RadioButtonFor(model => model.Position, "QA Assistant") QA Assistant
+            <br />
             @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
         </div>
     </div>
