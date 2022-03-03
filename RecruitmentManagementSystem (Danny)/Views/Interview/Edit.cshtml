@@ -25,9 +25,10 @@
                 changeMonth: true,
                 changeYear: true,
                 showOn: "button",
+                minDate: "+1",
                 //buttonText: "<span class='glyphicon glyphicon-calendar'></span>",
                 buttonText: "Select Date",
-                yearRange: "-60:+0"
+                yearRange: "-60:+60"
             });
         });
     </script>
@@ -53,10 +54,10 @@
             <div class="col-md-10">
                 @Html.DropDownList("selectInterviewer", new List<SelectListItem>
                 {
-                      new SelectListItem { Text = "Sky", Value = "Sky"},
+                      new SelectListItem { Text = "Sky", Value = "Sky", Selected=true},
                       new SelectListItem { Text = "Danny", Value = "Danny"},
                       new SelectListItem { Text = "Both", Value = "Both"}
-                }, "Select Interviewer")
+                })
             </div>
         </div>
 
@@ -71,18 +72,25 @@
 
             <div class="form-group">
                 @Html.Label("Interview Date", htmlAttributes: new { @class = "control-label col-md-2" })
+
                 <div class="col-md-10">
+                    @{
+                        var dateTdy = DateTime.Today;
+                        var dateTmr = dateTdy.AddDays(1);
+                    }
                     @Html.Editor("interviewDate",
                 new
                 {
+
                     htmlAttributes = new
                     {
                         @readonly = "true",
-                             Value = DateTime.Now.ToShortDateString(),
-                        @*@readonly = "true", Value = Model.DateOfBirth.ToString("dd-MM-yyyy"),*@
-@class = "form-control datepicker"
-}
-})
+                             Value = dateTmr.ToShortDateString(),
+                            @*@readonly = "true", Value = Model.DateOfBirth.ToString("dd-MM-yyyy"),*@
+                    @class = "form-control datepicker",
+                    }
+                })
+
                 </div>
             </div>
 
@@ -101,7 +109,7 @@
             <div class="form-group" style="float:right; margin-right:300px">
                 <div class="col-md-offset-2 col-md-10">
                     @{
-                        var data = ViewBag.Message;                
+                        var data = ViewBag.Message;
                     }
                     @if (data == "FirstInterview" && Model.FirstInterviewerStatus == "TBA")
                     {
