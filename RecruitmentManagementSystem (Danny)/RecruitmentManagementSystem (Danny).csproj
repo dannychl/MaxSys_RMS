@@ -131,6 +131,7 @@
     <Compile Include="Controllers\CandidatesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InterviewController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ShowAllCandidatesController.cs" />
     <Compile Include="DAL\DatabaseContext.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
@@ -248,6 +249,7 @@
     <Content Include="Views\Interview\MessageView.cshtml" />
     <Content Include="Views\Interview\Search_GridView.cshtml" />
     <Content Include="Views\Candidates\SearchCandidate_View.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
