@@ -9,20 +9,46 @@
     @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
+        @if (Session["Username"] != null)
+        {
+            ViewBag.username = "Welcome " + Session["Username"];
+        }
+        else
+        {
+            ViewBag.username = null;
+        }
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Recruitment", "Index", "Candidates", new { area = "" }, new { @class = "navbar-brand" })
+                @if (ViewBag.username != null)
+                {
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Recruitment", "Index", "Candidates", new { area = "" }, new { @class = "navbar-brand" })
+                }
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("All candidates", "Index", "ShowAllCandidates")</li>
-                    <li>@Html.ActionLink("Interview Management", "Index", "Interview")</li>
+                @if (ViewBag.username != null)
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("All candidates", "Index", "ShowAllCandidates")</li>
+                        <li>@Html.ActionLink("Interview Management", "Index", "Interview")</li>
+                    </ul>
+                }
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="color:darkgrey; padding-top:14px; font-size:15px">@ViewBag.username</li>
+                    @if (ViewBag.username != null)
+                    {
+                        <li>@Html.ActionLink("Logout", "Index", "Login")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Index", "Login")</li>
+                    }
+
                 </ul>
             </div>
         </div>

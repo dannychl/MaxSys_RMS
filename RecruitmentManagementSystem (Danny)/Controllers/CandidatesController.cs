@@ -32,6 +32,10 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // GET: Candidates
         public ActionResult Index()
         {
+            if(Session["Username"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             var model = from s in db.Candidate
                         where s.Status == "None" | s.ProgrammingTest == 0 | s.SQLTest == 0
                         select s;

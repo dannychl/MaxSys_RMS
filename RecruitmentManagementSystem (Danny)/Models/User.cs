@@ -15,5 +15,10 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public int Id { get; set; }
         public string Username { get; set; }
         public string Roles { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        [PasswordPropertyText]
+        public string Password { get; set; }
     }
 }
