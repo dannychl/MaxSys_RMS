@@ -69,5 +69,9 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public string TestRemarks { get; set; }
         
         public string Status { get; set; }
+
+        public string ResumeLink { get; set; }
+
+        public string TestAnsLink { get; set; }
     }
 }

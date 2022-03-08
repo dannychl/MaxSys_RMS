@@ -165,6 +165,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             Interview interview = db.Interviewer.Find(id);
             ViewBag.intervieweeName = interview.IntervieweeName;
             ViewBag.Message = title;
+            ViewBag.intervieweeId = interview.CandidatesId;
             if (interview == null)
             {
                 return HttpNotFound();
@@ -202,6 +203,106 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             //return PartialView("_EditInterviewDetails", interview);
         }
 
+        // POST: Interview/Edit/5
+        [HttpPost]
+        public ActionResult Edit(FormCollection fc, string interviewTime, DateTime interviewDate, string selectInterviewer, string interviewRemarks, string interviewResult, [Bind(Include = "Id, IntervieweeName, IntervieweeStatus, FirstInterviewStatus, SecondInterviewStatus, IntervieweeResumeLink, CandidateId")] Interview interview)
+        {
+            bool checkSubmit = false;
+
+            string btnClicked = fc["Message"];
+
+            if (Request.Form["submit"] != null)
+            {
+                checkSubmit = true;
+            }
+            else if (Request.Form["process"] != null)
+            {
+                checkSubmit = false;
+            }
+
+
+
+            if (ModelState.IsValid)
+            {
+                int progress = 0;
+                Interview temp = db.Interviewer.Find(interview.Id);
+                interview = temp;
+                // checkSubmit = true when either one of the interviewStatus is TBA
+                // checkSubmit = false when either one of the interviewStatus is No
+                if ((interview.FirstInterviewerStatus.Equals("TBA") && checkSubmit && btnClicked.Equals("FirstInterview"))
+                    || (interview.SecondInterviewerStatus.Equals("TBA") && checkSubmit && btnClicked.Equals("SecondInterview")))
+                {
+
+                    if (interview.FirstInterviewerStatus.Equals("TBA") && interview.SecondInterviewerStatus.Equals("TBA"))
+                    {
+                        progress = 1;
+                        interview.FirstInterviewerStatus = "No";
+                    }
+                    else if (interview.FirstInterviewerStatus.Equals("No") && interview.SecondInterviewerStatus.Equals("TBA"))
+                    {
+                        progress = 2;
+                        interview.SecondInterviewerStatus = "No";
+                    }
+
+                    switch (selectInterviewer)
+                    {
+                        case "Sky":
+                            {
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 1,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress,
+                                    InterviewRemarks = interviewRemarks,
+                                    InterviewResult = interviewResult
+                                });
+                                break;
+                            }
+                        case "Danny":
+                            {
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 2,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress,
+                                    InterviewRemarks = interviewRemarks,
+                                    InterviewResult = interviewResult
+                                });
+                                break;
+                            }
+                        case "Both":
+                            {
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 1,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress,
+                                });
+                                db.InterviewDetail.Add(new InterviewDetail
+                                {
+                                    IntervieweeId = interview.Id,
+                                    InterviewerUserId = 2,
+                                    InterviewTime = interviewTime.ToString(),
+                                    InterviewDate = interviewDate,
+                                    InterviewProgress = progress,
+                                });
+                                break;
+                            }
+                    }
+                }
+                db.Entry(interview).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(interview);
+        }
+
         public ActionResult UpdateInterviewDetails(int? id, string title, int? progress)
         {
             if (id == null)
@@ -209,6 +310,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Interview interview = db.Interviewer.Find(id);
+
+            ViewBag.intervieweeId = interview.CandidatesId;
 
             /*List<InterviewDetail> data  = db.InterviewDetail.Where(c => c.IntervieweeId == id & c.InterviewProgress == progress).ToList();*/
 
@@ -246,6 +349,10 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                  where s.IntervieweeId == id & s.InterviewProgress == progress
                                  select s.Id).ToArray());      // used to find interviewDetailId's primary key
 
+            var interviewRemarks = (from s in db.InterviewDetail
+                                 where s.IntervieweeId == id & s.InterviewProgress == progress
+                                 select s.InterviewRemarks).First();
+
 
             ViewBag.InterviewDetailId = interviewDetailId;
             ViewBag.Progress = progress.ToString();
@@ -258,7 +365,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateInterviewDetails(FormCollection fc, string interviewTime, DateTime interviewDate, string selectInterviewer, [Bind(Include = "Id, IntervieweeId, IntervieweeUserId, InterviewTime, InterviewDate, IntervieweRemarks, InterviewResult, InterviewProgress")] InterviewDetail interview)
+        public ActionResult UpdateInterviewDetails(FormCollection fc, string interviewTime, DateTime interviewDate, string selectInterviewer, string interviewRemarks, string interviewResult, [Bind(Include = "Id, IntervieweeId, IntervieweeUserId, InterviewTime, InterviewDate, IntervieweRemarks, InterviewResult, InterviewProgress")] InterviewDetail interview)
         {
 
             int progress = Int32.Parse(fc["Progress"]);
@@ -295,7 +402,9 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                     InterviewerUserId = 1,
                                     InterviewTime = interviewTime.ToString(),
                                     InterviewDate = interviewDate,
-                                    InterviewProgress = progress
+                                    InterviewProgress = progress,
+                                    InterviewRemarks = interviewRemarks,
+                                    InterviewResult = interviewResult
                                 });
                                 break;
                             }
@@ -307,7 +416,9 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                     InterviewerUserId = 2,
                                     InterviewTime = interviewTime.ToString(),
                                     InterviewDate = interviewDate,
-                                    InterviewProgress = progress
+                                    InterviewProgress = progress,
+                                    InterviewRemarks = interviewRemarks,
+                                    InterviewResult = interviewResult
                                 });
                                 break;
                             }
@@ -364,6 +475,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                         InterviewDetail.InterviewerUserId = interviewerId;
                         InterviewDetail.InterviewDate = interviewDate;
                         InterviewDetail.InterviewTime = interviewTime;
+                        InterviewDetail.InterviewRemarks = interviewRemarks;
+                        InterviewDetail.InterviewResult = interviewResult;
                         db.Entry(InterviewDetail).State = EntityState.Modified;
                     }
                     
@@ -390,103 +503,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                  }*/
 
                 //db.Entry(interviewDetail).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(interview);
-        }
-
-            // POST: Interview/Edit/5
-            [HttpPost]
-        public ActionResult Edit(FormCollection fc, string interviewTime, DateTime interviewDate, string selectInterviewer, [Bind(Include = "Id, IntervieweeName, IntervieweeStatus, FirstInterviewStatus, SecondInterviewStatus, IntervieweeResumeLink, CandidateId")] Interview interview)
-        {
-            bool checkSubmit = false;
-
-            string btnClicked = fc["Message"];
-
-            if (Request.Form["submit"] != null)
-            {
-                checkSubmit = true;
-            }
-            else if (Request.Form["process"]!=null)
-            {
-                checkSubmit = false;
-            }
-
-            
-
-            if (ModelState.IsValid)
-            {
-                int progress = 0;
-                Interview temp = db.Interviewer.Find(interview.Id);
-                interview = temp;
-                // checkSubmit = true when either one of the interviewStatus is TBA
-                // checkSubmit = false when either one of the interviewStatus is No
-                if ((interview.FirstInterviewerStatus.Equals("TBA") && checkSubmit && btnClicked.Equals("FirstInterview"))
-                    || (interview.SecondInterviewerStatus.Equals("TBA") && checkSubmit && btnClicked.Equals("SecondInterview")))
-                {
-
-                    if (interview.FirstInterviewerStatus.Equals("TBA") && interview.SecondInterviewerStatus.Equals("TBA"))
-                    {
-                        progress = 1;
-                        interview.FirstInterviewerStatus = "No";
-                    }
-                    else if (interview.FirstInterviewerStatus.Equals("No") && interview.SecondInterviewerStatus.Equals("TBA"))
-                    {
-                        progress = 2;
-                        interview.SecondInterviewerStatus = "No";
-                    }
-
-                    switch (selectInterviewer)
-                    {
-                        case "Sky":
-                            {
-                                db.InterviewDetail.Add(new InterviewDetail
-                                {
-                                    IntervieweeId = interview.Id,
-                                    InterviewerUserId = 1,
-                                    InterviewTime = interviewTime.ToString(),
-                                    InterviewDate = interviewDate,
-                                    InterviewProgress = progress
-                                });
-                                break;
-                            }
-                        case "Danny":
-                            {
-                                db.InterviewDetail.Add(new InterviewDetail
-                                {
-                                    IntervieweeId = interview.Id,
-                                    InterviewerUserId = 2,
-                                    InterviewTime = interviewTime.ToString(),
-                                    InterviewDate = interviewDate,
-                                    InterviewProgress = progress
-                                });
-                                break;
-                            }
-                        case "Both":
-                            {
-                                db.InterviewDetail.Add(new InterviewDetail
-                                {
-                                    IntervieweeId = interview.Id,
-                                    InterviewerUserId = 1,
-                                    InterviewTime = interviewTime.ToString(),
-                                    InterviewDate = interviewDate,
-                                    InterviewProgress = progress
-                                });
-                                db.InterviewDetail.Add(new InterviewDetail
-                                {
-                                    IntervieweeId = interview.Id,
-                                    InterviewerUserId = 2,
-                                    InterviewTime = interviewTime.ToString(),
-                                    InterviewDate = interviewDate,
-                                    InterviewProgress = progress
-                                });
-                                break;
-                            }
-                    }
-                }
-
-                db.Entry(interview).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

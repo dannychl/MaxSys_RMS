@@ -37,7 +37,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 return RedirectToAction("Index", "Login");
             }
             var model = from s in db.Candidate
-                        where s.Status == "None" | s.ProgrammingTest == 0 | s.SQLTest == 0
+                        where s.Status == "None"
                         select s;
 
             return View(model);
@@ -54,6 +54,11 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             if (home == null)
             {
                 return HttpNotFound();
+            }
+            if (home.ResumeLink != null && home.TestAnsLink != null)
+            {
+                ViewBag.ResumeLink = home.ResumeLink;
+                ViewBag.TestAnsLink = home.TestAnsLink;
             }
             return View(home);
         }
@@ -74,7 +79,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum")] Home home)
+        public ActionResult Create([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Home home)
         {
             if (ModelState.IsValid)
             {
@@ -90,6 +95,15 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 if (home.WorkingExperienceRemarks == null  || home.WorkingExperienceRemarks == String.Empty)
                 {
                     home.WorkingExperienceRemarks = "None";
+                }
+
+                else if (home.ResumeLink == null)
+                {
+                    home.ResumeLink = "None";
+                }
+                else if(home.TestAnsLink == null)
+                {
+                    home.TestAnsLink = "None";
                 }
                 home.TestRemarks = "None";
                 db.Candidate.Add(home);
@@ -120,7 +134,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum")] Home home)
+        public ActionResult Edit([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Home home)
         {
             if (ModelState.IsValid)
             {
