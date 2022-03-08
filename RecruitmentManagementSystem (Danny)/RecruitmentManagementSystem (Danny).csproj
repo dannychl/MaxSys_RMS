@@ -250,6 +250,7 @@
     <Content Include="Views\Interview\Search_GridView.cshtml" />
     <Content Include="Views\Candidates\SearchCandidate_View.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\ShowAllCandidates\SearchAllCandidate_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

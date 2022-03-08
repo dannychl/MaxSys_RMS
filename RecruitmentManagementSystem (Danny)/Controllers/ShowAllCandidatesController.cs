@@ -14,6 +14,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
     public class ShowAllCandidatesController : Controller
     {
         private DatabaseContext db = new DatabaseContext();
+        Home Candidate = new Home();
+        Interview Interview = new Interview();
 
         // GET: ShowAllCandidates
         public ActionResult Index()
@@ -21,7 +23,18 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             return View(db.Candidate.ToList());
         }
 
-        // GET: ShowAllCandidates/Details/5
+        public PartialViewResult SearchUsers(string searchText)
+        {
+
+            var model = from s in db.Candidate
+                        select s;
+
+            var result = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList();
+
+            return PartialView("SearchAllCandidate_View", result);
+        }
+
+        // GET: Candidates/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -33,24 +46,59 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (home.ResumeLink != null && home.TestAnsLink!=null)
+            {
+                ViewBag.ResumeLink = home.ResumeLink;
+                ViewBag.TestAnsLink = home.TestAnsLink;
+            }
+
             return View(home);
         }
 
-        // GET: ShowAllCandidates/Create
+        public ActionResult ShowAllCandidates()
+        {
+            return View(db.Candidate.ToList());
+        }
+
+        // GET: Candidates/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ShowAllCandidates/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // POST: Candidates/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,MethodUsed,PhoneNum,Gender,Age,DateOfBirth,Position,ExpectedSalary,CurrentSalary,WorkingExperience,WorkingExperienceRemarks,ResignPeriod,ProgrammingTest,SQLTest,TestRemarks,Status")] Home home)
+        public ActionResult Create([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Home home)
         {
             if (ModelState.IsValid)
             {
+
+                int currentAge = home.DateOfBirth.Year;
+                int curAge = DateTime.Now.Year;
+
+                int exactAge = curAge - currentAge;
+
+                home.Age = exactAge;
+                home.Status = "None";
+
+                if (home.WorkingExperienceRemarks == null || home.WorkingExperienceRemarks == String.Empty)
+                {
+                    home.WorkingExperienceRemarks = "None";
+                }
+
+                else if (home.ResumeLink == null)
+                {
+                    home.ResumeLink = "None";
+                }
+                else if (home.TestAnsLink == null)
+                {
+                    home.TestAnsLink = "None";
+                }
+                home.TestRemarks = "None";
                 db.Candidate.Add(home);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -59,7 +107,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             return View(home);
         }
 
-        // GET: ShowAllCandidates/Edit/5
+        // GET: Candidates/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -74,12 +122,12 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             return View(home);
         }
 
-        // POST: ShowAllCandidates/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // POST: Candidates/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,MethodUsed,PhoneNum,Gender,Age,DateOfBirth,Position,ExpectedSalary,CurrentSalary,WorkingExperience,WorkingExperienceRemarks,ResignPeriod,ProgrammingTest,SQLTest,TestRemarks,Status")] Home home)
+        public ActionResult Edit([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Home home)
         {
             if (ModelState.IsValid)
             {
@@ -111,10 +159,14 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             return View(home);
         }
 
-        // GET: ShowAllCandidates/Delete/5
+        // GET: Candidates/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            Home home = db.Candidate.Find(id);
+            db.Candidate.Remove(home);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            /*if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -123,10 +175,10 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             {
                 return HttpNotFound();
             }
-            return View(home);
+            return View(home);*/
         }
 
-        // POST: ShowAllCandidates/Delete/5
+        // POST: Candidates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
