@@ -141,6 +141,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Home.cs" />
     <Compile Include="Models\Interview.cs" />
+    <Compile Include="Models\InterviewerComment.cs" />
     <Compile Include="Models\InterviewDetail.cs" />
     <Compile Include="Models\InterviewStatus.cs" />
     <Compile Include="Models\Login.cs" />

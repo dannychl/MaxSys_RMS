@@ -24,5 +24,7 @@ namespace RecruitmentManagementSystem__Danny_.DAL
 
         public DbSet<User> User { get; set; }
 
+        public DbSet<InterviewerComment> InterviewerComment { get; set; }
+
     }
 }
