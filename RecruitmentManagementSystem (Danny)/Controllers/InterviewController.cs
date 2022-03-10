@@ -181,13 +181,23 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
 
             }
 
-            if (title == "FirstInterview" && interview.FirstInterviewerStatus == "No")
+            if (title == "FirstInterview" && interview.FirstInterviewerStatus == "Yes")
             {
-                return RedirectToAction("UpdateInterviewDetails", new { id = id , title = title , progress = 1});
+                return RedirectToAction("UpdateInterviewDetails", new { id = id , title = title , progress = 1, finishInterview = "Yes" });
             }
+
+            else if (title == "SecondInterview" && interview.SecondInterviewerStatus == "Yes")
+            {
+                return RedirectToAction("UpdateInterviewDetails", new { id = id, title = title , progress = 2, finishInterview = "Yes" });
+            }
+
             else if (title == "SecondInterview" && interview.SecondInterviewerStatus == "No")
             {
-                return RedirectToAction("UpdateInterviewDetails", new { id = id, title = title , progress = 2});
+                return RedirectToAction("UpdateInterviewDetails", new { id = id, title = title, progress = 2, finishInterview = "No" });
+            }
+            else if (title == "FirstInterview" && interview.FirstInterviewerStatus == "No")
+            {
+                return RedirectToAction("UpdateInterviewDetails", new { id = id, title = title, progress = 1, finishInterview = "No" });
             }
 
             if (title == "FirstInterview" && interview.FirstInterviewerStatus == "TBA")
@@ -306,7 +316,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             return View(interview);
         }
 
-        public ActionResult UpdateInterviewDetails(int? id, string title, int? progress)
+        public ActionResult UpdateInterviewDetails(int? id, string title, int? progress, string finishInterview)
         {
             if (id == null)
             {
@@ -324,7 +334,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            /*ViewBag.message = title;*/
+            ViewBag.FinishInterview = finishInterview;
             ViewBag.Message = title;
             ViewBag.id = id;
             if (Session["Roles"].Equals("interviewer")) {
@@ -364,35 +374,112 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             //                     where s.IntervieweeId == id & s.InterviewProgress == progress
             //                     select s.Id).ToArray());      // used to find interviewDetailId's primary key
 
-            //var interviewRemarks = (from s in db.InterviewDetail
-            //                     where s.IntervieweeId == id & s.InterviewProgress == progress
-            //                     select s.InterviewRemarks).FirstOrDefault();
+            int sessionId = (int)Session["Id"];
 
-            //var interviewResult = (from s in db.InterviewDetail
-            //                        where s.IntervieweeId == id & s.InterviewProgress == progress
-            //                        select s.InterviewResult).FirstOrDefault();
+            if (Session["Roles"].Equals("interviewer"))
+            {
+                // check the interview details Id izit exist in database with the session id, if yes will search on the particular data
+                if (db.InterviewerComment.Where(u => u.InterviewDetailId == findInterviewDetailId && u.InterviewerId == sessionId).Any())
+                {
+                    ViewBag.CurrentInterviewCommentSame = "Yes";
+                    var currentInterviewerComment = (from s in db.InterviewerComment
+                                                     where s.InterviewDetailId == findInterviewDetailId && s.InterviewerId == sessionId
+                                                     select s.InterviewerId).First();
+                    if (sessionId.Equals(currentInterviewerComment))        // enter here when the session id login is same with the interviewer comment in database
+                    {
+                        currentInterviewerComment = (from s in db.InterviewerComment
+                                                     where s.InterviewDetailId == findInterviewDetailId && s.InterviewerId == sessionId
+                                                     select s.InterviewerId).First();
+
+                        if (sessionId.Equals(currentInterviewerComment))
+                        {
+                            ViewBag.InterviewRemarks = (from s in db.InterviewerComment
+                                                        where s.InterviewDetailId == findInterviewDetailId && s.InterviewerId == sessionId
+                                                        select s.InterviewRemarks).First();
+                            ViewBag.InterviewResult = (from s in db.InterviewerComment
+                                                       where s.InterviewDetailId == findInterviewDetailId && s.InterviewerId == sessionId
+                                                       select s.InterviewResult).First();
+                        }
+                    }
+                }
+                // enter here when the session id login is not exist in interview detail database, will proceed to show other interviewer data
+                else
+                {                                       
+                    ViewBag.CurrentInterviewCommentSame = "No";
+                    ViewBag.InterviewRemarks = (from s in db.InterviewerComment
+                                                where s.InterviewDetailId == findInterviewDetailId
+                                                select s.InterviewRemarks).ToList();
+                    ViewBag.InterviewResult = (from s in db.InterviewerComment
+                                               where s.InterviewDetailId == findInterviewDetailId
+                                               select s.InterviewResult).ToList();
+                }
+            }
+            // enter here when the session roles belong to HR 
+            else
+            {
+                ViewBag.CurrentInterviewCommentSame = "HR";
+                ViewBag.InterviewRemarks = (from s in db.InterviewerComment
+                                        where s.InterviewDetailId == findInterviewDetailId
+                                        select s.InterviewRemarks).ToList();
+
+                ViewBag.InterviewResult = (from s in db.InterviewerComment
+                                       where s.InterviewDetailId == findInterviewDetailId
+                                       select s.InterviewResult).ToList();
+            }
+
+           /* var interviewRemarks = (from s in db.InterviewerComment
+                                    where s.InterviewDetailId == findInterviewDetailId
+                                    select s.InterviewRemarks).First();
+
+            var interviewResult = (from s in db.InterviewerComment
+                                   where s.InterviewDetailId == findInterviewDetailId
+                                   select s.InterviewResult).First();*/
+
+            for (int i = 0; i<num; i++)
+            {
+                var interviewerList = (from s in db.InterviewerComment
+                           where s.InterviewDetailId == findInterviewDetailId
+                           select s.InterviewerId).ToList();
+                /*int[] array = interviewerList.ToArray();*/
+                ViewBag.InterviewerList = interviewerList;
+            }
+
+            List<string> interviewerNameList = new List<string>();
+            for (int x = 0; x<num; x++)
+            {
+                int UserId = ViewBag.InterviewerList[x];
+                interviewerNameList.Add((from s in db.User
+                                        where s.Id == UserId
+                                        select s.Username).First()) ;
+                var interviewerName = interviewerNameList.ToList();
+                ViewBag.InterviewerName = interviewerName;
+            }
 
 
             //ViewBag.InterviewDetailId = interviewDetailId;
             ViewBag.Progress = progress.ToString();
-            //ViewBag.InterviewRemarks = interviewRemarks;
-            //ViewBag.InterviewResult = interviewResult;
+            /*ViewBag.InterviewRemarks = interviewRemarks;
+            ViewBag.InterviewResult = interviewResult;*/
 
             ViewBag.InterviewDate = interviewDate;
-            //ViewBag.InterviewTime = interviewTime;
             ViewBag.InterviewTime = interviewTime;
             ViewBag.num = num;
             return View(interview);
         }
 
         [HttpPost]
-        public ActionResult UpdateInterviewDetails(FormCollection fc, string interviewTime, DateTime interviewDate, string selectInterviewer, [Bind(Include = "Id, IntervieweeId, IntervieweeUserId, InterviewTime, InterviewDate, IntervieweRemarks, InterviewResult, InterviewProgress")] InterviewDetail interview)
+        public ActionResult UpdateInterviewDetails(FormCollection fc, string interviewTime, DateTime? interviewDate, string selectInterviewer, string interviewRemarks, string interviewResult, [Bind(Include = "Id, IntervieweeId, IntervieweeUserId, InterviewTime, InterviewDate, IntervieweRemarks, InterviewResult, InterviewProgress")] InterviewDetail interview)
         {
-
+            bool existInterviewer = false;
             int progress = Int32.Parse(fc["Progress"]);
             string interviewerFromDatabase = fc["SelectedInterviewer"];
             int interviewDetailIdDb = Int32.Parse(fc["InterviewDetailId"]);
             int interviewerNum = Int32.Parse(fc["InterviewerNum"]);
+            string interviewerIdList = fc["InterviewerList"];
+            string finishInterview = fc["FinishInterview"];
+
+            List<string> interviewList = interviewerIdList.Split(',').ToList();
+            Interview temp = db.Interviewer.Find(interview.Id);
 
             /* if (Request.Form["submit"] != null)
              {
@@ -403,89 +490,107 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                  checkSubmit = false;
              }*/
 
+
             if (ModelState.IsValid)
             {
-                InterviewDetail InterviewDetail = db.InterviewDetail.Find(interviewDetailIdDb);
-                InterviewDetail.InterviewDate = interviewDate;
-                InterviewDetail.InterviewTime = interviewTime;
-                db.Entry(InterviewDetail).State = EntityState.Modified;
-                db.SaveChanges();
-                if(!interviewerFromDatabase.Equals(selectInterviewer))
+                if (finishInterview.Equals("No"))
                 {
-                    for (int i = 0; i < interviewerNum; i++)    // find interviewComment id and delete related data
+                    InterviewDetail InterviewDetail = db.InterviewDetail.Find(interviewDetailIdDb);
+                    InterviewDetail.InterviewDate = (DateTime)interviewDate;
+                    InterviewDetail.InterviewTime = interviewTime;
+                    db.Entry(InterviewDetail).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    if (!interviewerFromDatabase.Equals(selectInterviewer))
                     {
-                        int findId = (from s in db.InterviewerComment 
-                                      where s.InterviewDetailId == interviewDetailIdDb
-                                      select s.Id).First();
-                        InterviewerComment interviewComment = db.InterviewerComment.Find(findId);
-                        db.InterviewerComment.Remove(interviewComment);
-                    }
-                    switch (selectInterviewer)
-                    {
-                        case "Sky":
-                            {
-                                db.InterviewerComment.Add(new InterviewerComment
+                        for (int i = 0; i < interviewerNum; i++)    // find interviewComment id and delete related data
+                        {
+                            int findId = (from s in db.InterviewerComment
+                                          where s.InterviewDetailId == interviewDetailIdDb
+                                          select s.Id).First();
+                            InterviewerComment interviewComment = db.InterviewerComment.Find(findId);
+                            db.InterviewerComment.Remove(interviewComment);
+                            db.SaveChanges();
+                        }
+                        switch (selectInterviewer)
+                        {
+                            case "Sky":
                                 {
-                                    InterviewerId = 1,
-                                    InterviewDetailId = interviewDetailIdDb,
-                                    InterviewRemarks = "None",
-                                    InterviewResult = "None"
-                                });
-                                break;
-                            }
-                        case "Danny":
-                            {
-                                db.InterviewerComment.Add(new InterviewerComment
+                                    db.InterviewerComment.Add(new InterviewerComment
+                                    {
+                                        InterviewerId = 1,
+                                        InterviewDetailId = interviewDetailIdDb,
+                                        InterviewRemarks = "None",
+                                        InterviewResult = "None"
+                                    });
+                                    break;
+                                }
+                            case "Danny":
                                 {
-                                    InterviewerId = 2,
-                                    InterviewDetailId = interviewDetailIdDb,
-                                    InterviewRemarks = "None",
-                                    InterviewResult = "None"
-                                });
-                                break;
-                            }
-                        case "Both":
-                            {
-                                db.InterviewerComment.Add(new InterviewerComment
+                                    db.InterviewerComment.Add(new InterviewerComment
+                                    {
+                                        InterviewerId = 2,
+                                        InterviewDetailId = interviewDetailIdDb,
+                                        InterviewRemarks = "None",
+                                        InterviewResult = "None"
+                                    });
+                                    break;
+                                }
+                            case "Both":
                                 {
-                                    InterviewerId = 1,
-                                    InterviewDetailId = interviewDetailIdDb,
-                                    InterviewRemarks = "None",
-                                    InterviewResult = "None"
-                                });
-                                db.InterviewerComment.Add(new InterviewerComment
-                                {
-                                    InterviewerId = 2,
-                                    InterviewDetailId = interviewDetailIdDb,
-                                    InterviewRemarks = "None",
-                                    InterviewResult = "None"
-                                });
-                                break;
-                            }
+                                    db.InterviewerComment.Add(new InterviewerComment
+                                    {
+                                        InterviewerId = 1,
+                                        InterviewDetailId = interviewDetailIdDb,
+                                        InterviewRemarks = "None",
+                                        InterviewResult = "None"
+                                    });
+                                    db.InterviewerComment.Add(new InterviewerComment
+                                    {
+                                        InterviewerId = 2,
+                                        InterviewDetailId = interviewDetailIdDb,
+                                        InterviewRemarks = "None",
+                                        InterviewResult = "None"
+                                    });
+                                    break;
+                                }
+                        }
                     }
                 }
-                /*Interview temp = db.Interviewer.Find(interview.Id);
-                interview = temp;*/
 
-                //InterviewDetail interviewDetail = db.InterviewDetail.Find(interviewDetailId);
+                for (int i = 0; i <interviewList.Count(); i++)
+                {
+                    if ((int)Session["Id"] == Int32.Parse(interviewList[i]))
+                    {
+                        System.Diagnostics.Debug.WriteLine("Interview Exist");
+                        existInterviewer = true;
+                    }
+                }
+
+
+                if (Session["Roles"].Equals("interviewer") && existInterviewer)
+                {
+                    int sessionId = (int)Session["Id"];
+                    int interviewCommentId = (from s in db.InterviewerComment
+                                         where s.InterviewDetailId == interviewDetailIdDb && s.InterviewerId == sessionId
+                                         select s.Id).First();
+                    InterviewerComment interviewComment = db.InterviewerComment.Find(interviewCommentId);
+
+                    if (progress == 1)
+                    {
+                        temp.FirstInterviewerStatus = "Yes";
+                    }else if (progress == 2)
+                    {
+                        temp.SecondInterviewerStatus = "Yes";
+                    }
+                    interviewComment.InterviewRemarks = interviewRemarks;
+                    interviewComment.InterviewResult = interviewResult;
+                    db.Entry(interviewComment).State = EntityState.Modified;
+                    db.Entry(temp).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                }
                 
-
-                //interviewDetail.InterviewDate = interviewDate;
-                //interviewDetail.InterviewTime = interviewTime;
-
-
-                // checkSubmit = true when either one of the interviewStatus is TBA
-                // checkSubmit = false when either one of the interviewStatus is No
-                /* if ((interview.FirstInterviewerStatus.Equals("No") && checkSubmit && btnClicked.Equals("FirstInterview"))
-                     || interview.SecondInterviewerStatus.Equals("No") && checkSubmit && btnClicked.Equals("SecondInterview"))
-                 { 
-
-                 }
-                 else if (interview.SecondInterviewerStatus.Equals("No") && checkSubmit && btnClicked.Equals("FirstInterview"))
-                 {
-                 }*/
-
-                //db.Entry(interviewDetail).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

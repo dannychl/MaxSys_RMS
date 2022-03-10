@@ -11,7 +11,7 @@
 <body>
         @if (Session["Username"] != null)
         {
-            ViewBag.username = "Welcome " + Session["Username"];
+            ViewBag.username = "Welcome " + Session["Username"] +" (" + Session["Roles"]+")";
         }
         else
         {
