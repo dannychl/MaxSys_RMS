@@ -16,7 +16,7 @@ namespace RecruitmentManagementSystem__Danny_.DAL
         {
         }
 
-        public DbSet<Home> Candidate { get; set; }
+        public DbSet<Candidate> Candidate { get; set; }
 
         public DbSet<Interview> Interviewer { get; set; }
 

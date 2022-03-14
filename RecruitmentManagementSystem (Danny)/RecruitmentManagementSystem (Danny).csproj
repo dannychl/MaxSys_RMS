@@ -129,7 +129,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CandidatesController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\InterviewController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ShowAllCandidatesController.cs" />
@@ -139,7 +139,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Home.cs" />
+    <Compile Include="Models\Candidate.cs" />
     <Compile Include="Models\Interview.cs" />
     <Compile Include="Models\InterviewerComment.cs" />
     <Compile Include="Models\InterviewDetail.cs" />
@@ -226,12 +226,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\UserLogin.cshtml" />
     <Content Include="Views\Login\LayoutPage.cshtml" />
-    <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Candidates\Create.cshtml" />
     <Content Include="Views\Candidates\Delete.cshtml" />
     <Content Include="Views\Candidates\Details.cshtml" />
@@ -253,6 +249,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\ShowAllCandidates\SearchAllCandidate_View.cshtml" />
     <Content Include="Views\Interview\DisplayInterviewer_View.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
