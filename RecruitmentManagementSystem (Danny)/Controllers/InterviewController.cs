@@ -92,31 +92,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         [HttpPost]
         public ActionResult Index(string ddlStatus, [Bind(Include = "Id, IntervieweeId, IntervieweeUserId, InterviewTime, InterviewDate, IntervieweRemarks, InterviewResult, InterviewProgress")] InterviewDetail interview)
         {
-
-            /*List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "Hired", Value = "Hired" });
-            items.Add(new SelectListItem { Text = "Reject", Value = "Reject" });
-            items.Add(new SelectListItem { Text = "KIV", Value = "KIV" });
-            ViewBag.InterviewStatus = items;*/
-            //InterviewStatus model = InterviewStatusModel(status);
-            //return RedirectToAction("Index", new { id = status });
             return RedirectToAction("Index", new { searchStatus = ddlStatus });
         }
-
-        //private static InterviewStatus InterviewStatusModel(string status)
-        //{
-        //    using (DatabaseContext db = new DatabaseContext())
-        //    {
-        //        InterviewStatus model = new InterviewStatus()
-        //        {
-        //            Status = (DbSet<Interview>)(from s in db.Interviewer
-        //                      where s.IntervieweeStatus == status
-        //                      select s)
-        //    };
-
-        //        return model;
-        //    }
-        //}
 
         // GET: Interview/Details/5
         public ActionResult Details(int? id)
@@ -125,7 +102,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Home home = db.Candidate.Find(id);
+            Candidate home = db.Candidate.Find(id);
             if (home == null)
             {
                 return HttpNotFound();
@@ -230,8 +207,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 checkSubmit = false;
             }
 
-
-
             if (ModelState.IsValid)
             {
                 int progress = 0;
@@ -248,7 +223,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                         progress = 1;
                         interview.FirstInterviewerStatus = "No";
                     }
-                    else if (interview.FirstInterviewerStatus.Equals("No") && interview.SecondInterviewerStatus.Equals("TBA"))
+                    else if ((interview.FirstInterviewerStatus.Equals("No") || interview.FirstInterviewerStatus.Equals("Yes")) && interview.SecondInterviewerStatus.Equals("TBA"))
                     {
                         progress = 2;
                         interview.SecondInterviewerStatus = "No";
@@ -262,8 +237,8 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                     });
                     db.SaveChanges();
                     int findInterviewDetailId = (from s in db.InterviewDetail
-                                                 where s.IntervieweeId == interview.Id & s.InterviewProgress == progress
-                                                 select s.Id).First();
+                                                    where s.IntervieweeId == interview.Id & s.InterviewProgress == progress
+                                                    select s.Id).First();
 
                     switch (selectInterviewer)
                     {
@@ -308,10 +283,11 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                 break;
                             }
                     }
-                }
-                db.Entry(interview).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    }
+                    db.Entry(interview).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                
             }
             return View(interview);
         }
@@ -493,8 +469,12 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
 
             if (ModelState.IsValid)
             {
-                if (finishInterview.Equals("No"))
-                {
+                    if (interviewResult == null)
+                    {
+                        interviewResult = "None";
+                    }
+                     if (finishInterview.Equals("No"))
+                    {
                     InterviewDetail InterviewDetail = db.InterviewDetail.Find(interviewDetailIdDb);
                     InterviewDetail.InterviewDate = (DateTime)interviewDate;
                     InterviewDetail.InterviewTime = interviewTime;
@@ -576,10 +556,10 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                          select s.Id).First();
                     InterviewerComment interviewComment = db.InterviewerComment.Find(interviewCommentId);
 
-                    if (progress == 1)
+                    if (progress == 1 && interviewRemarks!="None" && interviewResult!= "None")
                     {
                         temp.FirstInterviewerStatus = "Yes";
-                    }else if (progress == 2)
+                    }else if (progress == 2 && interviewRemarks != "None" && interviewResult != "None")
                     {
                         temp.SecondInterviewerStatus = "Yes";
                     }

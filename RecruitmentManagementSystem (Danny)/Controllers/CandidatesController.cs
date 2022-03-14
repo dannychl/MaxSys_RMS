@@ -14,7 +14,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
     public class CandidatesController : Controller
     {
         private DatabaseContext db = new DatabaseContext();
-        Home Candidate = new Home();
+        Candidate Candidate = new Candidate();
         Interview Interview = new Interview();
 
         public PartialViewResult SearchUsers(string searchText)
@@ -50,14 +50,17 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Home home = db.Candidate.Find(id);
+            Candidate home = db.Candidate.Find(id);
             if (home == null)
             {
                 return HttpNotFound();
             }
-            if (home.ResumeLink != null && home.TestAnsLink != null)
+            if (home.ResumeLink != null && home.ResumeLink != "None")
             {
                 ViewBag.ResumeLink = home.ResumeLink;
+            }
+            if (home.TestAnsLink != null && home.TestAnsLink != "None")
+            {
                 ViewBag.TestAnsLink = home.TestAnsLink;
             }
             return View(home);
@@ -79,7 +82,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Home home)
+        public ActionResult Create([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Candidate home)
         {
             if (ModelState.IsValid)
             {
@@ -97,11 +100,11 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                     home.WorkingExperienceRemarks = "None";
                 }
 
-                else if (home.ResumeLink == null)
+                if (home.ResumeLink == null || home.ResumeLink == String.Empty)
                 {
                     home.ResumeLink = "None";
                 }
-                else if(home.TestAnsLink == null)
+                if(home.TestAnsLink == null || home.TestAnsLink == String.Empty)
                 {
                     home.TestAnsLink = "None";
                 }
@@ -121,7 +124,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Home home = db.Candidate.Find(id);
+            Candidate home = db.Candidate.Find(id);
             if (home == null)
             {
                 return HttpNotFound();
@@ -134,7 +137,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Home home)
+        public ActionResult Edit([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Candidate home)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +147,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 int exactAge = curAge - currentAge;
 
                 home.Age = exactAge;
-                db.Entry(home).State = EntityState.Modified;
                 if(home.Status == "Accept" && home.ProgrammingTest!=0 && home.SQLTest!=0)
                 {
                     if (!db.Interviewer.Where(u => u.CandidatesId == home.Id).Any())
@@ -160,6 +162,15 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                         });
                     }
                 }
+                if (home.ResumeLink == null || home.ResumeLink == String.Empty)
+                {
+                    home.ResumeLink = "None";
+                }
+                if (home.TestAnsLink == null || home.TestAnsLink == String.Empty)
+                {
+                    home.TestAnsLink = "None";
+                }
+                db.Entry(home).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -169,7 +180,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // GET: Candidates/Delete/5
         public ActionResult Delete(int? id)
         {
-            Home home = db.Candidate.Find(id);
+            Candidate home = db.Candidate.Find(id);
             db.Candidate.Remove(home);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -190,7 +201,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Home home = db.Candidate.Find(id);
+            Candidate home = db.Candidate.Find(id);
             db.Candidate.Remove(home);
             db.SaveChanges();
             return RedirectToAction("Index");

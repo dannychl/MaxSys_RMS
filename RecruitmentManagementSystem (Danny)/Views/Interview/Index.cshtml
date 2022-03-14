@@ -15,7 +15,7 @@
 </head>
 <table style="border:hidden; width:100%"> 
     <td style="border:hidden">
-        <h2>Interview Management</h2>
+        <h2 style="font-family:'Bookman Old Style'; font-size:22px;">Interview Management</h2>
     </td>
     <td>
         <div class="col-sm-12">
@@ -28,7 +28,7 @@
     <td style="border:hidden">
         @*@using (Html.BeginForm())
         {*@
-            @Html.DropDownList("ddlStatus", ViewBag.InterviewStatus as List<SelectListItem>, "Select Status", new { @id = "ddlStatus", @style = "color: black; padding: 8px 10px;" })
+            @Html.DropDownList("ddlStatus", ViewBag.InterviewStatus as List<SelectListItem>, "Select Status", new { @id = "ddlStatus", @style = "color: black; padding: 8px 10px; float:right; margin-right:30px" })
             @*<button type="submit" id="search" value="Search" style="padding:5px;"><i class="fa fa-search"></i></button>*@
     </td>
 </table>

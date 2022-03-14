@@ -106,26 +106,10 @@
                     <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',24)" style="width:35px; height:35px; float:left;" /><i class="fa fa-clock-o"></i>
                     @* @Html.Editor("timepkr", new { htmlAttributes = new { @class = "form-control" } })*@
                 </div>
-                <div class="timepicker"></div>
+                <div class="timepicker"></div> 
+                <span id="error" style="margin-left:215px;"></span>
             </div>
             <br /><br />
-
-            @*<h4 style="font-family:'Clarendon BT'; font-size:16px; font-weight:bold; color:darkslateblue; margin-left:10px";>Candidate's Result (Optional)</h4><hr />
-        <div class="form-group">
-            @Html.Label("Interview Remarks", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                 @Html.TextArea("interviewRemarks", new { @style = "resize: none; height:100px; width: 500px", htmlAttributes = new { @class = "form-control" }, @row = 8 })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Interview Result", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input id="interviewResult" name="interviewResult" value="SuggestHire" type="radio"> Suggest Hire<br>
-                <input id="interviewResult" name="interviewResult" value="NotSuggestToHire" type="radio"> Not Suggest To Hire<br>
-                <input id="interviewResult" name="interviewResult" value="KIV" type="radio"> KIV<br>
-            </div>
-        </div>*@
 
 
             <div class="form-group" style="float:right; margin-right:300px">
@@ -135,19 +119,19 @@
                     }
                     @if (data == "FirstInterview" && Model.FirstInterviewerStatus == "TBA")
                     {
-                        <input name="submit" type="submit" id="submit" value="Save" class="btn btn-default" />
+                        <input name="submit" type="submit" id="submit" value="Save" onclick="errorMessage()" class="btn btn-default" />
                     }
                     else if (data == "FirstInterview" && Model.FirstInterviewerStatus == "No")
                     {
-                        <input name="process" type="submit" id="process" value="Update" class="btn btn-default" />
+                        <input name="process" type="submit" id="process" value="Update"  onclick="errorMessage()" class="btn btn-default" />
                     }
                     else if (data == "SecondInterview" && Model.SecondInterviewerStatus == "TBA")
                     {
-                        <input name="submit" type="submit" id="submit" value="Save" class="btn btn-default" />
+                        <input name="submit" type="submit" id="submit" value="Save"  onclick="errorMessage()"class="btn btn-default" />
                     }
                     else if (data == "SecondInterview" && Model.SecondInterviewerStatus == "No")
                     {
-                        <input name="process" type="submit" id="process" value="Update" class="btn btn-default" />
+                        <input name="process" type="submit" id="process" value="Update" onclick="errorMessage()" class="btn btn-default" />
                     }
                 </div>
             </div>
@@ -158,3 +142,20 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    function errorMessage() {
+        var error = document.getElementById("error")
+        if (document.getElementById("timepkr").value === "") {
+
+            // Changing content and color of content
+            error.textContent = "Error: Please select interview time"
+            error.style.color = "red"
+            event.preventDefault()
+            return false;
+        } else {
+            error.textContent = ""
+            return true;
+        }
+    }
+</script>

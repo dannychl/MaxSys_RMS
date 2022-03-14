@@ -9,7 +9,7 @@ using System.Web;
 namespace RecruitmentManagementSystem__Danny_.Models
 {
     [Table("dbo.Homes")]
-    public class Home //: global::System.Web.HttpApplication
+    public class Candidate //: global::System.Web.HttpApplication
     {
         [Key]
         public int Id { get; set; }

@@ -1,67 +1,80 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .loginLogo {
+            float: left;
+            width: 55px;
+        }
+
+        .navbar-nav,
+        .navbar-fixed-top,
+        .navbar-right {
+            font-family: Verdana;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: white;
+        }
+
+            .navbar-nav li {
+                color: black;
+            }
+    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <br />
     <title>@ViewBag.Title - Recruitment Management System</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
-        @if (Session["Username"] != null)
-        {
-            ViewBag.username = "Welcome " + Session["Username"] +" (" + Session["Roles"]+")";
-        }
-        else
-        {
-            ViewBag.username = null;
-        }
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
+    @if (Session["Username"] != null)
+    {
+        ViewBag.username = "Welcome " + Session["Username"] + " (" + Session["Roles"] + ")";
+    }
+    else
+    {
+        ViewBag.username = null;
+    }
+
+    <div class="container">
+        <nav class="navbar-fixed-top table-bordered">
+            <div class="container-fluid">
                 @if (ViewBag.username != null)
                 {
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Recruitment", "Index", "Candidates", new { area = "" }, new { @class = "navbar-brand" })
-                }
-            </div>
-            <div class="navbar-collapse collapse">
-                @if (ViewBag.username != null)
-                {
+                    <a href="@Url.Action("Index", "Dashboard")">
+                    <img class="loginLogo" src="https://siva.jsstatic.com/my/98806/images/logo/98806_logo_0_39251.jpg" alt=""> </a>
                     <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Recruitment", "Index", "Candidates")</li>
                         <li>@Html.ActionLink("All candidates", "Index", "ShowAllCandidates")</li>
                         <li>@Html.ActionLink("Interview Management", "Index", "Interview")</li>
                     </ul>
                 }
-                <ul class="nav navbar-nav navbar-right">
-                    <li style="color:darkgrey; padding-top:14px; font-size:15px">@ViewBag.username</li>
-                    @if (ViewBag.username != null)
-                    {
-                        <li>@Html.ActionLink("Logout", "Index", "Login")</li>
-                    }
+            <ul class="nav navbar-nav navbar-right">
+                <li style="color:black; padding-top:14px; font-size:14px; font-family:'Leelawadee UI'">@ViewBag.username</li>
+                @if (ViewBag.username != null)
+                {
+                    <li>@Html.ActionLink("Logout", "Index", "Login", null, new { @class = "fa fa-sign-out" })</li>
+
+
+                }
                     else
                     {
-                        <li>@Html.ActionLink("Login", "Index", "Login")</li>
-                    }
+                    <li>@Html.ActionLink("Login", "Index", "Login")</li>
+                }
 
-                </ul>
+            </ul>
             </div>
+        </nav>
+    </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - MaxSys - RMS Demo </p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
 </body>
 </html>
