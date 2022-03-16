@@ -11,31 +11,34 @@
     {
         @Html.AntiForgeryToken();
         <table class="table">
-            <tr>
+            <tr bgcolor="midnightblue">
                 @*<th>
                         @Html.DisplayNameFor(model => model.Id)
                     </th>*@
                 <th>
-                    <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                    <div style="text-align: center; color: white; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
                         @Html.DisplayNameFor(model => model.IntervieweeName)
                     </div>
                 </th>
                 <th>
-                    <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                    <div style="text-align: center; color: white; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
                         @Html.DisplayNameFor(model => model.FirstInterviewerStatus)
                     </div>
                 </th>
                 <th>
-                    <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                    <div style="text-align: center; color: white; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
                         @Html.DisplayNameFor(model => model.SecondInterviewerStatus)
                     </div>
                 </th>
                 <th>
-                    <div style="padding: inherit; text-align: center; color: white; background-color: black; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                    <div style="text-align: center; color: white; resize: both; background-size: 5px; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
                         @Html.DisplayNameFor(model => model.IntervieweeStatus)
                     </div>
                 </th>
                 <th style="width:190px">
+                    <div class="fontView">
+                        @Html.DisplayName("Action")
+                    </div>
                 </th>
             </tr>
 
@@ -52,34 +55,55 @@
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>*@
                     <td>
-                        <div style="padding:inherit; font-size:15px; resize: both; font-weight:bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                        <div style="font-size: 15px; resize: both; font-weight: bold; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; padding-top: 8px;">
                             @Html.DisplayFor(modelItem => item.IntervieweeName)
                         </div>
                     </td>
                     @*<td>
                             @Html.DisplayFor(modelItem => item.Age)
                         </td>*@
-                    <td>
-                        <div id="PlaceHolderHere"></div>
-                        <div id="FirstBtn" style="padding: inherit; background-color: darkgreen; color: white; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                    <td >
+                        <div id="FirstBtn" style="font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; border-radius: 15px; width: fit-content; padding: 7px; background-color: darkblue; ">
                             @*<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#edit" data-url="@Url.Action("Edit")">Testing</button>*@
-                            @Html.ActionLink(item.FirstInterviewerStatus, "Edit", new { id = item.Id, title = "FirstInterview" }, new { @style = "color: white; text-decoration-line:none; font-family:Arial" })
+                            @Html.ActionLink(item.FirstInterviewerStatus, "Edit", new { id = item.Id, title = "FirstInterview" }, new { @style = " font-size: 15px; color: white; text-decoration-line:none; font-family:Arial" })
 
                             @*@Html.DisplayFor(modelItem => item.FirstInterviewerStatus, new { @style = "font-family:Arial" })*@
                         </div>
                     </td>
                     <td>
-                        <div id="SecondBtn" style="padding: inherit; background-color: darkgreen; color: white; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
-                            @Html.ActionLink(item.SecondInterviewerStatus, "Edit", new { id = item.Id, title = "SecondInterview" }, new { @style = "color: white; text-decoration-line:none; font-family:Arial" })
+                        <div id="SecondBtn" style="font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; border-radius: 15px; width: fit-content; padding: 7px; background-color: darkblue; ">
+                            @Html.ActionLink(item.SecondInterviewerStatus , "Edit", new { id = item.Id, title = "SecondInterview" }, new { @style = " font-size: 15px; color: white; text-decoration-line:none; font-family:Arial" }) 
                         </div>
                     </td>
                     <td>
-                        <div style="padding: inherit; background-color: darkgreen; color: white; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
-                            @Html.DisplayFor(modelItem => item.IntervieweeStatus, new { @style = "font-family:Arial" })
-                        </div>
+                        @if (item.IntervieweeStatus == "Hired")
+                        {
+                            <div style=" font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; border-radius: 15px; width: fit-content; padding: 7px; background-color: forestgreen; color: white; ">
+                                @Html.DisplayFor(modelItem => item.IntervieweeStatus)
+                            </div>
+                        }
+                        else if (item.IntervieweeStatus == "Pending")
+                        {
+                            <div style=" font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; border-radius: 15px; width: fit-content; padding: 7px; background-color: orangered; color: white; ">
+                                @Html.DisplayFor(modelItem => item.IntervieweeStatus)
+                            </div>
+                        }
+                        else if (item.IntervieweeStatus == "Reject")
+                        {
+                            <div style=" font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; border-radius: 15px; width: fit-content; padding: 7px; background-color: red; color: white; ">
+                                @Html.DisplayFor(modelItem => item.IntervieweeStatus)
+                            </div>
+                        }
+                        else if (item.IntervieweeStatus == "KIV")
+                        {
+                            <div style=" font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; border-radius: 15px; width: fit-content; padding: 7px; background-color:blueviolet; color: white; ">
+                                @Html.DisplayFor(modelItem => item.IntervieweeStatus)
+                            </div>
+                        }
+
                     </td>
                     <td>
-                        <div style="padding: inherit; width:170px; padding: 10px; resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ">
+                        <div style="resize: both; font-weight: bold; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; padding-top:8px; ">
 
                             @if (ViewBag.searchStatus != "Hired" && ViewBag.searchStatus != "Reject" && ViewBag.searchStatus != "KIV")
                             {

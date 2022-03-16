@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using RecruitmentManagementSystem__Danny_.DAL;
 using RecruitmentManagementSystem__Danny_.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace RecruitmentManagementSystem__Danny_.Controllers
 {
@@ -17,20 +19,20 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         Candidate Candidate = new Candidate();
         Interview Interview = new Interview();
 
-        public PartialViewResult SearchUsers(string searchText)
+        public PartialViewResult SearchUsers(string searchText, int? page)
         {
           
             var model = from s in db.Candidate
                         where s.Status == "None" | s.ProgrammingTest == 0 | s.SQLTest == 0
                         select s;
 
-            var result = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList();
+            var result = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList().ToPagedList(page ?? 1, 6);
 
             return PartialView("SearchCandidate_View", result);
         }
 
         // GET: Candidates
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             if(Session["Username"] == null)
             {
@@ -40,8 +42,9 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                         where s.Status == "None"
                         select s;
 
-            return View(model);
-        }
+            return View(model.ToList().ToPagedList(page ?? 1, 6));
+            /*return View(this.GetCustomers(1));*/
+        } 
 
         // GET: Candidates/Details/5
         public ActionResult Details(int? id)

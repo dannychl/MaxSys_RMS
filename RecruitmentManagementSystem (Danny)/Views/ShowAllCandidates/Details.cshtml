@@ -3,176 +3,306 @@
 @{
     ViewBag.Title = "Candidate Details";
 }
-
-<h2>Details</h2>
-<div style='float: right;'>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</div>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MethodUsed):
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MethodUsed)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNum):
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNum)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Gender):
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Age):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Age)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DateOfBirth):
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Position):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ExpectedSalary):
-        </dt>
-
-        <dd>
-            RM @Html.DisplayFor(model => model.ExpectedSalary)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentSalary):
-        </dt>
-
-        <dd>
-            RM @Html.DisplayFor(model => model.CurrentSalary)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.WorkingExperience):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.WorkingExperience) years
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.WorkingExperienceRemarks):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.WorkingExperienceRemarks)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ResignPeriod):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ResignPeriod) years
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProgrammingTest):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProgrammingTest) marks
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SQLTest):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SQLTest) marks
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TestRemarks):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TestRemarks)
-        </dd>
-    </dl>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Status):
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
-
-    @{
-        var resumeLink = ViewBag.ResumeLink;
-        var testAnsLink = ViewBag.TestAnsLink;
+<style>
+    .fontView {
+        padding: inherit;
+        text-align: center;
+        color: white;
+        background-color: black;
+        font-weight: bold;
+        font-family: Verdana;
     }
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ResumeLink):
-        </dt>
+    table, th, td {
+        border: hidden;
+    }
 
-        <dd>
-            <a href="@resumeLink">@resumeLink</a>
-        </dd>
-    </dl>
+    .button {
+        display: inline-block;
+        padding: 5px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: darkgreen;
+        width: 250px;
+        background-color: white;
+        border: 2.5px solid darkgreen;
+        border-radius: 15px;
+    }
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TestAnsLink):
-        </dt>
-        <dd>
-            <a href="@testAnsLink">@testAnsLink</a>
-        </dd>
-    </dl>
+        .button:hover {
+            background-color: darkgreen;
+            color: white;
+        }
+
+        .button:active {
+            background-color: green;
+        }
+
+    .dl-horizontal {
+        font-size: 14px;
+    }
+
+    .form-control {
+        border: 2px solid black;
+    }
+</style>
+<h2 style="font-family:Verdana; font-weight:bold">Details</h2>
+<div style='float: right; font-size:20px; font-weight:bold;'>
+    @Html.ActionLink("← Back", "Index", null, new { style = "text-decoration:none; color:darkgreen" }) |
+    @Html.ActionLink("✎ Edit", "Edit", new { id = Model.Id }, new { style = "text-decoration:none; color:darkgreen" })
+</div>
+
+<div class="form-horizontal">
+    <h4>Candidates's Details</h4>
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+
+    <table class="table">
+        <tr>
+            <th colspan="2">
+                <div class="fontView">
+                    @Html.DisplayName("Personal Information")
+                </div>
+            </th>
+        </tr>
+
+        <tr>
+            <td width="50%">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MethodUsed):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.MethodUsed)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PhoneNum):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.PhoneNum)
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Gender):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Gender)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Age):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Age)
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DateOfBirth):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.DateOfBirth)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+
+        <tr width="100%">
+            <th colspan="2">
+                <div class="fontView">
+                    @Html.DisplayName("Company Information")
+                </div>
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Position):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Position)
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ExpectedSalary):
+                    </dt>
+
+                    <dd>
+                        RM @Html.DisplayFor(model => model.ExpectedSalary)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CurrentSalary):
+                    </dt>
+
+                    <dd>
+                        RM @Html.DisplayFor(model => model.CurrentSalary)
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.WorkingExperience):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.WorkingExperience) years
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.WorkingExperienceRemarks):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.WorkingExperienceRemarks)
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ResignPeriod):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ResignPeriod) years
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ProgrammingTest):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ProgrammingTest) marks
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SQLTest):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SQLTest) marks
+                    </dd>
+                </dl>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TestRemarks):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.TestRemarks)
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Status):
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Status)
+                    </dd>
+                </dl>
+            </td>
+
+        </tr>
+        <tr>
+            @{
+                var resumeLink = ViewBag.ResumeLink;
+                var testAnsLink = ViewBag.TestAnsLink;
+            }
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TestAnsLink):
+                    </dt>
+                    <dd>
+                        <a href="@testAnsLink">@testAnsLink</a>
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ResumeLink):
+                    </dt>
+
+                    <dd>
+                        <a href="@resumeLink">@resumeLink</a>
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
 </div>
