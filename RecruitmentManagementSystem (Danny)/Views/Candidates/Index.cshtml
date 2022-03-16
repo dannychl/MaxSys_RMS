@@ -1,4 +1,7 @@
-﻿@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Candidate>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@*@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Candidate>*@
+@model IPagedList<RecruitmentManagementSystem__Danny_.Models.Candidate>
 
 @{
     ViewBag.Title = "RMS";
@@ -12,22 +15,42 @@
 
 <table style="width:100%">
     <td style="border:hidden">
-        <h2 style="font-family:'Bookman Old Style'; font-size:22px;">Recruitment Management System</h2>
+        <h2 style="font-family:Verdana; font-weight:bold">Recruitment Management System</h2>
+        <hr />
     </td>
     <td style="border:hidden">
         <div class="col-sm-12">
-            <div class="form-inline pull-right">
-                <label>Search</label>
+            <div class="form-inline pull-right" style="font-size:20px">
+                <label>🔍</label>
                 <input type="text" class="form-control" id="txtSearch" />
             </div>
         </div>
     </td>
     <td style="border:hidden">
-        <h4 style="font-family:'VAGRounded BT'; font-size:40px">@Html.ActionLink("+", "Create", null, new { style = "text-decoration:none;" })</h4>
+        <h4 style="font-family:'VAGRounded BT'; font-size:20px">@Html.ActionLink("➕", "Create", null, new { style = "text-decoration:none" })</h4>
     </td>
 </table>
 
 <div id="gridSearch"></div>
+
+@*<table cellpadding="0" cellspacing="0">
+        <tr>
+            @for (int i = 1; i <= ViewBag.PageCount; i++)
+            {
+                <td>
+                    @if (i != ViewBag.CurrentPageIndex)
+                    {
+                        <a href="javascript:PagerClick(@i);">@i</a>
+                    }
+                    else
+                    {
+                        <span>@i</span>
+                    }
+                </td>
+            }
+        </tr>
+    </table>
+    <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />*@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
@@ -45,6 +68,11 @@
             getUsers();
         });
     });
+
+    function PagerClick(index) {
+        document.getElementById("hfCurrentPageIndex").value = index;
+        document.forms[0].submit();
+    }
 
     function getUsers() {
         $.ajax({

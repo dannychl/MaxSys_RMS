@@ -330,3 +330,7 @@ C:\Users\skyfo\OneDrive\Desktop\RMS\RecruitmentManagementSystem (Danny)\obj\Debu
 C:\Users\skyfo\OneDrive\Desktop\RMS\RecruitmentManagementSystem (Danny)\obj\Debug\RecruitmentManagementSystem (Danny).csproj.CopyComplete
 C:\Users\skyfo\OneDrive\Desktop\RMS\RecruitmentManagementSystem (Danny)\obj\Debug\RecruitmentManagementSystem (Danny).dll
 C:\Users\skyfo\OneDrive\Desktop\RMS\RecruitmentManagementSystem (Danny)\obj\Debug\RecruitmentManagementSystem (Danny).pdb
+F:\xampp\htdocs\MaxSys_RMS\RecruitmentManagementSystem (Danny)\bin\PagedList.dll
+F:\xampp\htdocs\MaxSys_RMS\RecruitmentManagementSystem (Danny)\bin\PagedList.Mvc.dll
+F:\xampp\htdocs\MaxSys_RMS\RecruitmentManagementSystem (Danny)\bin\PagedList.xml
+F:\xampp\htdocs\MaxSys_RMS\RecruitmentManagementSystem (Danny)\bin\PagedList.Mvc.xml

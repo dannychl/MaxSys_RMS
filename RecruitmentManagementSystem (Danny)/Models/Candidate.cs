@@ -18,6 +18,7 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public string Name { get; set; }
 
         [Required]
+        [DisplayName("Method Used")]
         public string MethodUsed { get; set; }
 
         [Required]
@@ -39,10 +40,12 @@ namespace RecruitmentManagementSystem__Danny_.Models
         [Required]
         public string Position { get; set; }
 
+        [DisplayName("Expected Salary")]
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid number")]
         public decimal ExpectedSalary { get; set; }
 
+        [DisplayName("Current Salary")]
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid number")]
         public decimal CurrentSalary { get; set; }
@@ -59,9 +62,11 @@ namespace RecruitmentManagementSystem__Danny_.Models
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid number")]
         public int ResignPeriod { get; set; }
 
+        [DisplayName("Programming Test")]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid number")]
         public int ProgrammingTest { get; set; }
 
+        [DisplayName("SQL Test")]
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid number")]
         public int SQLTest { get; set; }
         
@@ -70,8 +75,10 @@ namespace RecruitmentManagementSystem__Danny_.Models
         
         public string Status { get; set; }
 
+        [DisplayName("Resume Link")]
         public string ResumeLink { get; set; }
 
+        [DisplayName("Test Answer Link")]
         public string TestAnsLink { get; set; }
     }
 }

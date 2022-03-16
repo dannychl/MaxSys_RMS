@@ -1,8 +1,11 @@
-﻿@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Candidate>
-
+﻿@*@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Candidate>*@
+@model IPagedList<RecruitmentManagementSystem__Danny_.Models.Candidate>
+@using PagedList;
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "RMS";
 }
+
 
 <style>
     table, th, td {
@@ -10,24 +13,21 @@
     }
 
     .fontView {
-        padding: inherit;
         text-align: center;
         color: white;
-        background-color: black;
-        resize: both;
+        font-size: 14px;
         background-size: 5px;
         font-weight: bold;
         font-family: Verdana;
     }
+
     .fontViewWhite {
-        padding: inherit;
         resize: both;
         color: black;
-        font-weight: bold;
         font-family: Verdana;
     }
+
     .fontViewAction {
-        padding: inherit;
         font-size: 14px;
         font-weight: bold;
         font-family: Verdana;
@@ -35,21 +35,24 @@
 </style>
 
 <table class="table">
-    <tr>
+    <tr bgcolor="midnightblue">
         @*<th>
                 @Html.DisplayNameFor(model => model.Id)
             </th>*@
         <th>
             <div class="fontView">
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.First().Name)
             </div>
         </th>
         <th>
             <div class="fontView">
-                @Html.DisplayNameFor(model => model.Position)
+                @Html.DisplayNameFor(model => model.First().Position)
             </div>
         </th>
         <th style="width:250px">
+            <div class="fontView">
+                @Html.DisplayName("Action")
+            </div>
         </th>
     </tr>
 
@@ -66,22 +69,24 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </div>
             </td>
-            <td>
-                <div class="fontViewWhite" style="font-size: 16px; background-color: lightgrey; ">
+            <td bgcolor="lightgrey">
+                <div class="fontViewWhite" style="font-size: 16px;">
                     @Html.DisplayFor(modelItem => item.Position)
                 </div>
             </td>
             <td>
                 <div class="fontViewAction">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new {@style = "color:green" }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new {@style = "color:darkblue" }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "LinkButton", @style = "color:red" })
+                    @Html.ActionLink("✎", "Edit", new { id = item.Id }, new { @style = "color:green; font-size:18px; text-decoration:none" }) |
+                    @Html.ActionLink("🔍", "Details", new { id = item.Id }, new { @style = "color:darkblue; font-size:18px; text-decoration:none" }) |
+                    @Html.ActionLink("🗑️", "Delete", new { id = item.Id }, new { @class = "LinkButton", @style = "color:red; font-size:18px; text-decoration:none" })
                 </div>
             </td>
         </tr>
     }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("SearchUsers", new { page }))
+
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">

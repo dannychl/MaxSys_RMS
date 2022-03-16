@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using RecruitmentManagementSystem__Danny_.DAL;
 using RecruitmentManagementSystem__Danny_.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace RecruitmentManagementSystem__Danny_.Controllers
 {
@@ -18,20 +20,60 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         Interview Interview = new Interview();
 
         // GET: ShowAllCandidates
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.Candidate.ToList());
+            
+            int pageSize = 5;
+            int pageIndex = 1;
+
+             IPagedList<Candidate> candidates = null;
+
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            List<Candidate> objCandidateList = db.Candidate.ToList();
+            candidates = objCandidateList.ToPagedList(pageIndex, pageSize);
+
+         
+       
+
+            /*var model = db.Candidate.OrderBy(s => s.Id).Skip(intSkip).Take(intPageSize).ToList().ToPagedList(page ?? intPage, maxRows);*/
+         
+
+            return View(candidates);
         }
 
-        public PartialViewResult SearchUsers(string searchText)
+     
+        public PartialViewResult SearchUsers(string searchText, int? page)
         {
 
             var model = from s in db.Candidate
                         select s;
 
-            var result = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList();
+            int pageSize = 10;
+            int pageIndex = 1;
 
-            return PartialView("SearchAllCandidate_View", result);
+            IPagedList<Candidate> candidates = null;
+
+            /* pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+             IPagedList<Candidate> candidates = null;
+             List<Candidate> objCandidateList = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList();
+             candidates = objCandidateList.ToPagedList(pageIndex, pageSize);*/
+
+            if (searchText != null && searchText != "")
+            {
+                pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+                List<Candidate> objCandidateList = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList();
+                candidates = objCandidateList.ToPagedList(pageIndex, pageSize);
+            }
+            else
+            {
+                pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+                List<Candidate> objCandidateList = (from s in db.Candidate select s).ToList();
+                candidates = objCandidateList.ToPagedList(pageIndex, pageSize);
+            }
+
+            /*var result = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList().ToPagedList(page ?? 1, 5);*/
+
+            return PartialView("SearchAllCandidate_View", candidates);
         }
 
         // GET: Candidates/Details/5

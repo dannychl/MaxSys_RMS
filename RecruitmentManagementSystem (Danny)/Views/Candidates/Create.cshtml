@@ -17,6 +17,38 @@
         border:hidden;
     }
 
+    .button {
+        display: inline-block;
+        padding: 5px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: darkgreen;
+        width: 250px;
+        background-color: white;
+        border: 2.5px solid darkgreen;
+        border-radius: 15px;
+    }
+
+        .button:hover {
+            background-color: darkgreen;
+            color: white;
+        }
+
+        .button:active {
+            background-color: green;
+        }
+
+    .col-sm-10 {
+        font-size: 16px;
+    }
+
+    .form-control {
+        border: 2px solid black;
+    }
+
 
 </style>
 
@@ -42,9 +74,9 @@
         });
     </script>
 }
-<h2>Create New Candidate</h2>
-<div style='float: right;'>
-    @Html.ActionLink("Back to List", "Index")
+<h2 style="font-family:Verdana; font-weight:bold">Create New Candidate</h2>
+<div style='float: right; font-size:20px; font-weight:bold;'>
+    @Html.ActionLink("← Back", "Index", null, new { style = "text-decoration:none; color:darkgreen" })
 </div>
 
 @using (Html.BeginForm())
@@ -53,7 +85,6 @@
 
 <div class="form-horizontal">
     <hr />
-
     <table class="table">
         <tr>
             <th colspan="2">
@@ -69,7 +100,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-sm-10" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Name, new { @style = "height:100px; width: 600px", htmlAttributes = new { @class = "form-control" }})
+                        @Html.EditorFor(model => model.Name, new { @style = "height:100px; width: 600px", htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -83,7 +114,7 @@
                                 new SelectListItem { Text = "Refer from Friends", Value = "Refer from Friends", Selected=true},
                                 new SelectListItem { Text = "Refer from Websites", Value = "From Websites"},
                                 new SelectListItem { Text = "Refer from Temporary Staff", Value = "From Temporary Staff"}
-                        }, "Select Referral Method Used", new { @style = "color: black; padding: 8px 15px;" })
+                        }, "Select Referral Method Used", new { @style = "color: black; padding: 8px 35px; border: 2px solid black;" })
                         @Html.ValidationMessageFor(model => model.MethodUsed, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -128,8 +159,8 @@
                     <div class="col-lg-11" style="width:100%">
                         <pre style="font-family:Verdana;">@Html.RadioButtonFor(model => model.Gender, "Male") Male</pre>
                         <pre style="font-family:Verdana;">@Html.RadioButtonFor(model => model.Gender, "Female") Female</pre>
-                    <br />
-                    @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </td>
@@ -150,22 +181,21 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "col-sm-10" })
                     @*<div class="col-md-10">
-                        @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
-                    </div>*@
+                            @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+                        </div>*@
                     <div class="col-lg-11" style="width:100%">
                         <pre style="font-family:Verdana;">@Html.RadioButtonFor(model => model.Position, "General Manager") General Manager </pre>
                         <pre style="font-family:Verdana;">@Html.RadioButtonFor(model => model.Position, "Human Resource Manager") Human Resource Manager </pre>
                         <pre style="font-family:Verdana;">@Html.RadioButtonFor(model => model.Position, "Python Developer") Python Developer</pre>
                         <pre style="font-family:Verdana;">@Html.RadioButtonFor(model => model.Position, "QA Assistant") QA Assistant  </pre>
-                                <br />
+                        <br />
                         @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </td>
 
             <td>
-                
             </td>
         </tr>
 
@@ -206,7 +236,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.WorkingExperienceRemarks, htmlAttributes: new { @class = "col-sm-10" })
                     <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.WorkingExperienceRemarks, new { @style = "resize: none; height:100px; width: 500px", htmlAttributes = new { @class = "form-control" }, @row = 8 })
+                        @Html.TextAreaFor(model => model.WorkingExperienceRemarks, new { @style = "resize: none; height:100px; width: 500px; border: 2px solid black;", htmlAttributes = new { @class = "form-control" }, @row = 8 })
                         @Html.ValidationMessageFor(model => model.WorkingExperienceRemarks, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -236,10 +266,10 @@
             </td>
         </tr>
     </table>
-        <div class="form-group" style="float:right">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+    <div class="form-group" style="float:right">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="button" />
         </div>
+    </div>
 </div>
 }

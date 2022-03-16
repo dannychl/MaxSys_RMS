@@ -1,4 +1,6 @@
-﻿@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Candidate>
+﻿@*@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.Candidate>*@
+@model PagedList.IPagedList<RecruitmentManagementSystem__Danny_.Models.Candidate>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Show All Candidates";
@@ -6,12 +8,13 @@
 
 <table style="width:100%">
     <td style="border:hidden">
-        <h2 style="font-family:'Bookman Old Style'; font-size:22px;">Show All Candidates</h2>
+        <h2 style="font-family:Verdana; font-weight:bold">Show All Candidates</h2>
+        <hr />
     </td>
     <td style="border:hidden">
         <div class="col-sm-12">
-            <div class="form-inline pull-right">
-                <label>Search</label>
+            <div class="form-inline pull-right" style="font-size:20px">
+                <label>🔍</label>
                 <input type="text" class="form-control" id="txtSearch" />
             </div>
         </div>
@@ -20,6 +23,12 @@
 
 <div id="gridSearch"></div>
 
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
+
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+@Html.PagedListPager(Model, page => @Url.Action("SearchUsers", new { page }))
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
         $(".LinkButton").on("click", function () {
@@ -31,18 +40,22 @@
 
     $(() => {
         getUsers();
-
         $('#txtSearch').on('keyup', () => {
             getUsers();
         });
     });
+
+@*    function PagerClick(index) {
+        document.getElementById("hfCurrentPageIndex").value = index;
+        document.forms[0].submit();
+    }*@
 
     function getUsers() {
         $.ajax({
             url: '@Url.Action("SearchUsers","ShowAllCandidates")',
             datatype: 'html',
             method: 'GET',
-            data: { searchText: $('#txtSearch').val()},
+            data: { searchText: $('#txtSearch').val(), page: $('#page').val()},
             success: function (res) {
                 $('#gridSearch').html('').html(res);
             },
