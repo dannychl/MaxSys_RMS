@@ -5,6 +5,16 @@
     ViewBag.Title = "UpdateInterviewDetails";
 }
 
+<style>
+    .form-control {
+        border: 2px solid black;
+    }
+
+    .datepicker {
+        margin-bottom: 5px;
+    }
+</style>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
@@ -33,7 +43,7 @@
     </script>
 }
 
-<h2>@ViewBag.intervieweeName @ViewBag.num</h2>
+<h2 style="font-family:Verdana; font-weight:bold"><i class="fa fa-user" aria-hidden="true"> @ViewBag.intervieweeName</h2></i>
 
 @using (Html.BeginForm())
 {
@@ -68,7 +78,7 @@
 
     int candidateId = ViewBag.intervieweeId;
     <div style="border:hidden; float:right">
-        <h4 style="font-family:'Clarendon BT'; font-size:16px;">@Html.ActionLink("Display Candidate Details", "Details/" + candidateId, "Candidates")</h4>
+        <h4 style="font-family: 'Clarendon BT'; font-size: 16px;">@Html.ActionLink("Display Candidate Details 🔍", "Details/" + candidateId, "Candidates")</h4>
     </div>
 
     <div class="form-horizontal">
@@ -82,15 +92,17 @@
             if (ViewBag.num == 2)
             {
                 <div class="form-group">
-                    @Html.Label("Select Interviewer", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("selectInterviewer", new List<SelectListItem>
-                        {
-                              new SelectListItem { Text = "Sky", Value = "Sky"},
-                              new SelectListItem { Text = "Danny", Value = "Danny"},
-                              new SelectListItem { Text = "Both", Value = "Both", Selected=true}
-                        }, "Select Interviewer")
-                        @Html.Hidden("SelectedInterviewer", "Both")
+                    <div class="form-group">
+                        @Html.Label("Select Interviewer", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("selectInterviewer", new List<SelectListItem>
+                            {
+                                  new SelectListItem { Text = "Sky", Value = "Sky"},
+                                  new SelectListItem { Text = "Danny", Value = "Danny"},
+                                  new SelectListItem { Text = "Both", Value = "Both", Selected=true}
+                            }, null, new { @style = "color: black; padding: 8px 35px; border: 2px solid black;" })
+                            @Html.Hidden("SelectedInterviewer", "Both")
+                        </div>
                     </div>
                 </div>
             }
@@ -107,7 +119,7 @@
                                   new SelectListItem { Text = "Sky", Value = "Sky", Selected=true},
                                   new SelectListItem { Text = "Danny", Value = "Danny"},
                                   new SelectListItem { Text = "Both", Value = "Both"}
-                            })
+                            }, null, new { @style = "color: black; padding: 8px 35px; border: 2px solid black;" })
                             @Html.Hidden("SelectedInterviewer", "Sky")
                         </div>
                     </div>
@@ -122,7 +134,7 @@
                                   new SelectListItem { Text = "Sky", Value = "Sky"},
                                   new SelectListItem { Text = "Danny", Value = "Danny", Selected=true},
                                   new SelectListItem { Text = "Both", Value = "Both"}
-                            }, "Select Interviewer")
+                            }, null, new { @style = "color: black; padding: 8px 50px; border: 2px solid black;" })
                             @Html.Hidden("SelectedInterviewer", "Danny")
                         </div>
                     </div>
@@ -130,44 +142,36 @@
             }
 
             <div class="form-group">
-
-                @*<div class="form-group">
-                        @Html.Label("Interview Time", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.Editor("interviewTime", new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>*@
-
-                <div class="form-group">
-                    @Html.Label("InterviewDate", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.Editor("interviewDate",
- new
- {
-     htmlAttributes = new
-     {
-         @readonly = "true",
-         Value = @Convert.ToDateTime(ViewBag.InterviewDate).ToString("dd-MMM-yyyy"),
-         @class = "form-control datepicker"
-     }
- })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.Label("Interview Time", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <input id="timepkr" style="width:100px; float:left;" class="form-control" placeholder="HH:MM"<
-                        @Html.Editor("interviewTime", new { htmlAttributes = new { @class = "form-control" } })
-                        <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',24)" style="width:35px; height:35px; float:left;" /><i class="fa fa-clock-o"></i>
-                    </div>
-                    <div class="timepicker"></div>
+                @Html.Label("InterviewDate", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("interviewDate",
+             new
+             {
+                 htmlAttributes = new
+                 {
+                     @style = "text-align: center; border: 2px solid black; width: 170px",
+                     @readonly = "true",
+                     Value = @Convert.ToDateTime(ViewBag.InterviewDate).ToString("dd-MMM-yyyy"),
+                     @class = "form-control datepicker"
+                 }
+             })
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.Label("Interview Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input id="timepkr" style="width: 170px; float:left; text-align: center" class="form-control" placeholder="HH:MM"<
+                    @Html.Editor("interviewTime", new { htmlAttributes = new { @class = "form-control" } })
+                    <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',24)" style="width:35px; height:35px; float:left; margin-left:10px" /><i class="fa fa-clock-o"></i>
+                </div>
+                <div class="timepicker"></div>
+            </div>
+
         }
         else if (ViewBag.FinishInterview.Equals("Yes"))
         {
-            
+
             <dl class="dl-horizontal">
                 <dt>
                     @Html.DisplayName("Select Interviewer"):
@@ -216,13 +220,7 @@
             </dl>
         }
 
-
-
-
         @*------------------------Cutter Line----------------------*@
-
-
-
 
         <br /><br />
         <hr />
@@ -230,9 +228,9 @@
         {
             <h4 style="font-family:'Clarendon BT'; font-size:16px; font-weight:bold; color:darkslateblue; margin-left:10px" ;>Candidate's Result (Optional)</h4><hr />
             <div class="form-group">
-                @Html.Label("Interview Remarks", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextArea("interviewRemarks", new { @style = "resize: none; height:100px; width: 500px", htmlAttributes = new { @class = "form-control" }, @row = 8 })
+                @Html.Label("Interview Remarks", htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-md-2">
+                    @Html.TextArea("interviewRemarks", new { @style = "resize: none; height:150px; width: 500px", htmlAttributes = new { @class = "form-control" }, @row = 8 })
                 </div>
             </div>
 
@@ -274,7 +272,7 @@
             {
                 for (int i = 0; i < ViewBag.num; i++)
                 {
-                    <h4 style="font-family:'Clarendon BT'; font-size:16px; font-weight:bold; color:darkslateblue; margin-left:10px" ;>Interviewer @Html.DisplayName((string)@ViewBag.InterviewerName[i])'s Comment:</h4>
+                    <h4 style="font-family:'Clarendon BT'; font-size:16px; font-weight:bold; color:darkslateblue; margin-left:10px;" ;>Interviewer @Html.DisplayName((string)@ViewBag.InterviewerName[i])'s Comment:</h4>
                     <dl class="dl-horizontal">
                         <dt>
                             @Html.DisplayName("Interview Remarks"):
@@ -350,8 +348,8 @@
         </div>
     </div>
 }
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
 
 

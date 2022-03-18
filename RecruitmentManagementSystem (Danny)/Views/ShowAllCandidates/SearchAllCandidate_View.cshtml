@@ -38,9 +38,14 @@
 
 <table class="table">
     <tr bgcolor="midnightblue">
+        <th>
+            <div class="fontView">
+                @Html.DisplayName("No")
+            </div>
+        </th>
         @*<th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Id)
+        </th>*@
         <th>
             <div class="fontView">
                 @Html.DisplayNameFor(model => model.First().Name)
@@ -64,15 +69,17 @@
         <td colspan="5" style="font-size:20px; text-align:center; font-weight:bold">No data found</td>
     }
 
+    @{int RowNo = 0;}
     @foreach (var item in Model)
     {
-        <tr align="center">
+        <tr align="center" style='background-color: @((RowNo%2 !=0) ? "lightgrey" : "whitesmoke");'>
+            <td style="font-weight:bold; color:black">@{RowNo++;} @RowNo</td>
             <td>
                 <div class="fontViewWhite" style=" font-size: 15px;">
                     @Html.DisplayFor(modelItem => item.Name)
                 </div>
             </td>
-            <td bgcolor="lightgrey">
+            <td>
                 <div class="fontViewWhite" style="font-size: 16px; ">
                     @Html.DisplayFor(modelItem => item.Position)
                 </div>

@@ -313,13 +313,13 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             ViewBag.FinishInterview = finishInterview;
             ViewBag.Message = title;
             ViewBag.id = id;
-            if (Session["Roles"].Equals("interviewer")) {
+            /*if (Session["Roles"].Equals("interviewer")) {
                 ViewBag.Roles = "I am Interviewer";
             }
             else if(Session["Roles"].Equals("HR"))
             {
                 ViewBag.Roles = "I am HR";
-            }
+            }*/
 
             int findInterviewDetailId = (from s in db.InterviewDetail
                                  where s.IntervieweeId == id & s.InterviewProgress == progress

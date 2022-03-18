@@ -56,7 +56,7 @@
                 <li style="color:black; padding-top:14px; font-size:14px; font-family:'Leelawadee UI'">@ViewBag.username</li>
                 @if (ViewBag.username != null)
                 {
-                    <li>@Html.ActionLink("Logout", "Index", "Login", null, new { @class = "fa fa-sign-out" })</li>
+                    <li>@Html.ActionLink("Logout", "Logout", "Login", null, new { @class = "fa fa-sign-out" })</li>
 
 
                 }
@@ -78,3 +78,15 @@
         @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    var sessionTimeoutWarning = @Session.Timeout - 1;
+    var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+    setTimeout('SessionEnd()', sTimeout);
+
+function SessionEnd() {
+    window.location.hostname = "";
+    @*/* $(window.Location).attr("href", "@Url.Content("~/Login/Index/")"); */*@
+    window.location = "/Login/Index/";
+}
+</script>
