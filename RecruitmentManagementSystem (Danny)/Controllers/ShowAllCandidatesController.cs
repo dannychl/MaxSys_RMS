@@ -10,6 +10,8 @@ using RecruitmentManagementSystem__Danny_.DAL;
 using RecruitmentManagementSystem__Danny_.Models;
 using PagedList.Mvc;
 using PagedList;
+using System.IO;
+using ClosedXML.Excel;
 
 namespace RecruitmentManagementSystem__Danny_.Controllers
 {
@@ -74,6 +76,117 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             /*var result = model.Where(a => a.Name.ToLower().Contains(searchText) || a.Position.ToLower().Contains(searchText)).ToList().ToPagedList(page ?? 1, 5);*/
 
             return PartialView("SearchAllCandidate_View", candidates);
+        }
+
+        [HttpPost]
+        public FileResult Export()
+        {
+            DatabaseContext db = new DatabaseContext();
+            DataTable dt = new DataTable("Candidate (Personal Details)");
+            DataTable dt2 = new DataTable("Candidate (Company Details)");
+            DataTable dt3 = new DataTable("Candidate (Interview Details)");
+            dt.Columns.AddRange(new DataColumn[9] { new DataColumn("Id"),
+                                            new DataColumn("Name"),
+                                            new DataColumn("Age"),
+                                            new DataColumn("DateOfBirth"),
+                                            new DataColumn("Gender"),
+                                            new DataColumn("PhoneNum"),
+                                            new DataColumn("CurrentSalary"),
+                                            new DataColumn("ExpectedSalary"),
+                                            new DataColumn("MethodUsed (For Recruit)") });
+
+
+            dt2.Columns.AddRange(new DataColumn[12] { new DataColumn("Id"),
+                                            new DataColumn("Name"),
+                                            new DataColumn("Position"),
+                                            new DataColumn("WorkingExperience (Year)"),
+                                            new DataColumn("WorkingExperienceRemarks"),
+                                            new DataColumn("Status (Accept Or Decline PhoneCall)"),
+                                            new DataColumn("ProgrammingTest"),
+                                            new DataColumn("SQLTest"),
+                                            new DataColumn("ResignPeriod (Month)"),
+                                            new DataColumn("ResumeLink"),
+                                            new DataColumn("TestAnsLink"),
+                                            new DataColumn("TestRemarks")});
+            
+            
+            dt3.Columns.AddRange(new DataColumn[8] { new DataColumn("CandidatesId"),
+                                            new DataColumn("IntervieweeName"),
+                                            new DataColumn("InterviewProgress"),
+                                            new DataColumn("InterviewDate"),
+                                            new DataColumn("InterviewTime"),
+                                            new DataColumn("InterviewRemarks"),
+                                            new DataColumn("InterviewResult"),
+                                            new DataColumn("Interviewer Name")});
+
+
+            var candidates = from s in db.Candidate
+                             select s;
+            var interviewee = from s in db.InterviewDetail // outer sequence
+                              join st in db.Interviewer
+                                  on s.IntervieweeId equals st.Id
+                              join ss in db.Candidate
+                                 on st.CandidatesId equals ss.Id
+                              join st2 in db.InterviewerComment
+                                  on s.Id equals st2.InterviewDetailId
+                              join st3 in db.User//inner sequence 
+                                  on st2.InterviewerId equals st3.Id // key selector 
+                              select new
+                              { // result selector 
+                                  InterviewerDetails = s,
+                                  Candidate = ss,
+                                  Interviewer = st,
+                                  InterviewComment = st2,
+                                  InterviewerUser = st3
+                              };
+            /*new
+            { // result selector 
+                StudentName = s.StudentName,
+                StandardName = st.StandardName
+            };*/
+
+            foreach (var candidate in candidates)
+            {
+                dt.Rows.Add(candidate.Id, candidate.Name, candidate.Age, candidate.DateOfBirth, candidate.Gender,
+                    candidate.PhoneNum, candidate.CurrentSalary, candidate.ExpectedSalary, candidate.MethodUsed);
+                dt2.Rows.Add(candidate.Id, candidate.Name, candidate.Position, candidate.WorkingExperience, candidate.WorkingExperienceRemarks,
+                    candidate.Status, candidate.ProgrammingTest, candidate.SQLTest, candidate.ResignPeriod, candidate.ResumeLink,
+                    candidate.TestAnsLink, candidate.TestRemarks);
+            }
+
+            
+
+            foreach (var interview in interviewee)
+            {
+                string tempTime = interview.InterviewerDetails.InterviewTime;
+                string formattedTime = "";
+                int formattedHour = Int32.Parse(tempTime.Substring(0, 2));
+                if (formattedHour > 12)
+                {
+                    formattedHour -= 12;
+                    formattedTime = Convert.ToString(formattedHour) + tempTime.Substring(2, 3) + " am";
+                }
+                else
+                {
+                    formattedTime = tempTime + " pm";
+                }
+
+                dt3.Rows.Add(interview.Interviewer.CandidatesId, interview.Candidate.Name, interview.InterviewerDetails.InterviewProgress, @Convert.ToDateTime(interview.InterviewerDetails.InterviewDate).ToString("dd-MMM-yyyy"), formattedTime,
+                    interview.InterviewComment.InterviewRemarks, interview.InterviewComment.InterviewResult, interview.InterviewerUser.Username);
+            }
+            
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                wb.Worksheets.Add(dt2);
+                wb.Worksheets.Add(dt3);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SummaryOfCandidateDetails.xlsx");
+                }
+            }
         }
 
         // GET: Candidates/Details/5
