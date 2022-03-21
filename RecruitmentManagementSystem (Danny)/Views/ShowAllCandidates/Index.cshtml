@@ -22,15 +22,10 @@
     <td style="border:hidden">
         @using (Html.BeginForm("Export", "ShowAllCandidates", FormMethod.Post))
         {
-            @*<a href="/ShowAllCandidates/Export"><i class='fas fa-file-export' style='font-size:24px; color:darkblue'></i></a>*@
-
             <button type="submit"style="font-size: 25px; color: forestgreen; background-color: white; border: none; ">
                 <i class="fas fa-file-export"></i>
             </button>
-            @*            <i class='fas fa-file-export' style='font-size:16px; color:darkblue'><input type="submit" class="fas fa-file-export" style='font-size:16px; color:darkblue'/></i>
-            *@           }
-        @*        <h4 style="font-family:'VAGRounded BT'; font-size:20px">@Html.ActionLink("➕", "Create", null, new { style = "text-decoration:none" })</h4>
-        *@
+        }
     </td>
 </table>
 

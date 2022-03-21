@@ -59,7 +59,7 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public string WorkingExperienceRemarks { get; set; }
 
         [DisplayName("Resign Period (Month)")]
-        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid number")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter valid number")]
         public int ResignPeriod { get; set; }
 
         [DisplayName("Programming Test")]

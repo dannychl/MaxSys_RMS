@@ -19,17 +19,9 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            Session.Clear();    
-            return View();
-        }
-        [HttpGet]
-        public ActionResult Logout()
-        {
-            Session["id1"] = null;
-            Session["id2"] = null;
-            Session["id3"] = null;
-            Session["id4"] = null;
-            Session["Region"] = null;
+            Session["Id"] = null;
+            Session["Roles"] = null;
+            Session["Username"] = null;
             Session.Clear();
             Session.RemoveAll();
             Session.Abandon();
@@ -38,7 +30,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             Response.AddHeader("Expires", "0");
             Response.AppendToLog("window.location.reload();");
 
-            return RedirectToAction("Index", "Login");
+            return View();
         }
 
         [HttpPost]
@@ -52,7 +44,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 Session["Roles"] = userLoggedIn.Roles;
                 Session["Username"] = userLoggedIn.Username;
 
-                return RedirectToAction("Index", "Candidates");
+                return RedirectToAction("Index", "Dashboard");
             }
             else
             {
