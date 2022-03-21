@@ -56,9 +56,7 @@
                 <li style="color:black; padding-top:14px; font-size:14px; font-family:'Leelawadee UI'">@ViewBag.username</li>
                 @if (ViewBag.username != null)
                 {
-                    <li>@Html.ActionLink("Logout", "Logout", "Login", null, new { @class = "fa fa-sign-out" })</li>
-
-
+                    <li>@Html.ActionLink("Logout", "Index", "Login")</li>
                 }
                     else
                     {
