@@ -284,7 +284,6 @@
     <Content Include="Views\Interview\Edit.cshtml" />
     <Content Include="Views\Interview\_EditInterviewDetails.cshtml" />
     <Content Include="Views\Interview\UpdateInterviewDetails.cshtml" />
-    <Content Include="Views\Interview\MessageView.cshtml" />
     <Content Include="Views\Interview\Search_GridView.cshtml" />
     <Content Include="Views\Candidates\SearchCandidate_View.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
@@ -293,7 +292,6 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\OnBoarding\Index.cshtml" />
     <Content Include="Views\OnBoarding\SearchOnBoardCandidate_View.cshtml" />
-    <Content Include="Views\OnBoarding\DisplayTaskToFilled_OfferAccepted.cshtml" />
     <Content Include="Views\OnBoarding\DisplayDepartmentWithCheckBox.cshtml" />
     <Content Include="Views\Report\RecruitmentReport.cshtml" />
     <Content Include="Views\Report\InterviewReport.cshtml" />

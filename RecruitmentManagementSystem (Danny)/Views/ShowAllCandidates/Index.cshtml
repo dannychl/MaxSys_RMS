@@ -19,14 +19,14 @@
             </div>
         </div>
     </td>
-    <td style="border:hidden">
+   @* <td style="border:hidden">
         @using (Html.BeginForm("Export", "ShowAllCandidates", FormMethod.Post))
         {
             <button type="submit"style="font-size: 25px; color: forestgreen; background-color: white; border: none; ">
                 <i class="fas fa-file-export"></i>
             </button>
         }
-    </td>
+    </td>*@
 </table>
 
 <div id="gridSearch"></div>
@@ -34,9 +34,9 @@
 @*@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
 
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
     of @Model.PageCount
-@Html.PagedListPager(Model, page => @Url.Action("SearchUsers", new { page }))
+@Html.PagedListPager(Model, page => @Url.Action("SearchUsers", new { page }))*@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 <script type="text/javascript">
@@ -64,7 +64,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
             url: '@Url.Action("SearchUsers","ShowAllCandidates")',
             datatype: 'html',
             method: 'GET',
-            data: { searchText: $('#txtSearch').val(), page: $('#page').val()},
+            data: { searchText: $('#txtSearch').val()@*, page: $('#page').val()*@},
             success: function (res) {
                 $('#gridSearch').html('').html(res);
             },

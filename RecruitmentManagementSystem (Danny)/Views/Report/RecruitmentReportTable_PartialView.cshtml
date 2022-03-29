@@ -30,8 +30,8 @@
 <table class="table">
     <tr bgcolor="midnightblue">
         @*<th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Id)
+        </th>*@
         <th>
             <div class="fontView">
                 @Html.DisplayName("No")
@@ -54,15 +54,20 @@
         </th>
         <th>
             <div class="fontView">
-                @Html.DisplayNameFor(model => model.ExpectedSalary)
+                @Html.DisplayNameFor(model => model.ExpectedSalary) (RM)
             </div>
         </th>
         <th>
             <div class="fontView">
-                @Html.DisplayNameFor(model => model.CurrentSalary)
+                @Html.DisplayNameFor(model => model.CurrentSalary) (RM)
             </div>
         </th>
-       @* <th style="width:250px">
+        <th>
+            <div class="fontView">
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </div>
+        </th>
+        @* <th style="width:250px">
             <div class="fontView">
                 @Html.DisplayName("Action")
             </div>
@@ -76,38 +81,46 @@
     @{int RowNo = 0;}
     @foreach (var item in Model)
     {
-        <tr align="center" style='background-color: @((RowNo%2 !=0) ? "lightgrey" : "whitesmoke");'>
-            <td>@{RowNo++;} @RowNo</td>
-            <td>
-                <div class="fontViewWhite" style=" font-size: 15px;">
-                    @Html.DisplayFor(modelItem => item.Name)
-                </div>
-            </td><td>
-                <div class="fontViewWhite" style=" font-size: 15px;">
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </div>
-            </td><td>
-                <div class="fontViewWhite" style=" font-size: 15px;">
-                    @Html.DisplayFor(modelItem => item.MethodUsed)
-                </div>
-            </td><td>
-                <div class="fontViewWhite" style=" font-size: 15px;">
-                    @Html.DisplayFor(modelItem => item.ExpectedSalary)
-                </div>
-            </td>
-            <td>
-                <div class="fontViewWhite" style="font-size: 16px;">
-                    @Html.DisplayFor(modelItem => item.CurrentSalary)
-                </div>
-            </td>
-          @*  <td>
-                <div class="fontViewAction">
-                    @Html.ActionLink("✎", "Edit", new { id = item.Id }, new { @style = "color:green; font-size:18px; text-decoration:none" }) |
-                    @Html.ActionLink("🔍", "Details", new { id = item.Id }, new { @style = "color:darkblue; font-size:18px; text-decoration:none" }) |
-                    @Html.ActionLink("🗑️", "Delete", new { id = item.Id }, new { @class = "LinkButton", @style = "color:red; font-size:18px; text-decoration:none" })
-                </div>
-            </td>*@
-        </tr>
+<tr align="center" style='background-color: @((RowNo%2 !=0) ? "lightgrey" : "whitesmoke");'>
+    <td>@{RowNo++;} @RowNo</td>
+    <td>
+        <div class="fontViewWhite" style=" font-size: 15px;">
+            @Html.DisplayFor(modelItem => item.Name)
+        </div>
+    </td>
+    <td>
+        <div class="fontViewWhite" style=" font-size: 15px;">
+            @Html.DisplayFor(modelItem => item.Gender)
+        </div>
+    </td>
+    <td>
+        <div class="fontViewWhite" style=" font-size: 15px;">
+            @Html.DisplayFor(modelItem => item.MethodUsed)
+        </div>
+    </td>
+    <td>
+        <div class="fontViewWhite" style=" font-size: 15px;">
+            @Html.DisplayFor(modelItem => item.ExpectedSalary)
+        </div>
+    </td>
+    <td>
+        <div class="fontViewWhite" style="font-size: 16px;">
+            @Html.DisplayFor(modelItem => item.CurrentSalary)
+        </div>
+    </td>
+    <td>
+        <div class="fontViewWhite" style="font-size: 16px;">
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </div>
+    </td>
+    @*  <td>
+            <div class="fontViewAction">
+                @Html.ActionLink("✎", "Edit", new { id = item.Id }, new { @style = "color:green; font-size:18px; text-decoration:none" }) |
+                @Html.ActionLink("🔍", "Details", new { id = item.Id }, new { @style = "color:darkblue; font-size:18px; text-decoration:none" }) |
+                @Html.ActionLink("🗑️", "Delete", new { id = item.Id }, new { @class = "LinkButton", @style = "color:red; font-size:18px; text-decoration:none" })
+            </div>
+        </td>*@
+</tr>
     }
 
 </table>

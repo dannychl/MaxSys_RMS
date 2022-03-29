@@ -20,9 +20,9 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         [HttpGet]
         public PartialViewResult SearchUsers(string searchText)
         {
-            var model = from s in db.OnBoard
-                        select s;
-            var result = model.Where(a => a.CandidateName.ToLower().Contains(searchText)).ToList();
+            var model = (from s in db.OnBoard
+                        where s.CandidateName.ToLower().Contains(searchText)
+                        select s).ToList();
             return PartialView("SearchOnBoardCandidate_View", model);
         }
         // GET: OnBoarding
