@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RecruitmentManagementSystem__Danny_.Models
 {
-    [Table("dbo.Homes")]
+    [Table("dbo.Candidates")]
     public class Candidate //: global::System.Web.HttpApplication
     {
         [Key]
@@ -75,10 +76,24 @@ namespace RecruitmentManagementSystem__Danny_.Models
         
         public string Status { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DateCreated { get; set; }
+
         [DisplayName("Resume Link")]
         public string ResumeLink { get; set; }
 
         [DisplayName("Test Answer Link")]
         public string TestAnsLink { get; set; }
+
+        [NotMapped]
+        public SelectList PositionList { get; set; }
+
+        [NotMapped]
+        public SelectList MethodUsedList { get; set; }
+
+
+
+
+
     }
 }

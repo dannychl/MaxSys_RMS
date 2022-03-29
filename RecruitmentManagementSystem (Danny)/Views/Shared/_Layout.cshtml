@@ -10,7 +10,8 @@
 
         .navbar-nav,
         .navbar-fixed-top,
-        .navbar-right {
+        .navbar-right,
+        .dropdown-menu {
             font-family: Verdana;
             font-size: 14px;
             font-weight: bold;
@@ -45,35 +46,48 @@
                 @if (ViewBag.username != null)
                 {
                     <a href="@Url.Action("Index", "Dashboard")">
-                    <img class="loginLogo" src="https://siva.jsstatic.com/my/98806/images/logo/98806_logo_0_39251.jpg" alt=""> </a>
+                        <img class="loginLogo" src="https://siva.jsstatic.com/my/98806/images/logo/98806_logo_0_39251.jpg" alt="">
+                    </a>
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Recruitment", "Index", "Candidates")</li>
                         <li>@Html.ActionLink("All candidates", "Index", "ShowAllCandidates")</li>
                         <li>@Html.ActionLink("Interview Management", "Index", "Interview")</li>
+                        <li>@Html.ActionLink("On-Boarding", "Index", "OnBoarding")</li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Report List
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Recruitment Report", "RecruitmentReport", "Report")</li>
+                                <li>@Html.ActionLink("Interview Report", "InterviewReport", "Report")</li>
+                                <li>@Html.ActionLink("On-Boarding Report", "OnBoardReport", "Report")</li>
+                            </ul>
+                        </li>
+                        @*<li>@Html.ActionLink("Report", "Index", "OnBoarding")</li>*@
                     </ul>
                 }
-            <ul class="nav navbar-nav navbar-right">
-                <li style="color:black; padding-top:14px; font-size:14px; font-family:'Leelawadee UI'">@ViewBag.username</li>
-                @if (ViewBag.username != null)
-                {
-                    <li>@Html.ActionLink("Logout", "Index", "Login")</li>
-                }
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="color:black; padding-top:14px; font-size:14px; font-family:'Leelawadee UI'">@ViewBag.username</li>
+                    @if (ViewBag.username != null)
+                    {
+                        <li>@Html.ActionLink("Logout", "Index", "Login")</li>
+                    }
                     else
                     {
-                    <li>@Html.ActionLink("Login", "Index", "Login")</li>
-                }
+                        <li>@Html.ActionLink("Login", "Index", "Login")</li>
+                    }
 
-            </ul>
+                </ul>
             </div>
         </nav>
     </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-        </div>
-
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Styles", required: false)
+    @RenderSection("scripts", required: false)
 </body>
 </html>
 
@@ -86,5 +100,12 @@ function SessionEnd() {
     window.location.hostname = "";
     @*/* $(window.Location).attr("href", "@Url.Content("~/Login/Index/")"); */*@
     window.location = "/Login/Index/";
-}
+    }
+
+    $(document).ready(function () {
+        $(".dropdown").hover(function () {
+            //toggle the open class (on/off)
+            $(this).toggleClass("open");
+        });
+    })
 </script>

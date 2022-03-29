@@ -25,6 +25,12 @@ namespace RecruitmentManagementSystem__Danny_
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/chosen").Include(
+                        "~/Scripts/chosen.jquery*"));
+
+            bundles.Add(new ScriptBundle("~/Content/chosen").Include(
+                        "~/Content/bootstrap-chosen.css"));
         }
     }
 }

@@ -1,0 +1,78 @@
+﻿@model RecruitmentManagementSystem__Danny_.Models.Candidate
+
+<style>
+    table, th, td {
+        border: 2px solid black;
+    }
+
+    .fontView {
+        text-align: center;
+        color: white;
+        font-size: 14px;
+        background-size: 5px;
+        font-weight: bold;
+        font-family: Verdana;
+    }
+</style>
+
+<table style="border:hidden; width:100%">
+    <td style="border:hidden">
+        <h2 style="font-family:Verdana; font-weight:bold">Recruitment Report</h2>
+    </td>
+</table>
+<hr />
+    <table>
+        <tr>
+            <td>
+                <div class="form-group">
+                        @Html.Label("Method Used: ", htmlAttributes: new { @class = "col-sm-10" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("ddlMethodUsed", Model.MethodUsedList)
+                        </div>
+                    </div>
+</td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.Label("Position: ", htmlAttributes: new { @class = "col-sm-10" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ddlPosition", Model.PositionList)
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+<br />
+    <button id="button" class="btn btn-primary button button4">View</button>
+
+    <div id="gridSearch"></div>
+
+
+<script>
+   @* $(".btn btn-primary button button4").on("click", function () {
+        getTable();
+    });*@
+
+    $('#button').click(function () {
+        getTable();
+    });
+
+    function getTable() {
+        $.ajax({
+            url: '@Url.Action("ShowRecruitmentReportTable", "Report")',
+            datatype: 'html',
+            method: 'GET',
+            data: { searchMethodUsed: $('#ddlMethodUsed').val(), searchPosition: $('#ddlPosition').val()},
+            success: function (res) {
+                $('#gridSearch').html('').html(res);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+</script>
+
+
+

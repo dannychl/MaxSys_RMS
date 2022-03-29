@@ -25,7 +25,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             // 2. Total hired/ KIV
             // 3. 
 
-
+           
             var interviewStatusList = db.Interviewer.ToList();
             var list = db.Candidate.Where(x => x.ProgrammingTest == 0 && x.SQLTest == 0).ToList();
             var interviewee = (from s in db.Interviewer // outer sequence

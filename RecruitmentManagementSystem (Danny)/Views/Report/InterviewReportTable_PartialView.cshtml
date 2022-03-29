@@ -1,0 +1,97 @@
+﻿@using RecruitmentManagementSystem__Danny_.Models
+@model InterviewReport
+
+
+@
+<table class="table">
+    <tr bgcolor="midnightblue">
+        @*<th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>*@
+        <th>
+            <div class="fontView">
+                @Html.DisplayName("No")
+            </div>
+        </th>
+        <th>
+            <div class="fontView">
+                @Html.DisplayName("Interviewee Name")
+            </div>
+        </th>
+        <th>
+            <div class="fontView">
+                @Html.DisplayName("Interviewee Status")
+            </div>
+        </th>
+        <th>
+            <div class="fontView">
+                @Html.DisplayName("Interview Date")
+            </div>
+        </th>
+        <th>
+            <div class="fontView">
+                @Html.DisplayName("Interview Progress (1st or 2nd)")
+            </div>
+        </th>
+        @* <th>
+                <div class="fontView">
+                    @Html.DisplayName("InterviewResult")
+                </div>
+            </th>*@
+        @* <th style="width:250px">
+                <div class="fontView">
+                    @Html.DisplayName("Action")
+                </div>
+            </th>*@
+    </tr>
+
+    @if (Model.Interviewees.Count() == 0)
+    {
+        <td colspan="6" style="font-size:20px; text-align:center; font-weight:bold">No data found</td>
+    }
+    @{int RowNo = 0;}
+    @foreach (Interview interviewee in Model.Interviewees)
+    {
+        <tr align="center" style='background-color: @((RowNo % 2 != 0) ? "lightgrey" : "whitesmoke");'>
+            <td>@{RowNo++;} @RowNo</td>
+            <td>
+                <div class="fontViewWhite" style=" font-size: 15px;">
+                    @Html.DisplayFor(modelItem => interviewee.IntervieweeName)
+                </div>
+            </td>
+            <td>
+                <div class="fontViewWhite" style=" font-size: 15px;">
+                    @Html.DisplayFor(modelItem => interviewee.IntervieweeStatus)
+                </div>
+            </td>
+        </tr>
+    }
+    @foreach (InterviewDetail interviewDetail in Model.InterviewDetails)
+    {
+        <tr>
+            <td>
+                <div class="fontViewWhite" style=" font-size: 15px;">
+                    @Html.DisplayFor(modelItem => interviewDetail.InterviewDate)
+                </div>
+            </td>
+            <td>
+                <div class="fontViewWhite" style=" font-size: 15px;">
+                    @Html.DisplayFor(modelItem => interviewDetail.InterviewProgress)
+                </div>
+            </td>
+
+            @* <td>
+                    <div class="fontViewWhite" style="font-size: 16px;">
+                        @Html.DisplayFor(modelItem => item.CurrentSalary)
+                    </div>
+                </td>*@
+            @*  <td>
+                    <div class="fontViewAction">
+                        @Html.ActionLink("✎", "Edit", new { id = item.Id }, new { @style = "color:green; font-size:18px; text-decoration:none" }) |
+                        @Html.ActionLink("🔍", "Details", new { id = item.Id }, new { @style = "color:darkblue; font-size:18px; text-decoration:none" }) |
+                        @Html.ActionLink("🗑️", "Delete", new { id = item.Id }, new { @class = "LinkButton", @style = "color:red; font-size:18px; text-decoration:none" })
+                    </div>
+                </td>*@
+        </tr>
+    }
+    </table>

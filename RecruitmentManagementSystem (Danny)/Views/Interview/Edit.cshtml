@@ -6,10 +6,15 @@
     ViewBag.Title = "Set interview details";
 }
 
+@section Styles{
+    @Styles.Render("~/Content/chosen")
+}
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundle/chosen")
 
-    <script type="text/javascript" src="https://ajax.googlapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>\
+    <script type="text/javascript" src="https://ajax.googlapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <link rel="styleshee" href="https://maxcdn.boostrapcdn.com/bootstrap/3.3.7/css/boostrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="~/Content/themes/base/tpicker.css" rel="stylesheet" />
@@ -17,6 +22,20 @@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.13.0.min.js"></script>
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/chosen.jquery.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/chosen.min.css")" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+        //$(function () {
+        //    $(".chosen-interviewer").chosen();
+        //});
+
+        $(document).ready(function () {
+            $('.chosen-interviewer').chosen();
+        });
+    </script>
+
+
 
     <script>
         $(document).ready(function () {
@@ -31,6 +50,8 @@
                 yearRange: "-60:+60"
             });
         });
+
+
     </script>
 }
 
@@ -59,21 +80,23 @@
             <div class="col-md-10">
                 @Html.DropDownList("selectInterviewer", new List<SelectListItem>
                 {
-                      new SelectListItem { Text = "Sky", Value = "Sky", Selected=true},
+                      new SelectListItem { Text = "Sky", Value = "Sky"},
                       new SelectListItem { Text = "Danny", Value = "Danny"},
-                      new SelectListItem { Text = "Both", Value = "Both"}
-                })
+                      new SelectListItem { Text = "Gordon", Value = "Gordon"},
+                      new SelectListItem { Text = "Steven", Value = "Steven"}
+                }, "Select Interviewer",
+                new { @class = "form-control chosen-interviewer", multiple = "multiple" })
             </div>
         </div>
 
         <div class="form-group">
 
             @*<div class="form-group">
-            @Html.Label("Interview Time", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.Editor("interviewTime", new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>*@
+                    @Html.Label("Interview Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Editor("interviewTime", new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 @Html.Label("Interview Date", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -106,7 +129,7 @@
                     <button type="button" class="btn btn-primary" onclick="showpickers('timepkr',24)" style="width:35px; height:35px; float:left;" /><i class="fa fa-clock-o"></i>
                     @* @Html.Editor("timepkr", new { htmlAttributes = new { @class = "form-control" } })*@
                 </div>
-                <div class="timepicker"></div> 
+                <div class="timepicker"></div>
                 <span id="error" style="margin-left:215px;"></span>
             </div>
             <br /><br />
@@ -123,11 +146,11 @@
                     }
                     else if (data == "FirstInterview" && Model.FirstInterviewerStatus == "No")
                     {
-                        <input name="process" type="submit" id="process" value="Update"  onclick="errorMessage()" class="btn btn-default" />
+                        <input name="process" type="submit" id="process" value="Update" onclick="errorMessage()" class="btn btn-default" />
                     }
                     else if (data == "SecondInterview" && Model.SecondInterviewerStatus == "TBA")
                     {
-                        <input name="submit" type="submit" id="submit" value="Save"  onclick="errorMessage()"class="btn btn-default" />
+                        <input name="submit" type="submit" id="submit" value="Save" onclick="errorMessage()" class="btn btn-default" />
                     }
                     else if (data == "SecondInterview" && Model.SecondInterviewerStatus == "No")
                     {
