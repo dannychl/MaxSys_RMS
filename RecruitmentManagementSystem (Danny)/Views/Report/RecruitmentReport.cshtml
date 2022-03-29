@@ -1,9 +1,6 @@
 ﻿@model RecruitmentManagementSystem__Danny_.Models.Candidate
 
 <style>
-    table, th, td {
-        border: 2px solid black;
-    }
 
     .fontView {
         text-align: center;
@@ -21,25 +18,27 @@
     </td>
 </table>
 <hr />
-    <table>
+    <table style="border:hidden">
         <tr>
-            <td>
-                <div class="form-group">
+            <td style="border:hidden">
+                <dl class="dl-horizontal">
+                    <dt>
                         @Html.Label("Method Used: ", htmlAttributes: new { @class = "col-sm-10" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("ddlMethodUsed", Model.MethodUsedList)
-                        </div>
-                    </div>
-</td>
-        </tr>
-        <tr>
+                    </dt>
+                    <dd>
+                        @Html.DropDownList("ddlMethodUsed", Model.MethodUsedList, "Select All", new { @style = "color: black; padding: 8px 35px; border: 2px solid darkgrey; text-align:center" })
+                    </dd>
+                </dl>
+            </td>
             <td>
-                <div class="form-group">
-                    @Html.Label("Position: ", htmlAttributes: new { @class = "col-sm-10" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ddlPosition", Model.PositionList)
-                    </div>
-                </div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Position: ", htmlAttributes: new { @class = "col-sm-10" })
+                    </dt>
+                    <dd>
+                        @Html.DropDownList("ddlPosition", Model.PositionList, "Select All", new { @style = "color: black; padding: 8px 35px; border: 2px solid darkgrey; text-align:center" })
+                    </dd>
+                </dl>
             </td>
         </tr>
     </table>

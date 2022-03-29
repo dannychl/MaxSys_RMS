@@ -1,5 +1,5 @@
-﻿@*@model  IEnumerable <RecruitmentManagementSystem__Danny_.Models.Candidate>*@
-@model  IPagedList<RecruitmentManagementSystem__Danny_.Models.Candidate>
+﻿@model  IEnumerable <RecruitmentManagementSystem__Danny_.Models.Candidate>
+@*@model  IPagedList<RecruitmentManagementSystem__Danny_.Models.Candidate>*@
 @using PagedList;
 @using PagedList.Mvc;
 
@@ -48,12 +48,12 @@
         </th>*@
         <th>
             <div class="fontView">
-                @Html.DisplayNameFor(model => model.First().Name)
+                @Html.DisplayNameFor(model => model.Name)
             </div>
         </th>
         <th>
             <div class="fontView">
-                @Html.DisplayNameFor(model => model.First().Position)
+                @Html.DisplayNameFor(model => model.Position)
             </div>
         </th>
         <th style="width:250px">

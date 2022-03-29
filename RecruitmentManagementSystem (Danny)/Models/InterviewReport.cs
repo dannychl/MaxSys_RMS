@@ -11,10 +11,12 @@ namespace RecruitmentManagementSystem__Danny_.Models
 {
     public class InterviewReport
     {
-        public IEnumerable<Interview> Interviewees { get; set; }
-        public IEnumerable<InterviewDetail> InterviewDetails { get; set; }
-        public IEnumerable<InterviewerComment> InterviewerComments { get; set; }
-        public IEnumerable<User> Interviewers { get; set; }
+        public Interview Interviewee { get; set; }
+        public InterviewDetail InterviewDetail { get; set; }
+        public InterviewerComment InterviewerComment { get; set; }
+        public User Interviewer { get; set; }
+
+        public Candidate Candidate { get; set; }
     }
 
 }

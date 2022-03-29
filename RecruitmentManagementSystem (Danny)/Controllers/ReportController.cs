@@ -14,15 +14,18 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
 
         private DatabaseContext db = new DatabaseContext();
 
-        public PartialViewResult ShowInterviewReportTable(string searchName, string searchStatus/*, string startDate, string endDate*/)
+        [HttpGet]
+        public PartialViewResult ShowInterviewReportTable(string searchName, string searchStatus, string startDate, string endDate)
         {
+            DateTime startDateConvert = DateTime.Now, endDateConvert = DateTime.Now;
+            //InterviewReport myModel = new InterviewReport();
 
-            InterviewReport myModel = new InterviewReport();
+            //myModel.Interviewees = db.Interviewer.ToList();
+            //myModel.InterviewDetails = db.InterviewDetail.ToList();
+            //myModel.InterviewerComments = db.InterviewerComment.ToList();
+            //myModel.Interviewers = db.User.ToList();
 
-            myModel.Interviewees = db.Interviewer.ToList();
-            myModel.InterviewDetails = db.InterviewDetail.ToList();
-            myModel.InterviewerComments = db.InterviewerComment.ToList();
-            myModel.Interviewers = db.User.ToList();
+
             /*InterviewReport interviewReport = new InterviewReport()
             {
                 Interviewees = db.Interviewer.ToList(),
@@ -36,32 +39,234 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             interviewReport.InterviewerComments = db.InterviewerComment.ToList();
             interviewReport.Interviewers = db.User.ToList();*/
 
-            /*var result = (from s in db.Interviewer // outer sequence
-                          join st in db.InterviewDetail
-                              on s.CandidatesId equals st.IntervieweeId
-                          join stt in db.InterviewerComment
-                              on st.Id equals stt.InterviewDetailId
-                          join sttt in db.User
-                              on stt.InterviewerId equals sttt.Id
-                          where s.IntervieweeName == searchName
-                          select new
-                          { // result selector 
-                              Interviewer = s,
-                              InterviewDetail = st,
-                              InterviewerComment = stt,
-                              User = sttt
-                          }).ToList();*/
+            if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
+            {
+                startDateConvert = Convert.ToDateTime(startDate);
+                endDateConvert = Convert.ToDateTime(endDate);
 
-            return PartialView("InterviewReportTable_PartialView", myModel);
+                if (!string.IsNullOrEmpty(searchName) && !string.IsNullOrEmpty(searchStatus))
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  where (st.InterviewDate >= startDateConvert.Date && st.InterviewDate <= endDateConvert.Date)
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  where s.IntervieweeName == searchName && s.IntervieweeStatus == searchStatus
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+                else if (!string.IsNullOrEmpty(searchName) && string.IsNullOrEmpty(searchStatus))
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  where (st.InterviewDate >= startDateConvert.Date && st.InterviewDate <= endDateConvert.Date)
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  where s.IntervieweeName == searchName
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+                else if (string.IsNullOrEmpty(searchName) && !string.IsNullOrEmpty(searchStatus))
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  where (st.InterviewDate >= startDateConvert.Date && st.InterviewDate <= endDateConvert.Date)
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  where s.IntervieweeStatus == searchStatus
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+                else
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  where (st.InterviewDate >= startDateConvert.Date && st.InterviewDate <= endDateConvert.Date)
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(searchName) && !string.IsNullOrEmpty(searchStatus))
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  where s.IntervieweeName == searchName && s.IntervieweeStatus == searchStatus
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+                else if(!string.IsNullOrEmpty(searchName) && string.IsNullOrEmpty(searchStatus))
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  where s.IntervieweeName == searchName
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+                else if (string.IsNullOrEmpty(searchName) && !string.IsNullOrEmpty(searchStatus))
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  where s.IntervieweeStatus == searchStatus
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+                else
+                {
+                    var result = (from s in db.Interviewer.ToList() // outer sequence
+                                  join st in db.InterviewDetail.ToList()
+                                      on s.Id equals st.IntervieweeId
+                                  /*where (st.InterviewDate >= startDateConvert.Date && st.InterviewDate <= endDateConvert.Date)*/
+                                  join stt in db.InterviewerComment.ToList()
+                                      on st.Id equals stt.InterviewDetailId
+                                  join sttt in db.User.ToList()
+                                      on stt.InterviewerId equals sttt.Id
+                                  join stttt in db.Candidate.ToList()
+                                      on s.CandidatesId equals stttt.Id
+                                  select new InterviewReport()
+                                  { // result selector 
+                                      Interviewee = s,
+                                      InterviewDetail = st,
+                                      InterviewerComment = stt,
+                                      Interviewer = sttt,
+                                      Candidate = stttt
+                                  }).ToList();
+
+                    return PartialView("InterviewReportTable_PartialView", result);
+                }
+            }
         }
 
         public PartialViewResult ShowRecruitmentReportTable(string searchMethodUsed, string searchPosition)
         {
-            var result = (from s in db.Candidate
-                         where s.MethodUsed == searchMethodUsed && s.Position == searchPosition
-                         select s).ToList();
 
-            return PartialView("RecruitmentReportTable_PartialView", result);
+            if (!string.IsNullOrEmpty(searchMethodUsed) && !string.IsNullOrEmpty(searchPosition))
+            {
+                var result = (from s in db.Candidate
+                              where s.MethodUsed == searchMethodUsed && s.Position == searchPosition
+                              select s).ToList();
+                return PartialView("RecruitmentReportTable_PartialView", result);
+            }
+            else if ((string.IsNullOrEmpty(searchMethodUsed) && !string.IsNullOrEmpty(searchPosition)))
+            {
+                var result = (from s in db.Candidate
+                              where s.Position == searchPosition
+                              select s).ToList();
+                return PartialView("RecruitmentReportTable_PartialView", result);
+            }
+            else if (!string.IsNullOrEmpty(searchMethodUsed) && string.IsNullOrEmpty(searchPosition))
+            {
+                var result = (from s in db.Candidate
+                              where s.MethodUsed == searchMethodUsed
+                              select s).ToList();
+                return PartialView("RecruitmentReportTable_PartialView", result);
+            }
+            else
+            {
+                var result = (from s in db.Candidate
+                              select s).ToList();
+                return PartialView("RecruitmentReportTable_PartialView", result);
+            }
         }
 
             // GET: Report

@@ -6,11 +6,23 @@
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 
+<table style="border:hidden; width:100%">
+    <td style="border:hidden">
+        <h2 style="font-family:Verdana; font-weight:bold">Interview Report</h2>
+    </td>
+</table>
+<hr />
 <table>
     <tr>
-        <!--<td>
-            Start: <input type="text" id="txtStartDate" name="startDate" class="startDate" /><br /><br />
-            End: <input type="text" id="txtEndDate" name="endDate" class="endDate" /><br /><br />-->
+        <td>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.Label("Start: ", htmlAttributes: new { @class = "col-sm-10" })
+                </dt>
+                <dd>
+                    <input type="text" id="txtStartDate" name="startDate" class="startDate" />
+                </dd>
+            </dl>
             @*<input type="submit" value="Submit" />*@
             @*@if (ViewBag.Message != null)
                 {
@@ -20,27 +32,38 @@
                     });
                     </script>
                 }*@
-        <!--</td>-->
-    </tr>
-    <tr>
+        </td>
         <td>
-            <div class="form-group">
-                @Html.Label("Name: ", htmlAttributes: new { @class = "col-sm-10" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ddlIntervieweeName", Model.IntervieweeNameList)
-                </div>
-            </div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.Label("Name: ")
+                </dt>
+                <dd>
+                    @Html.DropDownList("ddlIntervieweeName", Model.IntervieweeNameList, "Select All", new { @style = "color: black; padding: 8px; border: 2px solid darkgrey; text-align:center" })
+                </dd>
+            </dl>
         </td>
     </tr>
-
     <tr>
         <td>
-            <div class="form-group">
-                @Html.Label("Interviewee Status: ", htmlAttributes: new { @class = "col-sm-10" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ddlIntervieweeStatus", Model.IntervieweeStatusList)
-                </div>
-            </div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.Label("End:  ", htmlAttributes: new { @class = "col-sm-10" })
+                </dt>
+                <dd>
+                    <input type="text" id="txtEndDate" name="endDate" class="endDate" />
+                </dd>
+            </dl>
+        </td>
+        <td>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.Label("Interviewee Status: ")
+                </dt>
+                <dd>
+                    @Html.DropDownList("ddlIntervieweeStatus", Model.IntervieweeStatusList, "Select All", new { @style = "color: black; padding: 8px 25px; border: 2px solid darkgrey; text-align:center;" })
+                </dd>
+            </dl>
         </td>
     </tr>
 </table>
@@ -63,20 +86,17 @@
             url: '@Url.Action("ShowInterviewReportTable", "Report")',
             datatype: 'html',
             method: 'GET',
-            data: { searchName: $('#ddlIntervieweeName').val(), searchStatus: $('#ddlIntervieweeStatus').val()@*, startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val()*@},
+            data: { searchName: $('#ddlIntervieweeName').val(), searchStatus: $('#ddlIntervieweeStatus').val(), startDate: $('#txtStartDate').val(), endDate: $('#txtEndDate').val()},
             success: function (res) {
-                alert("Working!")
                 $('#interviewGridSearch').html('').html(res);
             },
             error: function (err) {
-                alert($('#txtStartDate').val() + "and" + $('#txtEndDate').val() + $('#ddlIntervieweeName').val() + $('#ddlIntervieweeStatus').val())
-                console.log(err + "Hello World");
-
+                console.log(err);
             }
         })
     }
 
-   @* $(function () {
+    $(function () {
         $(".startDate").datepicker({
             autoclose: true,
             format: 'dd/mm/yyyy'
@@ -94,6 +114,6 @@
             minDate.setDate(minDate.getDate() - 1);
             $('.startDate').datepicker('setEndDate', minDate);
         });
-    });*@
+    });
 </script>
 
