@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RecruitmentManagementSystem__Danny_.Models
 {
@@ -20,6 +21,9 @@ namespace RecruitmentManagementSystem__Danny_.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime InterviewDate { get; set; }
         public int InterviewProgress { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DateCreated { get; set; }
 
     }
 }

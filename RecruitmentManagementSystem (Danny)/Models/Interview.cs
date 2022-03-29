@@ -24,5 +24,11 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public string SecondInterviewerStatus { get; set; }
         public string IntervieweeResumeLink { get; set; }
         public int CandidatesId { get; set; }
+
+        [NotMapped]
+        public SelectList IntervieweeNameList { get; set; }
+        
+        [NotMapped]
+        public SelectList IntervieweeStatusList { get; set; }
     }
 }

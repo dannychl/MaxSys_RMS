@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<table style="border:hidden; width:100%">
+    <td style="border:hidden">
+        <h2 style="font-family:Verdana; font-weight:bold">OnBoarding</h2>
+    </td>
+</table>
+
+<body>
+    <div id="gridSearch"></div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+        $(".LinkButton").on("click", function () {
+            return confirm("Do you want to confirm your selection?");
+        });
+        @*$('dosubmit').click(function (e) {
+            return confirm("Do you want to submit?");
+        }*@
+
+    $(() => {
+        getUsers();
+
+        $('#txtSearch').on('keyup', () => {
+            getUsers();
+        });
+    });
+
+    function getUsers() {
+        $.ajax({
+            url: '@Url.Action("SearchUsers","OnBoarding")',
+            datatype: 'html',
+            method: 'GET',
+            data: { searchText: $('#txtSearch').val()},
+            success: function (res) {
+                $('#gridSearch').html('').html(res);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+</script>
+

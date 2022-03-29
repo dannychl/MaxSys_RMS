@@ -1,0 +1,529 @@
+﻿@model RecruitmentManagementSystem__Danny_.Models.OnBoard
+
+@{
+    ViewBag.Title = "DisplayDepartmentWithCheckBox";
+}
+
+<h2>Fill In Details Below</h2>
+<hr />
+
+<script type="text/javascript" src="https://ajax.googlapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="styleshee" href="https://maxcdn.boostrapcdn.com/bootstrap/3.3.7/css/boostrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.13.0.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @*<a class='modal-link btn-xs btn-success'>Test Modal</a>*@
+
+    <div class="modal fade" id="task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg-1">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close">
+                        @Html.ActionLink("x", "Index", null, new { @style = "color:black; font-weight:bold; font-size: 25px; text-decoration: none" })
+                    </button>
+                    <h4 class="modal-title">Choose Company Type</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.Label("On-Board Date", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        <div class="col-md-10">
+                            @{
+                                var dateTdy = DateTime.Today;
+                                var dateTmr = dateTdy.AddDays(1);
+                            }
+                            @Html.Editor("interviewDate",
+                        new
+                        {
+
+                            htmlAttributes = new
+                            {
+                                @readonly = "true",
+                                     Value = dateTmr.ToShortDateString(),
+                                    @*@readonly = "true", Value = Model.DateOfBirth.ToString("dd-MM-yyyy"),*@
+@class = "form-control datepicker",
+}
+})
+                        </div>
+                    </div>
+                    <br /><br />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4" name="btnCompanyType" value="TMS" style="width:49%">TMS</button>
+                    <button type="submit" class="btn btn-primary button button4" name="btnCompanyType" value="Max" style="width:49%">Max System</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    if (@ViewBag.companyType == "TMS")
+    {
+        <table width="100%" style="font-size:16px">
+            <tr>
+                <td width="50%" >
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Name:
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CandidateName)
+                        </dd>
+                    </dl>
+                </td>
+                <td width="50%">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Company:
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CompanyType)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.Label("On-Board Date:", htmlAttributes: new { @class = "control-label" })
+                            </dt>
+                            <dd>
+                                <div>
+                                    @Html.Editor("interviewDate2",
+                                new
+                                {
+
+                                    htmlAttributes = new
+                                    {
+                                        @readonly = "true",
+                                        Value = Model.OnBoardDate?.ToString("dd-MMM-yyyy"),
+                                        @class = "form-control datepicker",
+                                    }
+                                    })
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <hr />
+
+        <table width="100%" style="font-size:16px">
+            <tr>
+                <td width="30%">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.SignNDA)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.SignNDA)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_Safety)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_Safety)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.SignEmailAndInternetAgreement)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.SignEmailAndInternetAgreement)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_EmployeeBadge)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_EmployeeBadge)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.MantorAndMantee)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.MantorAndMantee)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_InternetAccess)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_InternetAccess)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.SMiT)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.SMiT)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_VPN)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_VPN)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.InternalTrainingAndTrainingMaterial)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.InternalTrainingAndTrainingMaterial)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_EPortal_ELearning)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_EPortal_ELearning)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_TShirt_Cap_Tupperware)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_TShirt_Cap_Tupperware)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_Laptop)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_Laptop)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_DevelopmentStandardsBriefing)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_DevelopmentStandardsBriefing)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_ServiceReportAccount)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_ServiceReportAccount)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_Locker)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_Locker)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary button button4">Submit</button>
+
+
+    }
+    else if (@ViewBag.companyType == "Max")
+    {
+        <table width="100%" style="font-size:16px">
+            <tr>
+                <td width="50%">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Name:
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CandidateName)
+                        </dd>
+                    </dl>
+                </td>
+                <td width="50%">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Company:
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CompanyType)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-group">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.Label("On-Board Date:", htmlAttributes: new { @class = "control-label" })
+                            </dt>
+                            <dd>
+                                <div>
+                                    @Html.Editor("interviewDate3",
+                                new
+                                {
+
+                                    htmlAttributes = new
+                                    {
+                                        @readonly = "true",
+                                        Value = Model.OnBoardDate?.ToString("dd-MMM-yyyy"),
+                                        @class = "form-control datepicker",
+                                    }
+                                    })
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <hr />
+        <table style="font-size:16px">
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.PassportSizePhoto)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.PassportSizePhoto)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.MaxSys_RulesAndRegulation)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.MaxSys_RulesAndRegulation)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.Latest3MonthPaySlip)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.Latest3MonthPaySlip)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.MaxSys_DoorAccessCard)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.MaxSys_DoorAccessCard)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.PhotocopyOfCertificates)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.PhotocopyOfCertificates)
+                        </dd>
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.MaxSys_CompanyTShirt)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.MaxSys_CompanyTShirt)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.PhotocopyOfNRIC)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.PhotocopyOfNRIC)
+                        </dd>
+
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.TMS_DevelopmentStandardsBriefing)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.TMS_DevelopmentStandardsBriefing)
+                        </dd>
+                    </dl>
+                </td>
+            </tr> 
+            
+            <tr>
+                <td>
+                    <dl class="dl-horizontal">
+
+                        <dt>
+                            @Html.CheckBoxFor(model => model.EmailAccount)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.EmailAccount)
+                        </dd>
+
+                    </dl>
+                </td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.CheckBoxFor(model => model.InternalTrainingAndTrainingMaterial)
+                        </dt>
+                        <dd>
+                            @Html.DisplayNameFor(model => model.InternalTrainingAndTrainingMaterial)
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary button button4">Submit</button>
+    }
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+    if ('@ViewBag.companyType' == "Pending") {
+        $(document).ready(function () {
+            jQuery.noConflict();
+            $('#task').modal('show');
+            $("#btnHideModal").click(function () {
+                $("#task").modal('hide');
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        jQuery.noConflict();
+        $('.datepicker').datepicker({
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            showOn: "button",
+            minDate: "+1",
+            //buttonText: "<span class='glyphicon glyphicon-calendar'></span>",
+            buttonText: "Select Date",
+            yearRange: "-60:+60"
+        });
+    });
+</script>
+

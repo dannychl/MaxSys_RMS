@@ -18,5 +18,8 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public string InterviewRemarks { get; set; }
         public string InterviewResult { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DateCreated { get; set; }
+
     }
 }

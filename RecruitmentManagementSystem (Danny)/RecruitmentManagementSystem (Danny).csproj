@@ -156,6 +156,8 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\InterviewController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OnBoardingController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ShowAllCandidatesController.cs" />
     <Compile Include="DAL\DatabaseContext.cs" />
     <Compile Include="DAL\DatabaseInitializer.cs" />
@@ -168,18 +170,23 @@
     <Compile Include="Models\Interview.cs" />
     <Compile Include="Models\InterviewerComment.cs" />
     <Compile Include="Models\InterviewDetail.cs" />
+    <Compile Include="Models\InterviewReport.cs" />
     <Compile Include="Models\InterviewStatus.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\OnBoard.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-chosen.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Chart.css" />
     <Content Include="Content\Chart.min.css" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -228,9 +235,13 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootstrap-chosen.scss" />
+    <Content Include="Content\bootstrap-chosen.less" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -280,6 +291,15 @@
     <Content Include="Views\ShowAllCandidates\SearchAllCandidate_View.cshtml" />
     <Content Include="Views\Interview\DisplayInterviewer_View.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\OnBoarding\Index.cshtml" />
+    <Content Include="Views\OnBoarding\SearchOnBoardCandidate_View.cshtml" />
+    <Content Include="Views\OnBoarding\DisplayTaskToFilled_OfferAccepted.cshtml" />
+    <Content Include="Views\OnBoarding\DisplayDepartmentWithCheckBox.cshtml" />
+    <Content Include="Views\Report\RecruitmentReport.cshtml" />
+    <Content Include="Views\Report\InterviewReport.cshtml" />
+    <Content Include="Views\Report\OnBoardingReport.cshtml" />
+    <Content Include="Views\Report\RecruitmentReportTable_PartialView.cshtml" />
+    <Content Include="Views\Report\InterviewReportTable_PartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
