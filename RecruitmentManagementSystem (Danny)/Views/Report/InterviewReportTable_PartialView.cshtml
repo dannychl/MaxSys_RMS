@@ -102,13 +102,13 @@
                 </div>
             </td>
             <td class="tableStyle">
-                <div class="fontViewWhite" style=" font-size: 15px;">
+                <div class="fontViewWhite" style=" font-size: 15px; width:150px">
                     @*@Html.DisplayFor(modelItem => x.InterviewDate)*@
                     @Html.DisplayFor(modelItem => Model.ElementAt(i).InterviewDetail.InterviewDate)
                 </div>
             </td>
             <td class="tableStyle">
-                <div class="fontViewWhite" style=" font-size: 15px; width:100px">
+                <div class="fontViewWhite" style=" font-size: 15px; width:150px">
                     @Html.DisplayFor(modelItem => Model.ElementAt(i).InterviewDetail.InterviewProgress)
                 </div>
             </td>
@@ -132,51 +132,6 @@
                     @Html.DisplayFor(modelItem => Model.ElementAt(i).InterviewerComment.InterviewResult)
                 </div>
             </td>
-            @*@foreach (var x in Model.InterviewDetails)
-                {
-                    <td>
-                        <div class="fontViewWhite" style=" font-size: 15px;">
-                            @Html.DisplayFor(modelItem => x.InterviewDate)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="fontViewWhite" style=" font-size: 15px;">
-                            @Html.DisplayFor(modelItem => x.InterviewProgress)
-                        </div>
-                    </td>
-                    break;
-                }*@
         </tr>
     }
-    @*@foreach (Interview interviewee in Model.Interviewees)
-        {
-            <tr align="center" style='background-color: @((RowNo % 2 != 0) ? "lightgrey" : "whitesmoke");'>
-                <td>@{RowNo++;} @RowNo</td>
-                <td>
-                    <div class="fontViewWhite" style=" font-size: 15px;">
-                        @Html.DisplayFor(modelItem => interviewee.IntervieweeName)
-                    </div>
-                </td>
-                <td>
-                    <div class="fontViewWhite" style=" font-size: 15px;">
-                        @Html.DisplayFor(modelItem => interviewee.IntervieweeStatus)
-                    </div>
-                </td>
-
-                @foreach (var x in Model.InterviewDetails)
-                {
-                    <td>
-                        <div class="fontViewWhite" style=" font-size: 15px;">
-                            @Html.DisplayFor(modelItem => x.InterviewDate)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="fontViewWhite" style=" font-size: 15px;">
-                            @Html.DisplayFor(modelItem => x.InterviewProgress)
-                        </div>
-                    </td>
-                    break;
-                }
-            </tr>
-        }*@
 </table>

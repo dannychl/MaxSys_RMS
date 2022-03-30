@@ -1,0 +1,114 @@
+﻿@model IEnumerable<RecruitmentManagementSystem__Danny_.Models.OnBoard>
+<style>
+    .tableStyle {
+        border: 2px solid black;
+    }
+
+    .fontView {
+        text-align: center;
+        color: white;
+        font-size: 14px;
+        background-size: 5px;
+        font-weight: bold;
+        font-family: Verdana;
+    }
+
+    .fontViewWhite {
+        resize: both;
+        color: black;
+        font-family: Verdana;
+    }
+</style>
+<table class="table">
+    <tr bgcolor="midnightblue" class="tableStyle">
+        @*<th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>*@
+        <th class="tableStyle">
+            <div class="fontView">
+                @Html.DisplayName("No")
+            </div>
+        </th>
+        <th class="tableStyle">
+            <div class="fontView">
+                @Html.DisplayName("Candidate Name")
+            </div>
+        </th>
+        <th class="tableStyle">
+            <div class="fontView">
+                @Html.DisplayName("Offer Candidate Status")
+            </div>
+        </th>
+        <th class="tableStyle">
+            <div class="fontView">
+                @Html.DisplayName("On-Board Date")
+            </div>
+        </th>
+    </tr>
+
+    @if (Model.Count() == 0)
+    {
+        <td class="tableStyle" colspan="9" style="font-size:20px; text-align:center; font-weight:bold">No data found</td>
+    }
+    @{int RowNo = 0;}
+    @foreach (var item in Model)
+    {
+        <tr align="center" style='background-color: @((RowNo % 2 != 0) ? "lightgrey" : "whitesmoke");' class="tableStyle">
+            <td class="tableStyle">@{RowNo++;} @RowNo</td>
+            <td class="tableStyle">
+                <div class="fontViewWhite" style=" font-size: 15px;">
+                    @Html.DisplayFor(modelitem => item.CandidateName)
+                </div>
+            </td>
+            <td class="tableStyle">
+                <div class="fontViewWhite" style=" font-size: 15px;">
+                    @Html.DisplayFor(modelitem => item.OfferIntervieweeStatus)
+                </div>
+            </td>
+            <td class="tableStyle">
+                <div class="fontViewWhite" style=" font-size: 15px;">
+
+                    @if (item.OnBoardDate == null)
+                    {
+                        @Html.DisplayName("TBA")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.OnBoardDate)
+                    }
+                </div>
+            </td>
+        </tr>
+    }
+    @*@foreach (Interview interviewee in Model.Interviewees)
+        {
+            <tr align="center" style='background-color: @((RowNo % 2 != 0) ? "lightgrey" : "whitesmoke");'>
+                <td>@{RowNo++;} @RowNo</td>
+                <td>
+                    <div class="fontViewWhite" style=" font-size: 15px;">
+                        @Html.DisplayFor(modelItem => interviewee.IntervieweeName)
+                    </div>
+                </td>
+                <td>
+                    <div class="fontViewWhite" style=" font-size: 15px;">
+                        @Html.DisplayFor(modelItem => interviewee.IntervieweeStatus)
+                    </div>
+                </td>
+
+                @foreach (var x in Model.InterviewDetails)
+                {
+                    <td>
+                        <div class="fontViewWhite" style=" font-size: 15px;">
+                            @Html.DisplayFor(modelItem => x.InterviewDate)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="fontViewWhite" style=" font-size: 15px;">
+                            @Html.DisplayFor(modelItem => x.InterviewProgress)
+                        </div>
+                    </td>
+                    break;
+                }
+            </tr>
+        }*@
+</table>

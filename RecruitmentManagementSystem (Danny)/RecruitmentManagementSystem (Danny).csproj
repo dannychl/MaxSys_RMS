@@ -298,6 +298,7 @@
     <Content Include="Views\Report\OnBoardingReport.cshtml" />
     <Content Include="Views\Report\RecruitmentReportTable_PartialView.cshtml" />
     <Content Include="Views\Report\InterviewReportTable_PartialView.cshtml" />
+    <Content Include="Views\Report\OnboardReportTable_PartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

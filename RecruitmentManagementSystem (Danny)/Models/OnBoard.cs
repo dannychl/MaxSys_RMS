@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RecruitmentManagementSystem__Danny_.Models
 {
@@ -62,5 +63,11 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public DateTime? DateTimeCreated { get; set; }
 
         public string ReasonOfRejectOffer { get; set; }
+
+        [NotMapped]
+        public SelectList CandidateNameList { get; set; }
+
+        [NotMapped]
+        public SelectList OfferCandidateStatusList { get; set; }
     }
 }

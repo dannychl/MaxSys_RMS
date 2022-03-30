@@ -23,7 +23,7 @@ namespace RecruitmentManagementSystem__Danny_.Models
         public int InterviewProgress { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
 
     }
 }

@@ -5,70 +5,72 @@
 <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
-<table style="border:hidden; width:100%">
-    <td style="border:hidden">
-        <h2 style="font-family:Verdana; font-weight:bold">Interview Report</h2>
-    </td>
-</table>
-<hr />
-<table>
-    <tr>
-        <td>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.Label("Start: ", htmlAttributes: new { @class = "col-sm-10" })
-                </dt>
-                <dd>
-                    <input type="text" id="txtStartDate" name="startDate" class="startDate" />
-                </dd>
-            </dl>
-            @*<input type="submit" value="Submit" />*@
-            @*@if (ViewBag.Message != null)
-                {
-                    <script type="text/javascript">
-                    $(function () {
-                        alert("@ViewBag.Message");
-                    });
-                    </script>
-                }*@
-        </td>
-        <td>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.Label("Name: ")
-                </dt>
-                <dd>
-                    @Html.DropDownList("ddlIntervieweeName", Model.IntervieweeNameList, "Select All", new { @style = "color: black; padding: 8px; border: 2px solid darkgrey; text-align:center" })
-                </dd>
-            </dl>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.Label("End:  ", htmlAttributes: new { @class = "col-sm-10" })
-                </dt>
-                <dd>
-                    <input type="text" id="txtEndDate" name="endDate" class="endDate" />
-                </dd>
-            </dl>
-        </td>
-        <td>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.Label("Interviewee Status: ")
-                </dt>
-                <dd>
-                    @Html.DropDownList("ddlIntervieweeStatus", Model.IntervieweeStatusList, "Select All", new { @style = "color: black; padding: 8px 25px; border: 2px solid darkgrey; text-align:center;" })
-                </dd>
-            </dl>
-        </td>
-    </tr>
-</table>
-<button id="button" class="btn btn-primary button button4">View</button>
 
+@using (Html.BeginForm())
+{
+    <table style="border:hidden; width:100%">
+        <tr>
+            <td style="border:hidden">
+                <h2 style="font-family:Verdana; font-weight:bold">Interview Report</h2>
+            </td>
+            <td>
+                <button id="buttonExport" type="submit" style="border-style:hidden; font-size: 20px; color: forestgreen; background-color: white; float:right">
+                    <i class="fas fa-file-export"></i> Export Report
+                </button>
+            </td>
+        </tr>
+    </table>
+    <hr />
+    <table>
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Date Start: ", htmlAttributes: new { @class = "col-sm-10" })
+                    </dt>
+                    <dd>
+                        <input type="text" autocomplete="off" id="txtStartDate" name="startDate" class="startDate" />
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Name: ")
+                    </dt>
+                    <dd>
+                        @Html.DropDownList("ddlIntervieweeName", Model.IntervieweeNameList, "Select All", new { @style = "color: black; padding: 8px; border: 2px solid darkgrey; text-align:center" })
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Date End:  ", htmlAttributes: new { @class = "col-sm-10" })
+                    </dt>
+                    <dd>
+                        <input type="text" autocomplete="off" id="txtEndDate" name="endDate" class="endDate" />
+                    </dd>
+                </dl>
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Interviewee Status: ")
+                    </dt>
+                    <dd>
+                        @Html.DropDownList("ddlIntervieweeStatus", Model.IntervieweeStatusList, "Select All", new { @style = "color: black; padding: 8px 25px; border: 2px solid darkgrey; text-align:center;" })
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
+    <button id="button" class="btn btn-primary button button4">View</button>
+}
 <div id="interviewGridSearch"></div>
 
 
@@ -78,6 +80,8 @@
     });*@
 
     $('#button').click(function () {
+        jQuery.noConflict();
+        event.preventDefault();
         getTable();
     });
 
