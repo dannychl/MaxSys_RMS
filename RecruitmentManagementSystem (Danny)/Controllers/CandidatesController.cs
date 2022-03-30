@@ -89,8 +89,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                home.DateCreated = DateTime.Now;
                 int currentAge = home.DateOfBirth.Year;
                 int curAge = DateTime.Now.Year;
 
@@ -141,10 +139,12 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink")] Candidate home)
+        public ActionResult Edit(FormCollection fc, [Bind(Include = "Id,Name,Age,Position,ExpectedSalary, DateOfBirth, Gender, WorkingExperience, WorkingExperienceRemarks, ResignPeriod, ProgrammingTest, SQLTest, TestRemarks, Status, CurrentSalary, MethodUsed, PhoneNum, ResumeLink, TestAnsLink, DateCreated")] Candidate home)
         {
+            
             if (ModelState.IsValid)
             {
+                home.DateCreated = DateTime.Parse(fc["DateCreated"]);
                 int currentAge = home.DateOfBirth.Year;
                 int curAge = DateTime.Now.Year;
 

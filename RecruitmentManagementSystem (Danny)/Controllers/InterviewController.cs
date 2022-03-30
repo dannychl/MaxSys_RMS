@@ -289,22 +289,25 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                     int findInterviewDetailId = (from s in db.InterviewDetail
                                                  where s.IntervieweeId == interview.Id & s.InterviewProgress == progress
                                                  select s.Id).First();
-
-                    for (int i = 0; i < selectInterviewer.Length; i++)
+                    if (selectInterviewer.Length > 0)
                     {
-                        string selectedInterviewer = selectInterviewer[i];
-                        User interviewerUser = db.User.Find((from s in db.User
-                                                             where s.Username == selectedInterviewer
-                                                             select s.Id).First());
-                        db.InterviewerComment.Add(new InterviewerComment
+                        for (int i = 0; i < selectInterviewer.Length; i++)
                         {
-                            InterviewerId = interviewerUser.Id,
-                            InterviewDetailId = findInterviewDetailId,
-                            InterviewRemarks = "None",
-                            InterviewResult = "None",
-                            DateCreated = DateTime.Now,
-                        });
+                            string selectedInterviewer = selectInterviewer[i];
+                            User interviewerUser = db.User.Find((from s in db.User
+                                                                 where s.Username == selectedInterviewer
+                                                                 select s.Id).First());
+                            db.InterviewerComment.Add(new InterviewerComment
+                            {
+                                InterviewerId = interviewerUser.Id,
+                                InterviewDetailId = findInterviewDetailId,
+                                InterviewRemarks = "None",
+                                InterviewResult = "None",
+                                DateCreated = DateTime.Now,
+                            });
+                        }
                     }
+                   
                     //switch (selectInterviewer[0])
                     //{
                     //    case "Sky":
