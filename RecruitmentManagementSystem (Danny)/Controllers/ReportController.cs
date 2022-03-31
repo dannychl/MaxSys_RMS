@@ -33,7 +33,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         }
 
         [HttpPost]
-        public ActionResult OnBoardingReport(string ddlCandidateName, string ddlOfferCandidateStatus, string txtStartDate, string txtEndDate)
+        public ActionResult OnBoardingReport(string ddlCandidateName, string ddlOfferCandidateStatus, string startDate, string endDate)
         {
             DataTable dt = new DataTable("On-Boarding Report");
 
@@ -66,26 +66,34 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                             new DataColumn("DateTimeCreated"),
                                             new DataColumn("CheckListStatus (Completed?)")});
 
-            var result = OnBoardReportChecking(ddlCandidateName, ddlOfferCandidateStatus, txtStartDate, txtEndDate);
-
-            foreach (var candidate in result)
+            var result = OnBoardReportChecking(ddlCandidateName, ddlOfferCandidateStatus, startDate, endDate);
+            if (result.Count() == 0 || result.ToList() == null)
             {
-                dt.Rows.Add(candidate.CandidateId, candidate.CandidateName, candidate.OfferIntervieweeStatus, candidate.PassportSizePhoto, candidate.Latest3MonthPaySlip, candidate.PhotocopyOfCertificates, candidate.PhotocopyOfNRIC,
-                    candidate.MaxSys_RulesAndRegulation, candidate.MaxSys_DoorAccessCard, candidate.EmailAccount, candidate.MaxSys_CompanyTShirt, candidate.TMS_DevelopmentStandardsBriefing,
-                    candidate.InternalTrainingAndTrainingMaterial, candidate.SignNDA, candidate.SignEmailAndInternetAgreement, candidate.TMS_EmployeeBadge, candidate.TMS_Safety, candidate.TMS_InternetAccess,
-                    candidate.TMS_VPN, candidate.TMS_EPortal_ELearning, candidate.TMS_TShirt_Cap_Tupperware, candidate.TMS_Locker, candidate.TMS_Laptop, candidate.MantorAndMantee, candidate.TMS_ServiceReportAccount, candidate.SMiT,
-                    candidate.DateTimeCreated, candidate.CheckListStatus);
+                ViewBag.ErrorMessage = "No Data Found!";
+                return View();
             }
-
-            using (XLWorkbook wb = new XLWorkbook())
+            else
             {
-                wb.Worksheets.Add(dt);
-                using (MemoryStream stream = new MemoryStream())
+                foreach (var candidate in result)
                 {
-                    wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SummaryOf_OnBoardReport.xlsx");
+                    dt.Rows.Add(candidate.CandidateId, candidate.CandidateName, candidate.OfferIntervieweeStatus, candidate.PassportSizePhoto, candidate.Latest3MonthPaySlip, candidate.PhotocopyOfCertificates, candidate.PhotocopyOfNRIC,
+                        candidate.MaxSys_RulesAndRegulation, candidate.MaxSys_DoorAccessCard, candidate.EmailAccount, candidate.MaxSys_CompanyTShirt, candidate.TMS_DevelopmentStandardsBriefing,
+                        candidate.InternalTrainingAndTrainingMaterial, candidate.SignNDA, candidate.SignEmailAndInternetAgreement, candidate.TMS_EmployeeBadge, candidate.TMS_Safety, candidate.TMS_InternetAccess,
+                        candidate.TMS_VPN, candidate.TMS_EPortal_ELearning, candidate.TMS_TShirt_Cap_Tupperware, candidate.TMS_Locker, candidate.TMS_Laptop, candidate.MantorAndMantee, candidate.TMS_ServiceReportAccount, candidate.SMiT,
+                        candidate.DateTimeCreated, candidate.CheckListStatus);
+                }
+
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dt);
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SummaryOf_OnBoardReport.xlsx");
+                    }
                 }
             }
+            
         }
         public IQueryable<OnBoard> OnBoardReportChecking(string ddlCandidateName, string ddlOfferCandidateStatus, string onBoardDateFrom, string onBoardDateTo)
         {
@@ -174,7 +182,6 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         {
 
             var result = RecruitmentReportChecking(searchMethodUsed, searchPosition, dateFrom, dateTo);
-
             return PartialView("RecruitmentReportTable_PartialView", result.ToList());
         }
 
@@ -245,9 +252,9 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                 {
                     var result = (from s in db.Candidate
                                   select s);
-
                     return result;
                 }
+                
             }
         }
 
@@ -270,7 +277,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
         }
 
         [HttpPost]
-        public ActionResult RecruitmentReport(string ddlMethodUsed, string ddlPosition, string dateFrom, string dateTo)
+        public ActionResult RecruitmentReport(string ddlMethodUsed, string ddlPosition, string startDate, string endDate)
         {
             DataTable dt = new DataTable("Recruitment Report");
             dt.Columns.AddRange(new DataColumn[20] { new DataColumn("Id"),
@@ -294,30 +301,34 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                              new DataColumn("Test Answer Link"),
                                              new DataColumn("Date Created")});
 
-            var result = RecruitmentReportChecking(ddlMethodUsed, ddlPosition, dateFrom, dateTo);
+            var result = RecruitmentReportChecking(ddlMethodUsed, ddlPosition, startDate, endDate);
 
-            if (result.ToList().Count() == 0|| result.ToList() == null)
+            if (result.Count() == 0 || result.ToList() == null)
             {
                 ViewBag.ErrorMessage = "No Data Found!";
                 return View();
             }
-            foreach (var candidate in result)
+            else
             {
-                dt.Rows.Add(candidate.Id, candidate.Name, candidate.Age, candidate.Position, candidate.DateOfBirth, candidate.CurrentSalary, candidate.ExpectedSalary,
-                    candidate.Gender, candidate.PhoneNum, candidate.ResignPeriod, candidate.WorkingExperience, candidate.WorkingExperienceRemarks,
-                    candidate.ProgrammingTest, candidate.SQLTest, candidate.TestRemarks, candidate.Status, candidate.MethodUsed, candidate.ResumeLink,
-                    candidate.TestAnsLink, candidate.DateCreated);
-            }
-
-            using (XLWorkbook wb = new XLWorkbook())
-            {
-                wb.Worksheets.Add(dt);
-                using (MemoryStream stream = new MemoryStream())
+                foreach (var candidate in result)
                 {
-                    wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SummaryOf_RecruitmentReport.xlsx");
+                    dt.Rows.Add(candidate.Id, candidate.Name, candidate.Age, candidate.Position, candidate.DateOfBirth, candidate.CurrentSalary, candidate.ExpectedSalary,
+                        candidate.Gender, candidate.PhoneNum, candidate.ResignPeriod, candidate.WorkingExperience, candidate.WorkingExperienceRemarks,
+                        candidate.ProgrammingTest, candidate.SQLTest, candidate.TestRemarks, candidate.Status, candidate.MethodUsed, candidate.ResumeLink,
+                        candidate.TestAnsLink, candidate.DateCreated);
+                }
+
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dt);
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SummaryOf_RecruitmentReport.xlsx");
+                    }
                 }
             }
+           
 
         }
 
@@ -332,7 +343,7 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
             return View(interviewee);
         }
         [HttpPost]
-        public ActionResult InterviewReport(string ddlIntervieweeName, string ddlIntervieweeStatus, string txtStartDate, string txtEndDate)
+        public ActionResult InterviewReport(string ddlIntervieweeName, string ddlIntervieweeStatus, string startDate, string endDate)
         {
             DatabaseContext db = new DatabaseContext();
             DataTable dt = new DataTable("Recruitment Report");
@@ -346,33 +357,41 @@ namespace RecruitmentManagementSystem__Danny_.Controllers
                                             new DataColumn("InterviewResult"),
                                             new DataColumn("Interviewer Name")});
 
-            var result = InterviewReportChecking(ddlIntervieweeName, ddlIntervieweeStatus, txtStartDate, txtEndDate);
+            var result = InterviewReportChecking(ddlIntervieweeName, ddlIntervieweeStatus, startDate, endDate);
 
-            foreach (var interview in result)
+            if (result.Count() == 0 || result.ToList() == null)
             {
-                string tempTime = interview.InterviewDetail.InterviewTime;
-                string formattedTime = "";
-                int formattedHour = Int32.Parse(tempTime.Substring(0, 2));
-                if (formattedHour > 12)
-                {
-                    formattedHour -= 12;
-                    formattedTime = Convert.ToString(formattedHour) + tempTime.Substring(2, 3) + " am";
-                }
-                else
-                {
-                    formattedTime = tempTime + " pm";
-                }
-                dt.Rows.Add(interview.Interviewee.CandidatesId, interview.Candidate.Name, interview.InterviewDetail.InterviewProgress, @Convert.ToDateTime(interview.InterviewDetail.InterviewDate).ToString("dd-MMM-yyyy"), formattedTime,
-                   interview.InterviewerComment.InterviewRemarks, interview.InterviewerComment.InterviewResult, interview.Interviewer.Username);
+                ViewBag.ErrorMessage = "No Data Found!";
+                return View();
             }
-
-            using (XLWorkbook wb = new XLWorkbook())
+            else
             {
-                wb.Worksheets.Add(dt);
-                using (MemoryStream stream = new MemoryStream())
+                foreach (var interview in result)
                 {
-                    wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SummaryOf_InterviewReport.xlsx");
+                    string tempTime = interview.InterviewDetail.InterviewTime;
+                    string formattedTime = "";
+                    int formattedHour = Int32.Parse(tempTime.Substring(0, 2));
+                    if (formattedHour > 12)
+                    {
+                        formattedHour -= 12;
+                        formattedTime = Convert.ToString(formattedHour) + tempTime.Substring(2, 3) + " am";
+                    }
+                    else
+                    {
+                        formattedTime = tempTime + " pm";
+                    }
+                    dt.Rows.Add(interview.Interviewee.CandidatesId, interview.Candidate.Name, interview.InterviewDetail.InterviewProgress, @Convert.ToDateTime(interview.InterviewDetail.InterviewDate).ToString("dd-MMM-yyyy"), formattedTime,
+                       interview.InterviewerComment.InterviewRemarks, interview.InterviewerComment.InterviewResult, interview.Interviewer.Username);
+                }
+
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dt);
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "SummaryOf_InterviewReport.xlsx");
+                    }
                 }
             }
         }

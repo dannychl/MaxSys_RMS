@@ -48,7 +48,14 @@
                         @Html.Label("Candidate Name: ")
                     </dt>
                     <dd>
-                        @Html.DropDownList("ddlCandidateName", Model.CandidateNameList, "Select All", new { @style = "color: black; padding: 8px; border: 2px solid darkgrey; text-align:center" })
+                        @if (Model != null)
+                        {
+                            @Html.DropDownList("ddlCandidateName", Model.CandidateNameList, "Select All", new { @style = "color: black; padding: 8px; border: 2px solid darkgrey; text-align:center" })
+                        }
+                        else
+                        {
+                            <p>Unable to load drop-down list here! Please reload the page</p>
+                        }
                     </dd>
                 </dl>
             </td>
@@ -70,7 +77,14 @@
                         @Html.Label("Candidate Offer Status: ")
                     </dt>
                     <dd>
-                        @Html.DropDownList("ddlOfferCandidateStatus", Model.OfferCandidateStatusList, "Select All", new { @style = "color: black; padding: 8px 25px; border: 2px solid darkgrey; text-align:center;" })
+                        @if (Model != null)
+                        {
+                            @Html.DropDownList("ddlOfferCandidateStatus", Model.OfferCandidateStatusList, "Select All", new { @style = "color: black; padding: 8px 25px; border: 2px solid darkgrey; text-align:center;" })
+                        }
+                        else
+                        {
+                            <p>Unable to load drop-down list here! Please reload the page</p>
+                        }
                     </dd>
                 </dl>
             </td>
@@ -81,10 +95,14 @@
     <div id="onBoardGridSearch"></div>
 
 
-<script>
-   @* $(".btn btn-primary button button4").on("click", function () {
-        getTable();
-    });*@
+<script type="text/javascript">
+
+    if ('@ViewBag.ErrorMessage' == "No Data Found!") {
+        alert("No Data Found!")
+        var url = '@Url.Action("OnBoardingReport", "Report")';
+        // do something with the url client side variable, for example redirect
+        window.location.href = url;
+    }
 
     $('#button').click(function () {
         jQuery.noConflict();
