@@ -19,91 +19,97 @@
     }
 </style>
 
-@if (ViewBag.ErrorMessage != null)
+@using (Html.BeginForm())
 {
-    <body onload="showAlert()">
-    </body>
-}
-else
-{
-    using (Html.BeginForm())
-    {
-        <table style="border:hidden; width:100%">
-            <tr>
-                <td style="border:hidden">
-                    <h2 style="font-family:Verdana; font-weight:bold">Recruitment Report</h2>
-                </td>
-                <td>
-                    <button id="buttonExport" type="submit" style="border-style:hidden; font-size: 20px; color: forestgreen; background-color: white; float:right">
-                        <i class="fas fa-file-export"></i> Export Report
-                    </button>
-                </td>
-            </tr>
-        </table>
-        <hr />
-        @*@using (Html.BeginForm("RecruitmentReportExport", "Report", FormMethod.Post))*@
-        @Html.AntiForgeryToken()
-        <table style="border:hidden">
-            <tr>
-                <td style="border:hidden">
-                    <dl class="dl-horizontal">
-                        <dt>
-                            @Html.Label("Date From: ", htmlAttributes: new { @class = "col-sm-10" })
-                        </dt>
-                        <dd>
-                            <input type="text" autocomplete="off" id="txtStartDate" name="startDate" class="startDate" />
-                        </dd>
-                    </dl>
-                </td>
-                <td style="border:hidden">
-                    <dl class="dl-horizontal">
-                        <dt>
-                            @Html.Label("Method Used: ", htmlAttributes: new { @class = "col-sm-10" })
-                        </dt>
-                        <dd>
+    <table style="border:hidden; width:100%">
+        <tr>
+            <td style="border:hidden">
+                <h2 style="font-family:Verdana; font-weight:bold">Recruitment Report</h2>
+            </td>
+            <td>
+                <button id="buttonExport" type="submit" style="border-style:hidden; font-size: 20px; color: forestgreen; background-color: white; float:right">
+                    <i class="fas fa-file-export"></i> Export Report
+                </button>
+            </td>
+        </tr>
+    </table>
+    <hr />
+    @Html.AntiForgeryToken()
+    <table style="border:hidden">
+        <tr>
+            <td style="border:hidden">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Date From: ", htmlAttributes: new { @class = "col-sm-10" })
+                    </dt>
+                    <dd>
+                        <input type="text" autocomplete="off" id="txtStartDate" name="startDate" class="startDate" />
+                    </dd>
+                </dl>
+            </td>
+            <td style="border:hidden">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Method Used: ", htmlAttributes: new { @class = "col-sm-10" })
+                    </dt>
+                    <dd>
+                        @if (Model != null)
+                        {
                             @Html.DropDownList("ddlMethodUsed", Model.MethodUsedList, "Select All", new { @style = "color: black; padding: 8px 35px; border: 2px solid darkgrey; text-align:center" })
-                        </dd>
-                    </dl>
-                </td>
-            <tr>
-                <td style="border:hidden">
-                    <dl class="dl-horizontal">
-                        <dt>
-                            @Html.Label("Date To:  ", htmlAttributes: new { @class = "col-sm-10" })
-                        </dt>
-                        <dd>
-                            <input type="text" autocomplete="off" id="txtEndDate" name="endDate" class="endDate" />
-                        </dd>
-                    </dl>
-                </td>
-                <td style="border:hidden">
-                    <dl class="dl-horizontal">
-                        <dt>
-                            @Html.Label("Position: ", htmlAttributes: new { @class = "col-sm-10" })
-                        </dt>
-                        <dd>
+                        }
+                        else
+                        {
+                            <p>Unable to load drop-down list here! Please reload the page</p>
+                        }
+                    </dd>
+                </dl>
+            </td>
+        <tr>
+            <td style="border:hidden">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Date To:  ", htmlAttributes: new { @class = "col-sm-10" })
+                    </dt>
+                    <dd>
+                        <input type="text" autocomplete="off" id="txtEndDate" name="endDate" class="endDate" />
+                    </dd>
+                </dl>
+            </td>
+            <td style="border:hidden">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.Label("Position: ", htmlAttributes: new { @class = "col-sm-10" })
+                    </dt>
+                    <dd>
+                        @if (Model != null)
+                        {
                             @Html.DropDownList("ddlPosition", Model.PositionList, "Select All", new { @style = "color: black; padding: 8px 35px; border: 2px solid darkgrey; text-align:center" })
-                        </dd>
-                    </dl>
-                </td>
-            </tr>
-            <tr>
-                <td style="border:hidden">
-                    <button id="button" class="btn btn-primary button button4">View</button>
-                </td>
-            </tr>
-        </table>
-    }
-    <br />
-    <div id="gridSearch"></div>
+                        }
+                        else
+                        {
+                            <p>Unable to load drop-down list here! Please reload the page</p>
+                        }
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:hidden">
+                <button id="button" class="btn btn-primary button button4">View</button>
+            </td>
+        </tr>
+    </table>
 }
+<br />
+<div id="gridSearch"></div>
 
-<script>
+<script type="text/javascript">
 
-    function showAlert() {
-        var myText = "No Data Found!";
-        window.alert(@ViewBag.ErrorMessage)
-        alert(myText);
+    if ('@ViewBag.ErrorMessage' == "No Data Found!") {
+        alert("No Data Found!")
+        var url = '@Url.Action("RecruitmentReport", "Report")';
+        // do something with the url client side variable, for example redirect
+        window.location.href = url;
     }
 
     $('#button').click(function (event) {
